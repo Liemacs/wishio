@@ -19,13 +19,13 @@ use Illuminate\Support\Collection;
 class ScoreCandidates
 {
     /**
-     * @param  Collection<int, Product> $candidates
+     * @param  Collection<int, Product>  $candidates
      * @return Collection<int, array{product: Product, score: float, breakdown: array<string, float>}>
      */
     public function __invoke(Collection $candidates, GiftCriteria $criteria): Collection
     {
         $weights = config('wishio.recommendations.weights');
-        $wanted  = $criteria->interests;
+        $wanted = $criteria->interests;
 
         return $candidates
             ->map(function (Product $product) use ($criteria, $weights, $wanted) {
@@ -94,7 +94,7 @@ class ScoreCandidates
         }
 
         $middle = ($min + $max) / 2;
-        $half   = ($max - $min) / 2;
+        $half = ($max - $min) / 2;
 
         // Cel mai bun scor la mijlocul intervalului: cine spune „500–1500”
         // se gândește de obicei la ~1000, nu la extreme.

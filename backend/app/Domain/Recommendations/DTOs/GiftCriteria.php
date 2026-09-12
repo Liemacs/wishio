@@ -13,8 +13,8 @@ use App\Domain\People\Models\Interest;
 readonly class GiftCriteria
 {
     /**
-     * @param list<string> $interests        coduri din taxonomie
-     * @param list<string> $avoidInterests   coduri din taxonomie
+     * @param  list<string>  $interests  coduri din taxonomie
+     * @param  list<string>  $avoidInterests  coduri din taxonomie
      */
     public function __construct(
         public array $interests = [],

@@ -118,11 +118,11 @@ class GiftRequestsCommand extends Command
 
     private function stats(): int
     {
-        $total    = GiftRequest::count();
+        $total = GiftRequest::count();
         $answered = GiftRequest::whereNotNull('answered_at')->count();
         $wouldBuy = GiftRequest::where('would_buy', true)->count();
-        $clicked  = GiftRequest::where('clicked_through', true)->count();
-        $minutes  = (int) GiftRequest::whereNotNull('minutes_spent')->avg('minutes_spent');
+        $clicked = GiftRequest::where('clicked_through', true)->count();
+        $minutes = (int) GiftRequest::whereNotNull('minutes_spent')->avg('minutes_spent');
 
         $this->newLine();
         $this->line('<options=bold>Porțile Faza 0</> — docs/02 § 3');

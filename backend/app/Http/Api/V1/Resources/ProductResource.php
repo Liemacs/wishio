@@ -11,7 +11,7 @@ class ProductResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $best   = $this->bestOffer();
+        $best = $this->bestOffer();
         $inStock = $this->offers->where('in_stock', true);
 
         return [

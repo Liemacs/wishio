@@ -34,7 +34,7 @@ class ImportContacts
      */
     public function __invoke(User $user, array $contacts): ImportSummary
     {
-        $summary = new ImportSummary();
+        $summary = new ImportSummary;
 
         DB::transaction(function () use ($user, $contacts, $summary) {
             foreach ($contacts as $contact) {

@@ -14,16 +14,16 @@ class ContactImportController extends Controller
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'contacts'                      => ['required', 'array', 'min:1', 'max:500'],
-            'contacts.*.device_contact_id'  => ['required', 'string', 'max:190'],
-            'contacts.*.display_name'       => ['required', 'string', 'max:120'],
-            'contacts.*.birth_date'         => ['nullable', 'date', 'before:tomorrow'],
-            'contacts.*.birth_year_known'   => ['nullable', 'boolean'],
+            'contacts'                     => ['required', 'array', 'min:1', 'max:500'],
+            'contacts.*.device_contact_id' => ['required', 'string', 'max:190'],
+            'contacts.*.display_name'      => ['required', 'string', 'max:120'],
+            'contacts.*.birth_date'        => ['nullable', 'date', 'before:tomorrow'],
+            'contacts.*.birth_year_known'  => ['nullable', 'boolean'],
 
             // Telemetrie pentru riscul R1: cât de des e completată ziua de
             // naștere în agendele reale. Doar agregat, fără date personale.
-            'stats.contacts_total'          => ['nullable', 'integer', 'min:0'],
-            'stats.contacts_with_birthday'  => ['nullable', 'integer', 'min:0'],
+            'stats.contacts_total'         => ['nullable', 'integer', 'min:0'],
+            'stats.contacts_with_birthday' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $summary = ($this->import)($request->user(), $data['contacts']);

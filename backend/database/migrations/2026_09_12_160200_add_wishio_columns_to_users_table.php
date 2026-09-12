@@ -17,7 +17,7 @@ return new class extends Migration
             // înregistrare (ro -> stil nou, ru -> stil vechi) și poate fi
             // schimbat. Vezi docs/15-onomastici.md § 2.
             $table->enum('name_day_calendar', ['orthodox_new', 'orthodox_old', 'catholic'])
-                  ->default('orthodox_new')->after('timezone');
+                ->default('orthodox_new')->after('timezone');
 
             $table->date('birth_date')->nullable()->after('name_day_calendar');
             $table->char('phone_hash', 64)->nullable()->after('birth_date');

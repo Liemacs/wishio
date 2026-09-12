@@ -53,14 +53,14 @@ it('expune contractul de coduri valide pentru AI', function () {
 
 it('deduce interese din text liber in romana', function () {
     $result = ($this->match)('Alex lucrează ca programator, îi plac mașinile și merge la sală');
-    $codes  = $result->pluck('interest.code');
+    $codes = $result->pluck('interest.code');
 
     expect($codes)->toContain('computing', 'car_accessories', 'fitness_gym');
 });
 
 it('deduce interese din text liber in rusa', function () {
     $result = ($this->match)('Ему нравится рыбалка, футбол и хорошее вино');
-    $codes  = $result->pluck('interest.code');
+    $codes = $result->pluck('interest.code');
 
     expect($codes)->toContain('fishing', 'team_sports', 'wine');
 });
@@ -97,7 +97,7 @@ it('nu atribuie niciodata incredere maxima unui interes dedus', function () {
 it('marcheaza experientele separat de produse', function () {
     // Experientele se cauta in Experience Engine, nu in catalogul de produse.
     $karting = Interest::where('code', 'karting_exp')->first();
-    $audio   = Interest::where('code', 'audio')->first();
+    $audio = Interest::where('code', 'audio')->first();
 
     expect($karting->is_experience)->toBeTrue()
         ->and($audio->is_experience)->toBeFalse();

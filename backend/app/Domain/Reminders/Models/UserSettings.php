@@ -2,6 +2,7 @@
 
 namespace App\Domain\Reminders\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -27,18 +28,18 @@ class UserSettings extends Model
     ];
 
     protected $casts = [
-        'reminder_days'  => 'array',
-        'push_enabled'   => 'boolean',
-        'email_digest'   => 'boolean',
-        'preferred_hour' => 'integer',
-        'quiet_from'     => 'integer',
-        'quiet_to'       => 'integer',
+        'reminder_days'       => 'array',
+        'push_enabled'        => 'boolean',
+        'email_digest'        => 'boolean',
+        'preferred_hour'      => 'integer',
+        'quiet_from'          => 'integer',
+        'quiet_to'            => 'integer',
         'last_digest_sent_at' => 'datetime',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     /** @return list<int> */

@@ -4,8 +4,8 @@ namespace App\Http\Api\V1\Controllers;
 
 use App\Domain\Occasions\Models\Occasion;
 use App\Domain\People\Enums\FieldSource;
-use App\Http\Controllers\Controller;
 use App\Http\Api\V1\Resources\OccasionResource;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Validation\Rule;
@@ -55,7 +55,7 @@ class OccasionController extends Controller
         // onomastica, dar pe 6 mai” — caz frecvent între cele două calendare.
         if (isset($data['month'], $data['day'])) {
             $changes['month'] = $data['month'];
-            $changes['day']   = $data['day'];
+            $changes['day'] = $data['day'];
         }
 
         if (array_key_exists('is_muted', $data)) {
@@ -64,7 +64,7 @@ class OccasionController extends Controller
 
         // O ocazie corectată de utilizator nu mai e o deducere.
         if ($confirmed) {
-            $changes['source']     = FieldSource::OwnerManual;
+            $changes['source'] = FieldSource::OwnerManual;
             $changes['confidence'] = FieldSource::OwnerManual->defaultConfidence();
         }
 

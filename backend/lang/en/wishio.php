@@ -21,14 +21,14 @@ return [
     ],
 
     'holiday' => [
-        'today'    => "Today is :holiday 🎉",
+        'today'    => 'Today is :holiday 🎉',
         'tomorrow' => 'Tomorrow is :holiday',
         'soon'     => '{1} :holiday is in one day|[2,*] :holiday is in :count days',
         'people'   => '{0} |{1} One person on your list|[2,*] :count people on your list',
     ],
 
     'push' => [
-        'today'    => ":name has a :occasion today 🎂",
+        'today'    => ':name has a :occasion today 🎂',
         'tomorrow' => ':name has a :occasion tomorrow',
         'soon'     => '{1} :name has a :occasion in one day|[2,*] :name has a :occasion in :count days',
         'plan'     => '{1} :name has a :occasion in one day. Shall we find a gift?|[2,*] :name has a :occasion in :count days. Shall we find a gift?',

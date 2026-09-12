@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Support\Ai\AiProvider;
+use App\Support\Ai\RuleBasedAiProvider;
+use App\Support\Push\ExpoPushSender;
+use App\Support\Push\NullPushSender;
+use App\Support\Push\PushSender;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,13 +21,13 @@ class AppServiceProvider extends ServiceProvider
         // trimită accidental notificări pe telefoane reale.
         // Implicit: fără AI. Ruta pe reguli e completă și trebuie să rămână
         // funcțională oricum — vezi RuleBasedAiProvider.
-        $this->app->bind(\App\Support\Ai\AiProvider::class, fn () => match (config('wishio.ai.provider')) {
-            default => new \App\Support\Ai\RuleBasedAiProvider(),
+        $this->app->bind(AiProvider::class, fn () => match (config('wishio.ai.provider')) {
+            default => new RuleBasedAiProvider,
         });
 
-        $this->app->bind(\App\Support\Push\PushSender::class, fn () => match (config('wishio.push.driver')) {
-            'expo'  => new \App\Support\Push\ExpoPushSender(),
-            default => new \App\Support\Push\NullPushSender(),
+        $this->app->bind(PushSender::class, fn () => match (config('wishio.push.driver')) {
+            'expo'  => new ExpoPushSender,
+            default => new NullPushSender,
         });
     }
 

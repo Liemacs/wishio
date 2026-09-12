@@ -5,6 +5,7 @@ namespace App\Domain\Occasions\Models;
 use App\Domain\People\Enums\FieldSource;
 use App\Domain\People\Models\Person;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -48,10 +49,10 @@ class Occasion extends Model
      * Se calculează la afișare, nu se stochează: lista de contacte se schimbă,
      * iar o listă înghețată ar deveni greșită fără să observe nimeni.
      */
-    public function audience(): \Illuminate\Database\Eloquent\Collection
+    public function audience(): Collection
     {
         if (! $this->isHoliday()) {
-            return new \Illuminate\Database\Eloquent\Collection();
+            return new Collection;
         }
 
         return Person::query()

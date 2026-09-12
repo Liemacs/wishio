@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->user   = User::factory()->create();
+    $this->user = User::factory()->create();
     $this->person = Person::create([
         'user_id'      => $this->user->id,
         'display_name' => 'Ana',
@@ -54,7 +54,7 @@ it('protejeaza definitiv un camp modificat manual', function () {
     expect($this->person->isOverridden('display_name'))->toBeTrue();
 
     foreach ([FieldSource::DeviceContact, FieldSource::Derived, FieldSource::AiInferred,
-              FieldSource::SubjectProvided, FieldSource::SubjectConfirmed] as $source) {
+        FieldSource::SubjectProvided, FieldSource::SubjectConfirmed] as $source) {
         expect(($this->write)($this->person, 'display_name', 'Daniela Casianov', $source))->toBeFalse();
     }
 

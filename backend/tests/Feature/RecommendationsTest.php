@@ -84,10 +84,10 @@ it('respecta bugetul', function () {
 
 it('exclude ce a primit deja persoana', function () {
     $person = personWith($this->user, ['audio']);
-    $sony   = Product::where('title', 'like', '%WH-1000XM5%')->sole();
+    $sony = Product::where('title', 'like', '%WH-1000XM5%')->sole();
 
     GiftHistory::create([
-        'user_id' => $this->user->id, 'person_id' => $person->id,
+        'user_id'    => $this->user->id, 'person_id' => $person->id,
         'product_id' => $sony->id, 'title' => $sony->title, 'year' => 2025,
     ]);
 
@@ -200,11 +200,11 @@ it('porneste o rulare prin API si o intoarce cand e gata', function () {
 });
 
 it('nu lasa un utilizator sa vada recomandarile altuia', function () {
-    $other  = User::factory()->create();
+    $other = User::factory()->create();
     $person = personWith($other, ['audio']);
-    $run    = RecommendationRun::create([
+    $run = RecommendationRun::create([
         'user_id' => $other->id, 'person_id' => $person->id,
-        'kind' => 'gift', 'locale' => 'ro', 'status' => 'ready',
+        'kind'    => 'gift', 'locale' => 'ro', 'status' => 'ready',
     ]);
 
     $this->actingAs($this->user)->getJson("/api/v1/recommendations/{$run->id}")->assertForbidden();

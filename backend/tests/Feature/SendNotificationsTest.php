@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->sender = new NullPushSender();
+    $this->sender = new NullPushSender;
     $this->app->instance(PushSender::class, $this->sender);
 
     $this->user = User::factory()->create(['locale' => 'ro', 'timezone' => 'Europe/Chisinau']);
@@ -30,12 +30,12 @@ function queued(User $user, int $daysBefore, array $occasionAttributes = [], arr
 
     $occasion = Occasion::create(array_merge([
         'user_id' => $user->id, 'person_id' => $person->id, 'type' => 'birthday',
-        'month' => 12, 'day' => 25, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
+        'month'   => 12, 'day' => 25, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
     ], $occasionAttributes));
 
     return QueuedNotification::create(array_merge([
-        'user_id' => $user->id, 'occasion_id' => $occasion->id, 'channel' => 'push',
-        'days_before' => $daysBefore, 'occasion_year' => 2026, 'locale' => $user->locale,
+        'user_id'       => $user->id, 'occasion_id' => $occasion->id, 'channel' => 'push',
+        'days_before'   => $daysBefore, 'occasion_year' => 2026, 'locale' => $user->locale,
         'scheduled_for' => now()->subMinute(),
     ], $attributes));
 }
@@ -43,7 +43,7 @@ function queued(User $user, int $daysBefore, array $occasionAttributes = [], arr
 it('trimite notificarile ajunse la scadenta', function () {
     queued($this->user, 1);
 
-    (new SendDueNotifications())->handle($this->sender, app(BuildReminderContent::class));
+    (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
 
     expect($this->sender->sent)->toHaveCount(1)
         ->and($this->sender->sent[0]->token)->toBe('ExponentPushToken[abc]')
@@ -54,7 +54,7 @@ it('trimite notificarile ajunse la scadenta', function () {
 it('nu trimite inainte de momentul planificat', function () {
     queued($this->user, 1, [], ['scheduled_for' => now()->addHour()]);
 
-    (new SendDueNotifications())->handle($this->sender, app(BuildReminderContent::class));
+    (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
 
     expect($this->sender->sent)->toBeEmpty()
         ->and(QueuedNotification::sole()->sent_at)->toBeNull();
@@ -64,7 +64,7 @@ it('nu trimite remindere expirate', function () {
     // Ocazia a trecut deja; un reminder vechi de doua zile e doar zgomot.
     queued($this->user, 1, [], ['scheduled_for' => now()->subDays(2)]);
 
-    (new SendDueNotifications())->handle($this->sender, app(BuildReminderContent::class));
+    (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
 
     expect($this->sender->sent)->toBeEmpty();
 });
@@ -73,7 +73,7 @@ it('nu retrimite ce a fost deja trimis', function () {
     queued($this->user, 1);
 
     foreach (range(1, 3) as $n) {
-        (new SendDueNotifications())->handle($this->sender, app(BuildReminderContent::class));
+        (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
     }
 
     expect($this->sender->sent)->toHaveCount(1);
@@ -82,7 +82,7 @@ it('nu retrimite ce a fost deja trimis', function () {
 it('nu trimite daca ocazia a fost oprita intre timp', function () {
     $notification = queued($this->user, 1, ['is_muted' => true]);
 
-    (new SendDueNotifications())->handle($this->sender, app(BuildReminderContent::class));
+    (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
 
     expect($this->sender->sent)->toBeEmpty()
         ->and($notification->fresh()->failure)->toBe('occasion_no_longer_notifiable');
@@ -93,7 +93,7 @@ it('foloseste limba fixata la planificare', function () {
     $this->user->update(['locale' => 'en']);
     queued($this->user, 0, [], ['locale' => 'ru']);
 
-    (new SendDueNotifications())->handle($this->sender, app(BuildReminderContent::class));
+    (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
 
     expect($this->sender->sent[0]->title)->toContain('сегодня');
 });
@@ -104,7 +104,7 @@ it('construieste mesaje diferite pe fiecare treapta', function (int $daysBefore,
     $person = Person::create(['user_id' => $this->user->id, 'display_name' => 'Alex']);
     $occasion = Occasion::create([
         'user_id' => $this->user->id, 'person_id' => $person->id, 'type' => 'birthday',
-        'month' => 12, 'day' => 25, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
+        'month'   => 12, 'day' => 25, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
     ]);
 
     $content = app(BuildReminderContent::class)($occasion->load('person'), $daysBefore, 'ro');
@@ -120,7 +120,7 @@ it('construieste mesaje diferite pe fiecare treapta', function (int $daysBefore,
 it('include date de rutare, ca apasarea sa duca la persoana', function () {
     $notification = queued($this->user, 1);
 
-    (new SendDueNotifications())->handle($this->sender, app(BuildReminderContent::class));
+    (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
 
     expect($this->sender->sent[0]->data)
         ->toHaveKeys(['occasion_id', 'person_id', 'type']);

@@ -158,7 +158,7 @@ it('trece la anul urmator daca ocazia a trecut', function () {
     $person = Person::create(['user_id' => $this->user->id, 'display_name' => 'Ana']);
     Occasion::create([
         'user_id' => $this->user->id, 'person_id' => $person->id, 'type' => 'birthday',
-        'month' => 8, 'day' => 1, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
+        'month'   => 8, 'day' => 1, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
     ]);
 
     ($this->schedule)($this->user, $this->now);

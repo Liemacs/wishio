@@ -12,9 +12,9 @@ class RecommendationRunResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'       => $this->id,
-            'status'   => $this->status,
-            'kind'     => $this->kind,
+            'id'     => $this->id,
+            'status' => $this->status,
+            'kind'   => $this->kind,
             // Clientul trebuie să știe dacă au fost sau nu explicații: fără
             // consimțământ AI produsele apar fără motivație, și asta se vede.
             'has_ai'   => $this->provider !== null && $this->provider !== 'rules',

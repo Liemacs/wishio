@@ -3,11 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Domain\People\Models\Person;
+use App\Domain\Reminders\Models\UserSettings;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -66,19 +70,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'birth_date' => 'date',
-            'ai_consent_at' => 'datetime',
+            'password'          => 'hashed',
+            'birth_date'        => 'date',
+            'ai_consent_at'     => 'datetime',
         ];
     }
 
-    public function people(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function people(): HasMany
     {
-        return $this->hasMany(\App\Domain\People\Models\Person::class);
+        return $this->hasMany(Person::class);
     }
 
-    public function settings(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function settings(): HasOne
     {
-        return $this->hasOne(\App\Domain\Reminders\Models\UserSettings::class);
+        return $this->hasOne(UserSettings::class);
     }
 }

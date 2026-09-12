@@ -2,8 +2,9 @@
 
 use App\Http\Api\V1\Controllers\AuthController;
 use App\Http\Api\V1\Controllers\ContactImportController;
-use App\Http\Api\V1\Controllers\OccasionController;
 use App\Http\Api\V1\Controllers\InterestController;
+use App\Http\Api\V1\Controllers\OccasionController;
+use App\Http\Api\V1\Controllers\PersonAnalysisController;
 use App\Http\Api\V1\Controllers\PersonController;
 use App\Http\Api\V1\Controllers\PersonInterestController;
 use App\Http\Api\V1\Controllers\ProductController;
@@ -48,6 +49,9 @@ Route::prefix('v1')->group(function () {
         // Import din agenda telefonului: doar contactele alese explicit, si
         // doar nume + zi de nastere (docs/00 § D-017).
         Route::post('/contacts/import', [ContactImportController::class, 'store']);
+
+        // „Spune-mi despre Alex” -> interese propuse spre confirmare
+        Route::post('/people/{person}/analyze', [PersonAnalysisController::class, 'store']);
 
         // Recomandari
         Route::post('/people/{person}/recommendations', [RecommendationController::class, 'store']);

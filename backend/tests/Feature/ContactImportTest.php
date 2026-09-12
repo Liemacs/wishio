@@ -205,7 +205,7 @@ it('nu lasa un utilizator sa atinga ocaziile altuia', function () {
     $person = Person::create(['user_id' => $other->id, 'display_name' => 'Ana']);
     $occasion = Occasion::create([
         'user_id' => $other->id, 'person_id' => $person->id, 'type' => 'birthday',
-        'month' => 1, 'day' => 1, 'source' => FieldSource::OwnerManual->value,
+        'month'   => 1, 'day' => 1, 'source' => FieldSource::OwnerManual->value,
     ]);
 
     $this->actingAs($this->user)
@@ -216,8 +216,8 @@ it('nu lasa un utilizator sa atinga ocaziile altuia', function () {
 it('listeaza ocaziile in ordinea apropierii', function () {
     $this->actingAs($this->user)->postJson('/api/v1/contacts/import', [
         'contacts' => [
-            contact('c1', 'Ana', '1992-' . now()->addDays(40)->format('m-d'), true),
-            contact('c2', 'Ion', '1992-' . now()->addDays(5)->format('m-d'), true),
+            contact('c1', 'Ana', '1992-'.now()->addDays(40)->format('m-d'), true),
+            contact('c2', 'Ion', '1992-'.now()->addDays(5)->format('m-d'), true),
         ],
     ]);
 

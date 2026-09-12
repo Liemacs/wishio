@@ -20,7 +20,7 @@ class BuildReminderContent
             return $this->holiday($occasion, $daysBefore, $locale);
         }
 
-        $name     = $occasion->person->display_name;
+        $name = $occasion->person->display_name;
         $occasionLabel = mb_strtolower(__("wishio.occasions.{$occasion->type}", [], $locale));
 
         $replace = ['name' => $name, 'occasion' => $occasionLabel, 'count' => $daysBefore];
@@ -29,8 +29,8 @@ class BuildReminderContent
             $daysBefore === 0 => __('wishio.push.today', $replace, $locale),
             $daysBefore === 1 => __('wishio.push.tomorrow', $replace, $locale),
             // De la 5 zile în sus invităm la acțiune: mai e timp să cumperi.
-            $daysBefore >= 5  => trans_choice('wishio.push.plan', $daysBefore, $replace, $locale),
-            default           => trans_choice('wishio.push.soon', $daysBefore, $replace, $locale),
+            $daysBefore >= 5 => trans_choice('wishio.push.plan', $daysBefore, $replace, $locale),
+            default          => trans_choice('wishio.push.soon', $daysBefore, $replace, $locale),
         };
 
         return [

@@ -69,7 +69,7 @@ it('nu creeaza duplicate la rulari repetate', function () {
 
 it('selecteaza publicul potrivit fiecarei sarbatori', function () {
     $women = Person::create(['user_id' => $this->user->id, 'display_name' => 'Ana', 'gender' => 'f']);
-    $men   = Person::create(['user_id' => $this->user->id, 'display_name' => 'Ion', 'gender' => 'm']);
+    $men = Person::create(['user_id' => $this->user->id, 'display_name' => 'Ion', 'gender' => 'm']);
     $child = Person::create(['user_id' => $this->user->id, 'display_name' => 'Luca', 'relationship' => 'child']);
 
     ($this->sync)($this->user, CarbonImmutable::parse('2026-03-01 09:00', 'Europe/Chisinau'));

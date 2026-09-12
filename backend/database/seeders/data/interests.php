@@ -14,18 +14,17 @@
  * 'price' este banda tipica in MDL, orientativa. 'g' este afinitatea de gen:
  * indiciu slab pentru ranking, NICIODATA filtru.
  */
-
 $i = fn (string $code, string $ro, string $ru, string $en, array $kw, ?array $price = null, ?string $g = null, bool $exp = false) => [
     'code' => $code, 'ro' => $ro, 'ru' => $ru, 'en' => $en,
-    'kw' => $kw, 'price' => $price, 'gender' => $g, 'experience' => $exp,
+    'kw'   => $kw, 'price' => $price, 'gender' => $g, 'experience' => $exp,
 ];
 
 return [
 
     // ─────────────────────────────────────────────────────────── TEHNOLOGIE
     [
-        'code' => 'tech', 'icon' => '💻',
-        'ro' => 'Tehnologie', 'ru' => 'Технологии', 'en' => 'Technology',
+        'code'      => 'tech', 'icon' => '💻',
+        'ro'        => 'Tehnologie', 'ru' => 'Технологии', 'en' => 'Technology',
         'interests' => [
             $i('audio', 'Audio și căști', 'Аудио и наушники', 'Audio & headphones', [
                 'ro' => ['căști', 'boxă', 'difuzor', 'audio', 'sunet', 'muzică', 'airpods', 'hi-fi', 'soundbar'],
@@ -67,8 +66,8 @@ return [
 
     // ───────────────────────────────────────────────────────────────── AUTO
     [
-        'code' => 'auto', 'icon' => '🚗',
-        'ro' => 'Auto', 'ru' => 'Авто', 'en' => 'Auto',
+        'code'      => 'auto', 'icon' => '🚗',
+        'ro'        => 'Auto', 'ru' => 'Авто', 'en' => 'Auto',
         'interests' => [
             $i('car_care', 'Îngrijire auto', 'Уход за автомобилем', 'Car care', [
                 'ro' => ['detailing', 'spălătorie', 'ceară auto', 'polish', 'aspirator auto', 'îngrijire mașină'],
@@ -90,8 +89,8 @@ return [
 
     // ──────────────────────────────────────────────────────────────── SPORT
     [
-        'code' => 'sport', 'icon' => '🏋️',
-        'ro' => 'Sport', 'ru' => 'Спорт', 'en' => 'Sports',
+        'code'      => 'sport', 'icon' => '🏋️',
+        'ro'        => 'Sport', 'ru' => 'Спорт', 'en' => 'Sports',
         'interests' => [
             $i('fitness_gym', 'Fitness și sală', 'Фитнес и зал', 'Fitness & gym', [
                 'ro' => ['sală', 'fitness', 'gantere', 'antrenament', 'proteine', 'culturism', 'sport'],
@@ -133,8 +132,8 @@ return [
 
     // ─────────────────────────────────────────────────────────────── GAMING
     [
-        'code' => 'gaming', 'icon' => '🎮',
-        'ro' => 'Gaming', 'ru' => 'Игры', 'en' => 'Gaming',
+        'code'      => 'gaming', 'icon' => '🎮',
+        'ro'        => 'Gaming', 'ru' => 'Игры', 'en' => 'Gaming',
         'interests' => [
             $i('console_gaming', 'Console', 'Консоли', 'Consoles', [
                 'ro' => ['playstation', 'ps5', 'xbox', 'nintendo', 'switch', 'consolă', 'joc video'],
@@ -156,8 +155,8 @@ return [
 
     // ─────────────────────────────────────────────────────────── FRUMUSEȚE
     [
-        'code' => 'beauty', 'icon' => '💄',
-        'ro' => 'Frumusețe', 'ru' => 'Красота', 'en' => 'Beauty',
+        'code'      => 'beauty', 'icon' => '💄',
+        'ro'        => 'Frumusețe', 'ru' => 'Красота', 'en' => 'Beauty',
         'interests' => [
             $i('fragrance_women', 'Parfumuri damă', 'Женская парфюмерия', "Women's fragrance", [
                 'ro' => ['parfum', 'parfum damă', 'apă de parfum', 'aromă'],
@@ -194,8 +193,8 @@ return [
 
     // ───────────────────────────────────────────────────────────────── MODĂ
     [
-        'code' => 'fashion', 'icon' => '👜',
-        'ro' => 'Modă', 'ru' => 'Мода', 'en' => 'Fashion',
+        'code'      => 'fashion', 'icon' => '👜',
+        'ro'        => 'Modă', 'ru' => 'Мода', 'en' => 'Fashion',
         'interests' => [
             $i('watches', 'Ceasuri', 'Часы', 'Watches', [
                 'ro' => ['ceas', 'ceas de mână', 'curea ceas'],
@@ -232,8 +231,8 @@ return [
 
     // ────────────────────────────────────────────────────────────────── CASĂ
     [
-        'code' => 'home', 'icon' => '🏠',
-        'ro' => 'Casă', 'ru' => 'Дом', 'en' => 'Home',
+        'code'      => 'home', 'icon' => '🏠',
+        'ro'        => 'Casă', 'ru' => 'Дом', 'en' => 'Home',
         'interests' => [
             $i('kitchen_gadgets', 'Aparate de bucătărie', 'Кухонная техника', 'Kitchen appliances', [
                 'ro' => ['blender', 'mixer', 'friteuză', 'airfryer', 'robot bucătărie', 'gătit', 'gătește', 'gătească', 'gătesc', 'bucătărie', 'bucătar'],
@@ -280,8 +279,8 @@ return [
 
     // ────────────────────────────────────────────────────────────── CULTURĂ
     [
-        'code' => 'culture', 'icon' => '📚',
-        'ro' => 'Cultură', 'ru' => 'Культура', 'en' => 'Culture',
+        'code'      => 'culture', 'icon' => '📚',
+        'ro'        => 'Cultură', 'ru' => 'Культура', 'en' => 'Culture',
         'interests' => [
             $i('books_fiction', 'Cărți — ficțiune', 'Книги — художественные', 'Books — fiction', [
                 'ro' => ['cărți', 'carte', 'roman', 'citit', 'citește', 'citesc', 'cititor', 'literatură', 'ficțiune', 'lectură'],
@@ -318,8 +317,8 @@ return [
 
     // ──────────────────────────────────────────────────────── MÂNCARE & BĂUTURĂ
     [
-        'code' => 'food_drink', 'icon' => '☕',
-        'ro' => 'Mâncare și băutură', 'ru' => 'Еда и напитки', 'en' => 'Food & drink',
+        'code'      => 'food_drink', 'icon' => '☕',
+        'ro'        => 'Mâncare și băutură', 'ru' => 'Еда и напитки', 'en' => 'Food & drink',
         'interests' => [
             $i('coffee', 'Cafea', 'Кофе', 'Coffee', [
                 'ro' => ['cafea', 'espresso', 'cappuccino', 'boabe cafea', 'cafeină'],
@@ -356,8 +355,8 @@ return [
 
     // ────────────────────────────────────────────────────────────── WELLNESS
     [
-        'code' => 'wellness', 'icon' => '🧘',
-        'ro' => 'Wellness', 'ru' => 'Велнес', 'en' => 'Wellness',
+        'code'      => 'wellness', 'icon' => '🧘',
+        'ro'        => 'Wellness', 'ru' => 'Велнес', 'en' => 'Wellness',
         'interests' => [
             $i('spa_products', 'Produse spa', 'Спа-товары', 'Spa products', [
                 'ro' => ['spa', 'sare de baie', 'uleiuri', 'aromaterapie', 'relaxare'],
@@ -384,8 +383,8 @@ return [
 
     // ──────────────────────────────────────────────────────────────── CĂLĂTORII
     [
-        'code' => 'travel', 'icon' => '✈️',
-        'ro' => 'Călătorii', 'ru' => 'Путешествия', 'en' => 'Travel',
+        'code'      => 'travel', 'icon' => '✈️',
+        'ro'        => 'Călătorii', 'ru' => 'Путешествия', 'en' => 'Travel',
         'interests' => [
             $i('travel_gear', 'Echipament de voiaj', 'Товары для путешествий', 'Travel gear', [
                 'ro' => ['călătorii', 'voiaj', 'adaptor priză', 'organizator bagaj', 'pernă gât'],
@@ -407,8 +406,8 @@ return [
 
     // ─────────────────────────────────────────────────────────────────── COPII
     [
-        'code' => 'kids', 'icon' => '🧸',
-        'ro' => 'Copii', 'ru' => 'Дети', 'en' => 'Kids',
+        'code'      => 'kids', 'icon' => '🧸',
+        'ro'        => 'Copii', 'ru' => 'Дети', 'en' => 'Kids',
         'interests' => [
             $i('toys', 'Jucării', 'Игрушки', 'Toys', [
                 'ro' => ['jucării', 'păpușă', 'mașinuță', 'plus', 'copil'],
@@ -435,8 +434,8 @@ return [
 
     // ─────────────────────────────────────────────────────────── ANIMALE
     [
-        'code' => 'pets', 'icon' => '🐕',
-        'ro' => 'Animale de companie', 'ru' => 'Домашние животные', 'en' => 'Pets',
+        'code'      => 'pets', 'icon' => '🐕',
+        'ro'        => 'Animale de companie', 'ru' => 'Домашние животные', 'en' => 'Pets',
         'interests' => [
             $i('dogs', 'Câini', 'Собаки', 'Dogs', [
                 'ro' => ['câine', 'cățel', 'lesă', 'zgardă', 'jucărie câine'],
@@ -453,8 +452,8 @@ return [
 
     // ─────────────────────────────────────────────────────────────── HOBBY-URI
     [
-        'code' => 'hobby', 'icon' => '🎣',
-        'ro' => 'Hobby-uri', 'ru' => 'Хобби', 'en' => 'Hobbies',
+        'code'      => 'hobby', 'icon' => '🎣',
+        'ro'        => 'Hobby-uri', 'ru' => 'Хобби', 'en' => 'Hobbies',
         'interests' => [
             $i('fishing', 'Pescuit', 'Рыбалка', 'Fishing', [
                 'ro' => ['pescuit', 'undiță', 'momeală', 'pescar'],
@@ -492,8 +491,8 @@ return [
     // ─────────────────────────────────────────────────────────── EXPERIENȚE
     // is_experience = true -> se cauta in Experience Engine (v1.1), nu in catalog.
     [
-        'code' => 'experiences', 'icon' => '🎉',
-        'ro' => 'Experiențe', 'ru' => 'Впечатления', 'en' => 'Experiences',
+        'code'      => 'experiences', 'icon' => '🎉',
+        'ro'        => 'Experiențe', 'ru' => 'Впечатления', 'en' => 'Experiences',
         'interests' => [
             $i('dining_out', 'Restaurante', 'Рестораны', 'Dining out', [
                 'ro' => ['restaurant', 'cină', 'gastronomie', 'ieșit în oraș'],

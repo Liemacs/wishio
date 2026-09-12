@@ -18,7 +18,7 @@ return new class extends Migration
             //  - orthodox_old: Mitropolia Moldovei (Patriarhia Moscovei), stil vechi
             // Data civila pentru stil vechi = data pe stil nou + 13 zile.
             $table->enum('calendar', ['orthodox_new', 'orthodox_old', 'catholic'])
-                  ->default('orthodox_new');
+                ->default('orthodox_new');
 
             $table->unsignedTinyInteger('month');
             $table->unsignedTinyInteger('day');

@@ -40,7 +40,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Digest săptămânal** — email în RO/RU/EN, cu dezabonare semnată |
 | ✅ | **Catalog** — produs/oferte, deduplicare, scor de cadou, căutare, clickuri |
 | ✅ | **Motorul de recomandări** — criterii, filtre, scoring, diversificare, anti-repetare |
-| ✅ | 202 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Evaluare + CI** — 30 de profiluri, paritate traduceri, formatare |
+| ✅ | 210 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -104,7 +105,7 @@ Cifrele îți spun unde să insiști.
 | S1.6 | **Componente de compunere** în `src/components/ui/` peste stack-ul din `docs/05 § 1.1`: Button, Card, OccasionCard, PersonRow, ProductCard, EmptyState, Section, Sheet | fiecare randează în RO/RU/EN, cu animație și haptic |
 | S1.7 | expo-router + structura `app/`; TanStack Query + Zustand + client API | navigare între 2 ecrane, un fetch reușit |
 | S1.8 🟠 | Auth: **Sanctum instalat**; rămân Apple, Google, email OTP | te loghezi din app și primești token |
-| S1.9 | CI GitHub Actions: Pint, PHPStan, `php artisan test`, `tsc --noEmit` | build verde pe PR |
+| S1.9 ✅ | ~~CI GitHub Actions~~ — Pint, teste pe MySQL, paritate i18n, evaluare, `tsc --noEmit` |
 | S1.10 | OpenAPI 3.1 + generare tipuri TS | tipurile se generează din spec |
 
 **Gata când:** te loghezi din aplicație, schimbi limba, primești răspuns localizat, CI e verde.
@@ -180,9 +181,9 @@ Cifrele îți spun unde să insiști.
 | S7.4 ✅ | ~~Anti-repetare + excluderi~~ |
 | S7.5 ✅ | ~~Consimțământ AI + rută fără AI~~ în backend; rămâne ecranul mobil |
 | S7.6 ✅ | ~~Generare asincronă~~ — 202 Accepted, clientul interoghează starea |
-| S8.1 🔴 | **C8 — set de evaluare cu 30 de profiluri**, rulat în CI, în toate trei limbile |
-| S8.2 | Onboarding AI: o frază liberă → interese structurate, confirmate de user |
-| S8.3 | Buget de cost + circuit breaker la depășire |
+| S8.1 ✅ | ~~Set de evaluare, 30 de profiluri~~ — rulat în CI, 30/30, p95 15 ms |
+| S8.2 ✅ | ~~Frază liberă → interese~~ — API gata; rămâne ecranul P5 |
+| S8.3 ✅ | ~~Buget de cost + comutare pe ruta fără AI la depășire~~ |
 
 **Gata când:** pentru 8 din 10 profiluri de test, ≥3 din 5 sugestii sunt plauzibile, în RO, RU și EN.
 

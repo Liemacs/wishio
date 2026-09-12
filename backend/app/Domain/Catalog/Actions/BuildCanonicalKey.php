@@ -43,7 +43,7 @@ class BuildCanonicalKey
     public function __invoke(string $title, ?string $brand = null): string
     {
         $brandKey = $brand ? implode('', $this->tokenize($brand)) : '';
-        $tokens   = $this->tokenize($title);
+        $tokens = $this->tokenize($title);
 
         /*
          * Un cod de model are ȘI litere, ȘI cifre: „1000xm5”, „3s”, „a54”.

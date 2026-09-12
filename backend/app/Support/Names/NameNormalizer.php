@@ -39,19 +39,19 @@ class NameNormalizer
 
     /** Folosita doar ca ultima incercare, cand nu exista alias chirilic. */
     private const CYRILLIC = [
-        'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'e','ж'=>'j',
-        'з'=>'z','и'=>'i','й'=>'i','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o',
-        'п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'t',
-        'ч'=>'c','ш'=>'s','щ'=>'s','ъ'=>'','ы'=>'i','ь'=>'','э'=>'e','ю'=>'iu',
-        'я'=>'ia',
+        'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'e', 'ж' => 'j',
+        'з' => 'z', 'и' => 'i', 'й' => 'i', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o',
+        'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 't',
+        'ч' => 'c', 'ш' => 's', 'щ' => 's', 'ъ' => '', 'ы' => 'i', 'ь' => '', 'э' => 'e', 'ю' => 'iu',
+        'я' => 'ia',
     ];
 
     /** Cuvinte care nu sunt prenume — apar des in agende. */
     private const NOT_A_NAME = [
-        'mama','tata','mami','tati','bunica','bunicu','bunicul','sora','frate',
-        'sef','sefu','sefa','doctor','dr','taxi','service','urgenta','politie',
-        'acasa','birou','munca','work','home','office','мама','папа','бабушка',
-        'дедушка','сестра','брат','врач','такси','работа','дом',
+        'mama', 'tata', 'mami', 'tati', 'bunica', 'bunicu', 'bunicul', 'sora', 'frate',
+        'sef', 'sefu', 'sefa', 'doctor', 'dr', 'taxi', 'service', 'urgenta', 'politie',
+        'acasa', 'birou', 'munca', 'work', 'home', 'office', 'мама', 'папа', 'бабушка',
+        'дедушка', 'сестра', 'брат', 'врач', 'такси', 'работа', 'дом',
     ];
 
     public function normalize(string $name): string

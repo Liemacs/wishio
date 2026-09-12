@@ -2,7 +2,10 @@
 
 namespace App\Domain\People\Models;
 
+use App\Domain\Occasions\Models\Occasion;
 use App\Domain\People\Enums\FieldSource;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -27,12 +30,12 @@ class Person extends Model
         'archived_at'      => 'datetime',
         // Notele pot conține date sensibile („e diabetic”, „divorțează”).
         // Criptate la rest; nu se trimit niciodată spre AI (docs/05 § 5).
-        'notes'            => 'encrypted',
+        'notes' => 'encrypted',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function fieldSources(): HasMany
@@ -54,7 +57,7 @@ class Person extends Model
 
     public function occasions(): HasMany
     {
-        return $this->hasMany(\App\Domain\Occasions\Models\Occasion::class);
+        return $this->hasMany(Occasion::class);
     }
 
     public function giftHistory(): HasMany
@@ -69,7 +72,7 @@ class Person extends Model
      * și poate cumpăra pentru oricine. Pentru „copii” ne bazăm pe relație
      * înaintea vârstei, fiindcă vârsta lipsește foarte des.
      */
-    public function scopeForAudience(\Illuminate\Database\Eloquent\Builder $query, string $audience): void
+    public function scopeForAudience(Builder $query, string $audience): void
     {
         match ($audience) {
             'women'    => $query->where('gender', 'f'),
@@ -80,7 +83,7 @@ class Person extends Model
                 ->orWhere(fn ($age) => $age
                     ->where('birth_year_known', true)
                     ->where('birth_date', '>', now()->subYears(14)))),
-            default    => null,
+            default => null,
         };
     }
 

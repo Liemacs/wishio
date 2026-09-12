@@ -113,7 +113,7 @@ class MatchInterestsFromText
     private function confidence(int $hits): float
     {
         return match (true) {
-            $hits >= 3 => 0.85,
+            $hits >= 3  => 0.85,
             $hits === 2 => 0.75,
             default     => 0.60,
         };

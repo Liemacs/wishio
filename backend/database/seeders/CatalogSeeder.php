@@ -35,7 +35,7 @@ class CatalogSeeder extends Seeder
             Merchant::updateOrCreate(['code' => $code], ['name' => $name, 'country_code' => 'MD']);
         }
 
-        $stats = app(SyncCatalog::class)(new ManualCatalog());
+        $stats = app(SyncCatalog::class)(new ManualCatalog);
 
         $this->command?->info(sprintf(
             'Catalog: %d produse canonice din %d oferte · %d recomandabile · %d filtrate ca „nu e cadou”.',

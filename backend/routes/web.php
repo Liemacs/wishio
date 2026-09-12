@@ -1,6 +1,8 @@
 <?php
 
+use App\Domain\Reminders\Models\UserSettings;
 use App\Http\Controllers\LandingController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,8 +37,8 @@ Route::get('/lang/{locale}', function (string $locale) {
 | Link semnat: funcționează dintr-un singur click, fără autentificare.
 | Fără el, „dezabonează-mă” ar însemna „intră în cont și caută setarea”.
 */
-Route::get('/digest/unsubscribe/{user}', function (\App\Models\User $user) {
-    \App\Domain\Reminders\Models\UserSettings::updateOrCreate(
+Route::get('/digest/unsubscribe/{user}', function (User $user) {
+    UserSettings::updateOrCreate(
         ['user_id' => $user->id],
         ['email_digest' => false]
     );

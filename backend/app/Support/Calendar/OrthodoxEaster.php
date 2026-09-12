@@ -27,7 +27,7 @@ class OrthodoxEaster
         $e = (2 * $a + 4 * $b - $d + 34) % 7;
 
         $month = intdiv($d + $e + 114, 31);
-        $day   = (($d + $e + 114) % 31) + 1;
+        $day = (($d + $e + 114) % 31) + 1;
 
         return CarbonImmutable::create($year, $month, $day)
             ->addDays(self::JULIAN_OFFSET_DAYS);

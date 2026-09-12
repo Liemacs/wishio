@@ -15,8 +15,8 @@ interface AiProvider
     /**
      * O explicație scurtă pentru fiecare produs ales.
      *
-     * @param  list<string> $titles  titlurile DEJA selectate din catalog
-     * @return array<int, string>    indexate la fel ca $titles
+     * @param  list<string>  $titles  titlurile DEJA selectate din catalog
+     * @return array<int, string> indexate la fel ca $titles
      */
     public function explain(array $titles, PersonContext $context, string $locale): array;
 }

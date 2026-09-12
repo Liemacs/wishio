@@ -20,8 +20,8 @@ class NameDaySeeder extends Seeder
 
     public function run(): void
     {
-        $entries    = require database_path('seeders/data/name_days.php');
-        $normalizer = new NameNormalizer();
+        $entries = require database_path('seeders/data/name_days.php');
+        $normalizer = new NameNormalizer;
 
         DB::transaction(function () use ($entries, $normalizer) {
             foreach ($entries as $entry) {

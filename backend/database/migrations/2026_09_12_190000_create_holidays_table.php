@@ -38,7 +38,7 @@ return new class extends Migration
             // e o dată cu un public. De aceea person_id devine opțional.
             $table->foreignId('person_id')->nullable()->change();
             $table->foreignId('holiday_id')->nullable()->after('person_id')
-                  ->constrained()->cascadeOnDelete();
+                ->constrained()->cascadeOnDelete();
 
             // Sărbătorile se materializează per an, fiindcă Paștele se mută.
             $table->unique(['user_id', 'holiday_id', 'year'], 'occasion_holiday_unique');

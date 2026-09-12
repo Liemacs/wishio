@@ -3,7 +3,7 @@
 use App\Support\Names\NameNormalizer;
 
 beforeEach(function () {
-    $this->n = new NameNormalizer();
+    $this->n = new NameNormalizer;
 });
 
 it('elimina diacriticele romanesti, ambele variante de codare', function () {

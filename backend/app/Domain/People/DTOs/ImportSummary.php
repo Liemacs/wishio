@@ -6,9 +6,13 @@ namespace App\Domain\People\DTOs;
 class ImportSummary
 {
     public int $created = 0;
+
     public int $updated = 0;
+
     public int $birthdays = 0;
+
     public int $nameDays = 0;
+
     public int $nameDaysToConfirm = 0;
 
     /** @var list<int> */

@@ -24,7 +24,8 @@ class SendWeeklyDigests implements ShouldQueue
     use Queueable;
 
     private const SEND_WEEKDAY = CarbonImmutable::MONDAY;
-    private const SEND_HOUR    = 9;
+
+    private const SEND_HOUR = 9;
 
     public function handle(BuildWeeklyDigest $buildDigest, ?CarbonImmutable $now = null): void
     {

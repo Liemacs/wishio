@@ -9,6 +9,7 @@ use App\Domain\Recommendations\DTOs\GiftCriteria;
 use App\Domain\Recommendations\DTOs\PersonContext;
 use App\Domain\Recommendations\Models\RecommendationItem;
 use App\Domain\Recommendations\Models\RecommendationRun;
+use App\Support\Ai\AiBudget;
 use App\Support\Ai\AiProvider;
 use App\Support\Ai\RuleBasedAiProvider;
 use Illuminate\Support\Collection;
@@ -29,6 +30,7 @@ class GenerateRecommendations
         private readonly AiProvider $ai,
         private readonly ScoreCandidates $score,
         private readonly DiversifyResults $diversify,
+        private readonly AiBudget $budget,
     ) {}
 
     public function __invoke(
@@ -43,20 +45,25 @@ class GenerateRecommendations
 
         $context = PersonContext::fromPerson($person, $budgetMin, $budgetMax, $occasion?->type ?? 'birthday');
 
-        // Fără consimțământ AI folosim ruta pe reguli. Nu e o degradare tăcută:
-        // interfața arată produsele fără explicații, ceea ce e onest.
-        $provider = $person->user->ai_consent_at !== null ? $this->ai : new RuleBasedAiProvider();
+        /*
+         * Două condiții pentru ruta cu AI: consimțământul utilizatorului și
+         * bugetul zilei. Lipsa oricăreia duce pe ruta fără AI — produsele
+         * apar fără explicații, ceea ce e o degradare vizibilă, nu tăcută.
+         */
+        $useAi = $person->user->ai_consent_at !== null && $this->budget->hasRoom();
+
+        $provider = $useAi ? $this->ai : new RuleBasedAiProvider;
 
         $run = RecommendationRun::create([
-            'user_id'      => $person->user_id,
-            'person_id'    => $person->id,
-            'occasion_id'  => $occasion?->id,
-            'budget_min'   => $context->budgetMin,
-            'budget_max'   => $context->budgetMax,
-            'kind'         => 'gift',
-            'locale'       => $person->user->locale,
-            'provider'     => $provider->name(),
-            'status'       => 'pending',
+            'user_id'     => $person->user_id,
+            'person_id'   => $person->id,
+            'occasion_id' => $occasion?->id,
+            'budget_min'  => $context->budgetMin,
+            'budget_max'  => $context->budgetMax,
+            'kind'        => 'gift',
+            'locale'      => $person->user->locale,
+            'provider'    => $provider->name(),
+            'status'      => 'pending',
         ]);
 
         try {
@@ -64,8 +71,8 @@ class GenerateRecommendations
             $run->update(['criteria' => $criteria->toArray()]);
 
             $candidates = $this->candidates($person, $criteria);
-            $scored     = ($this->score)($candidates, $criteria);
-            $selected   = ($this->diversify)($scored, (int) config('wishio.recommendations.result_size'));
+            $scored = ($this->score)($candidates, $criteria);
+            $selected = ($this->diversify)($scored, (int) config('wishio.recommendations.result_size'));
 
             $reasons = $this->explanations($provider, $selected, $context, $run->locale);
 

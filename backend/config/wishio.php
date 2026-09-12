@@ -53,10 +53,10 @@ return [
     |--------------------------------------------------------------------------
     */
     'reminders' => [
-        'default_days_before'   => [7, 3, 1],
-        'max_per_occasion'      => 4,
-        'max_push_per_day'      => 2,
-        'quiet_hours'           => ['from' => 22, 'to' => 8],
+        'default_days_before'    => [7, 3, 1],
+        'max_per_occasion'       => 4,
+        'max_push_per_day'       => 2,
+        'quiet_hours'            => ['from' => 22, 'to' => 8],
         'min_confidence_to_push' => 0.75,
     ],
 
@@ -73,12 +73,15 @@ return [
     | emailuri sau note libere. Vezi docs/05-arhitectura.md § 5.
     */
     'ai' => [
-        'provider'          => env('WISHIO_AI_PROVIDER', 'null'),
-        'model'             => env('WISHIO_AI_MODEL'),
-        'api_key'           => env('WISHIO_AI_API_KEY'),
-        'max_cost_per_run'  => (float) env('WISHIO_AI_MAX_COST_PER_RUN', 0.02),
-        'timeout'           => 20,
-        'send_free_notes'   => false, // notele pot contine date sensibile
+        'provider'         => env('WISHIO_AI_PROVIDER', 'null'),
+        'model'            => env('WISHIO_AI_MODEL'),
+        'api_key'          => env('WISHIO_AI_API_KEY'),
+        'max_cost_per_run' => (float) env('WISHIO_AI_MAX_COST_PER_RUN', 0.02),
+        // Plafon zilnic. 0 = fără plafon. La depășire, produsul trece pe ruta
+        // fără AI și continuă să funcționeze.
+        'max_cost_per_day' => (float) env('WISHIO_AI_MAX_COST_PER_DAY', 5.00),
+        'timeout'          => 20,
+        'send_free_notes'  => false, // notele pot contine date sensibile
     ],
 
     /*
@@ -87,8 +90,8 @@ return [
     |--------------------------------------------------------------------------
     */
     'catalog' => [
-        'adapter'            => env('WISHIO_CATALOG_ADAPTER', 'manual'),
-        'stale_after_days'   => 7,
+        'adapter'             => env('WISHIO_CATALOG_ADAPTER', 'manual'),
+        'stale_after_days'    => 7,
         'sync_interval_hours' => 6,
     ],
 

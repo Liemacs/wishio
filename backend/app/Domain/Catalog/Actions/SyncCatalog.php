@@ -27,10 +27,10 @@ class SyncCatalog
     /** @return array{products: int, offers: int, filtered: int} */
     public function __invoke(CatalogAdapter $adapter, ?CarbonImmutable $since = null): array
     {
-        $items    = $adapter->fetch($since);
-        $seenAt   = now();
-        $stats    = ['products' => 0, 'offers' => 0, 'filtered' => 0];
-        $touched  = [];
+        $items = $adapter->fetch($since);
+        $seenAt = now();
+        $stats = ['products' => 0, 'offers' => 0, 'filtered' => 0];
+        $touched = [];
 
         DB::transaction(function () use ($items, $seenAt, &$stats, &$touched) {
             foreach ($items as $item) {
@@ -47,7 +47,7 @@ class SyncCatalog
 
     private function upsertProduct(CatalogItem $item, array &$stats): Product
     {
-        $key      = ($this->canonicalKey)($item->title, $item->brand);
+        $key = ($this->canonicalKey)($item->title, $item->brand);
         $category = $item->categoryCode
             ? ProductCategory::where('code', $item->categoryCode)->first()
             : null;

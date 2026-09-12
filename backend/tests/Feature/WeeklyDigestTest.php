@@ -41,15 +41,15 @@ function occasionInDays(User $user, int $days): Occasion
 
     return Occasion::create([
         'user_id' => $user->id, 'person_id' => $person->id, 'type' => 'birthday',
-        'month' => $date->month, 'day' => $date->day,
-        'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
+        'month'   => $date->month, 'day' => $date->day,
+        'source'  => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
     ]);
 }
 
 it('trimite rezumatul luni dimineata, in fusul utilizatorului', function () {
     occasionInDays($this->user, 10);
 
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
 
     Mail::assertSent(WeeklyDigest::class, fn ($mail) => $mail->hasTo($this->user->email));
 });
@@ -57,7 +57,7 @@ it('trimite rezumatul luni dimineata, in fusul utilizatorului', function () {
 it('nu trimite in alta zi sau alta ora', function (string $moment) {
     occasionInDays($this->user, 10);
 
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), CarbonImmutable::parse($moment, 'UTC'));
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), CarbonImmutable::parse($moment, 'UTC'));
 
     Mail::assertNothingSent();
 })->with([
@@ -74,7 +74,7 @@ it('respecta fusul orar al fiecarui utilizator', function () {
     occasionInDays($this->user, 5);
     occasionInDays($other, 5);
 
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
 
     Mail::assertSent(WeeklyDigest::class, 1);
     Mail::assertSent(WeeklyDigest::class, fn ($mail) => $mail->hasTo($this->user->email));
@@ -82,7 +82,7 @@ it('respecta fusul orar al fiecarui utilizator', function () {
 
 it('nu trimite un email gol', function () {
     // Un rezumat saptamanal fara continut transforma produsul in spam.
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
 
     Mail::assertNothingSent();
 });
@@ -91,8 +91,8 @@ it('nu trimite de doua ori in aceeasi saptamana', function () {
     occasionInDays($this->user, 10);
 
     // Jobul ruleaza din ora in ora; o repornire nu trebuie sa retrimita.
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
 
     Mail::assertSent(WeeklyDigest::class, 1);
 });
@@ -100,8 +100,8 @@ it('nu trimite de doua ori in aceeasi saptamana', function () {
 it('trimite din nou saptamana urmatoare', function () {
     occasionInDays($this->user, 30);
 
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning->addWeek());
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning->addWeek());
 
     Mail::assertSent(WeeklyDigest::class, 2);
 });
@@ -110,7 +110,7 @@ it('nu trimite celor care au oprit rezumatul', function () {
     UserSettings::where('user_id', $this->user->id)->update(['email_digest' => false]);
     occasionInDays($this->user, 10);
 
-    (new SendWeeklyDigests())->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
+    (new SendWeeklyDigests)->handle(app(BuildWeeklyDigest::class), $this->mondayMorning);
 
     Mail::assertNothingSent();
 });

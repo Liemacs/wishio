@@ -54,7 +54,7 @@ class LandingController extends Controller
             'consented_at'     => now(),
             'source'           => substr((string) $request->query('src'), 0, 64) ?: null,
             // Doar hash, pentru limitarea abuzului. Nu stocam IP-ul in clar.
-            'ip_hash'          => hash_hmac('sha256', (string) $request->ip(), (string) config('app.key')),
+            'ip_hash' => hash_hmac('sha256', (string) $request->ip(), (string) config('app.key')),
         ]);
 
         return redirect()->route('landing.thanks');
@@ -64,12 +64,12 @@ class LandingController extends Controller
     private function parseBudget(string $budget): array
     {
         return match ($budget) {
-            'under_500'  => [null, 500],
-            '500_1000'   => [500, 1000],
-            '1000_2000'  => [1000, 2000],
-            '2000_5000'  => [2000, 5000],
-            'over_5000'  => [5000, null],
-            default      => [null, null],
+            'under_500' => [null, 500],
+            '500_1000'  => [500, 1000],
+            '1000_2000' => [1000, 2000],
+            '2000_5000' => [2000, 5000],
+            'over_5000' => [5000, null],
+            default     => [null, null],
         };
     }
 
@@ -81,8 +81,8 @@ class LandingController extends Controller
         return match (true) {
             str_contains($contact, '@') && str_contains($contact, '.') => 'email',
             str_starts_with(ltrim($contact), '@')                      => 'telegram',
-            mb_strlen($digits) >= 8                                     => 'phone',
-            default                                                     => 'other',
+            mb_strlen($digits) >= 8                                    => 'phone',
+            default                                                    => 'other',
         };
     }
 }

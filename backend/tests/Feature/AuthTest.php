@@ -52,7 +52,7 @@ it('da acelasi raspuns pentru email inexistent si parola gresita', function () {
     User::factory()->create(['email' => 'ana@example.com', 'password' => 'parola-buna']);
 
     $wrongPassword = $this->postJson('/api/v1/auth/login', ['email' => 'ana@example.com', 'password' => 'gresita']);
-    $unknownEmail  = $this->postJson('/api/v1/auth/login', ['email' => 'nimeni@example.com', 'password' => 'gresita']);
+    $unknownEmail = $this->postJson('/api/v1/auth/login', ['email' => 'nimeni@example.com', 'password' => 'gresita']);
 
     $wrongPassword->assertStatus(422);
     $unknownEmail->assertStatus(422);
@@ -61,7 +61,7 @@ it('da acelasi raspuns pentru email inexistent si parola gresita', function () {
 });
 
 it('accepta tokenul pe rutele protejate', function () {
-    $user  = User::factory()->create(['email' => 'ana@example.com', 'password' => 'parola-buna']);
+    $user = User::factory()->create(['email' => 'ana@example.com', 'password' => 'parola-buna']);
     $token = $this->postJson('/api/v1/auth/login', ['email' => 'ana@example.com', 'password' => 'parola-buna'])->json('token');
 
     $this->withHeader('Authorization', "Bearer $token")
@@ -71,7 +71,7 @@ it('accepta tokenul pe rutele protejate', function () {
 });
 
 it('invalideaza tokenul la delogare', function () {
-    $user  = User::factory()->create(['email' => 'ana@example.com', 'password' => 'parola-buna']);
+    $user = User::factory()->create(['email' => 'ana@example.com', 'password' => 'parola-buna']);
     $token = $this->postJson('/api/v1/auth/login', ['email' => 'ana@example.com', 'password' => 'parola-buna'])->json('token');
 
     $this->withHeader('Authorization', "Bearer $token")->postJson('/api/v1/auth/logout')->assertNoContent();

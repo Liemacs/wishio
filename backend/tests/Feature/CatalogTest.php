@@ -73,7 +73,7 @@ it('nu include produsele nerecomandabile in cautare', function () {
 
 it('da scor mai mare produselor evident de cadou', function () {
     $perfume = Product::where('title', 'like', '%Chanel%')->sole();
-    $tool    = Product::where('title', 'like', '%aspirator auto%')->first();
+    $tool = Product::where('title', 'like', '%aspirator auto%')->first();
 
     expect($perfume->gift_score)->toBe(5)
         ->and($perfume->gift_score)->toBeGreaterThan($tool?->gift_score ?? 5);
@@ -84,7 +84,7 @@ it('nu rescrie scorurile puse manual', function () {
     $product = Product::recommendable()->first();
     $product->update(['gift_score' => 5, 'score_is_manual' => true]);
 
-    app(SyncCatalog::class)(new ManualCatalog());
+    app(SyncCatalog::class)(new ManualCatalog);
 
     expect($product->fresh()->gift_score)->toBe(5);
 });
@@ -92,8 +92,8 @@ it('nu rescrie scorurile puse manual', function () {
 it('nu creeaza duplicate la sincronizari repetate', function () {
     $before = Product::count();
 
-    app(SyncCatalog::class)(new ManualCatalog());
-    app(SyncCatalog::class)(new ManualCatalog());
+    app(SyncCatalog::class)(new ManualCatalog);
+    app(SyncCatalog::class)(new ManualCatalog);
 
     expect(Product::count())->toBe($before);
 });

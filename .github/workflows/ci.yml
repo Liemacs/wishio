@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        # Testele rulează pe MySQL, nu pe SQLite: potrivirea numelor depinde
+        # de colație, pe care SQLite n-o reproduce (docs/10 § 6).
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: wishio_test
+          MYSQL_ROOT_PASSWORD: secret
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -psecret"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, intl, imagick
+          coverage: none
+
+      - name: Instalează dependențele
+        working-directory: backend
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Pregătește mediul
+        working-directory: backend
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+        env:
+          DB_CONNECTION: mysql
+
+      - name: Formatare
+        working-directory: backend
+        run: ./vendor/bin/pint --test
+
+      - name: Teste
+        working-directory: backend
+        run: php artisan test
+        env:
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: wishio_test
+          DB_USERNAME: root
+          DB_PASSWORD: secret
+
+      - name: Paritatea traducerilor
+        working-directory: backend
+        run: php artisan wishio:i18n-check
+
+      - name: Evaluarea recomandărilor
+        working-directory: backend
+        run: |
+          php artisan migrate --force
+          php artisan db:seed --force
+          php artisan wishio:eval --ci
+        env:
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: wishio_test
+          DB_USERNAME: root
+          DB_PASSWORD: secret
+
+  mobile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Instalează dependențele
+        working-directory: mobile
+        run: npm ci
+
+      - name: Verificare de tipuri
+        working-directory: mobile
+        run: npx tsc --noEmit

@@ -25,7 +25,7 @@ class ScheduleReminders
 
     public function __invoke(User $user, ?CarbonImmutable $now = null): int
     {
-        $now      = $now ?? CarbonImmutable::now();
+        $now = $now ?? CarbonImmutable::now();
         $settings = $this->settingsFor($user);
 
         if (! $settings->push_enabled) {
@@ -33,7 +33,7 @@ class ScheduleReminders
         }
 
         $maxPerOccasion = (int) config('wishio.reminders.max_per_occasion');
-        $maxPerDay      = (int) config('wishio.reminders.max_push_per_day');
+        $maxPerDay = (int) config('wishio.reminders.max_push_per_day');
 
         // Cele mai urgente primele: dacă ziua e plină, reminderul de mâine are
         // prioritate față de cel de peste o săptămână.

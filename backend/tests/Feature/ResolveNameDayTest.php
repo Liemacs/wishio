@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Occasions\Actions\ResolveNameDay;
+use App\Domain\Occasions\Models\NameDay;
 use Database\Seeders\NameDaySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -45,7 +46,7 @@ it('gaseste numele rusesti scrise cu litere latine', function () {
 });
 
 it('da incredere mai mica diminutivelor', function () {
-    $exact     = $this->resolve->best('Nicolae');
+    $exact = $this->resolve->best('Nicolae');
     $diminutiv = $this->resolve->best('Nicușor');
 
     expect($exact->confidence)->toBeGreaterThan($diminutiv->confidence)
@@ -55,7 +56,7 @@ it('da incredere mai mica diminutivelor', function () {
 
 it('foloseste calendarul corect', function () {
     // Sarbatorile fixe pe stil vechi cad la data pe stil nou + 13 zile.
-    $nou   = $this->resolve->best('Gheorghe', calendar: 'orthodox_new');
+    $nou = $this->resolve->best('Gheorghe', calendar: 'orthodox_new');
     $vechi = $this->resolve->best('Gheorghe', calendar: 'orthodox_old');
 
     expect([$nou->nameDay->day, $nou->nameDay->month])->toBe([23, 4])
@@ -64,7 +65,7 @@ it('foloseste calendarul corect', function () {
 
 it('scade increderea cand potrivirea e pe al doilea cuvant', function () {
     // "Popescu Ion" — ordine inversata, se intampla in agende.
-    $direct  = $this->resolve->best('Ion Popescu');
+    $direct = $this->resolve->best('Ion Popescu');
     $inversat = $this->resolve->best('Popescu Ion');
 
     expect($direct->confidence)->toBeGreaterThan($inversat->confidence)
@@ -87,5 +88,5 @@ it('nu inventeaza onomastici', function () {
 
 it('marcheaza toate onomasticile ca neverificate', function () {
     // Pana la confruntarea cu un calendar bisericesc nu trimitem push.
-    expect(App\Domain\Occasions\Models\NameDay::where('is_verified', true)->count())->toBe(0);
+    expect(NameDay::where('is_verified', true)->count())->toBe(0);
 });

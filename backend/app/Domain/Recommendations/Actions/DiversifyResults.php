@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 class DiversifyResults
 {
     /**
-     * @param  Collection<int, array{product: mixed, score: float, breakdown: array}> $scored
+     * @param  Collection<int, array{product: mixed, score: float, breakdown: array}>  $scored
      * @return Collection<int, array{product: mixed, score: float, breakdown: array}>
      */
     public function __invoke(Collection $scored, int $limit): Collection
@@ -24,14 +24,14 @@ class DiversifyResults
 
         $perCategory = [];
         $perMerchant = [];
-        $selected    = collect();
+        $selected = collect();
 
         foreach ($scored as $candidate) {
             if ($selected->count() >= $limit) {
                 break;
             }
 
-            $product  = $candidate['product'];
+            $product = $candidate['product'];
             $category = $product->product_category_id ?? 0;
             $merchant = $product->bestOffer()?->merchant_id ?? 0;
 

@@ -22,7 +22,8 @@ class GenerateOgImagesCommand extends Command
 
     protected $description = 'Generează imaginile Open Graph pentru RO, RU și EN';
 
-    private const WIDTH  = 1200;
+    private const WIDTH = 1200;
+
     private const HEIGHT = 630;
 
     /** Trebuie sa acopere si chirilicul, si diacriticele romanesti. */
@@ -31,7 +32,7 @@ class GenerateOgImagesCommand extends Command
     /** @var array<string, array{headline: string, sub: string, footer: string}> */
     private const COPY = [
         'ro' => [
-            'headline' => "Nu știi ce cadou să iei?",
+            'headline' => 'Nu știi ce cadou să iei?',
             'sub'      => '5 idei reale, cu preț și magazin din Moldova',
             'footer'   => 'Gratis · în 24 de ore',
         ],
@@ -76,14 +77,14 @@ class GenerateOgImagesCommand extends Command
     /** @param array{headline: string, sub: string, footer: string} $copy */
     private function render(array $copy): Imagick
     {
-        $image = new Imagick();
+        $image = new Imagick;
         $image->newImage(self::WIDTH, self::HEIGHT, new ImagickPixel('#fffbfb'));
         $image->setImageFormat('png');
 
         $this->drawBackdrop($image);
 
         // Bara de accent din stanga — elementul de brand.
-        $bar = new ImagickDraw();
+        $bar = new ImagickDraw;
         $bar->setFillColor(new ImagickPixel('#e11d48'));
         $bar->rectangle(0, 0, 14, self::HEIGHT);
         $image->drawImage($bar);
@@ -103,12 +104,12 @@ class GenerateOgImagesCommand extends Command
     /** Aura calda in coltul din dreapta-jos, in loc de fundal plat. */
     private function drawBackdrop(Imagick $image): void
     {
-        $glow = new ImagickDraw();
+        $glow = new ImagickDraw;
         $glow->setFillColor(new ImagickPixel('#ffe4e6'));
         $glow->circle(1150, 640, 1150, 260);
         $image->drawImage($glow);
 
-        $blur = new ImagickDraw();
+        $blur = new ImagickDraw;
         $blur->setFillColor(new ImagickPixel('#fff1f2'));
         $blur->circle(1050, 120, 1050, -120);
         $image->drawImage($blur);
@@ -116,7 +117,7 @@ class GenerateOgImagesCommand extends Command
 
     private function drawText(Imagick $image, string $text, int $x, int $y, int $size, string $color, int $weight): void
     {
-        $draw = new ImagickDraw();
+        $draw = new ImagickDraw;
         $draw->setFont(self::FONT);
         $draw->setFontSize($size);
         $draw->setFontWeight($weight);
@@ -134,8 +135,8 @@ class GenerateOgImagesCommand extends Command
     private function drawWrapped(Imagick $image, string $text, int $x, int $y, int $size, string $color, int $weight, int $charsPerLine): int
     {
         $lineHeight = (int) round($size * 1.25);
-        $lines      = [];
-        $current    = '';
+        $lines = [];
+        $current = '';
 
         foreach (explode(' ', $text) as $word) {
             $candidate = $current === '' ? $word : "$current $word";
