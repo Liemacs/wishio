@@ -41,9 +41,9 @@
 | C1 🔴 | **Tabelul de onomastici + aliasuri de prenume** (RO + variante RU) | fără el, cold-start-ul rămâne nerezolvat — e cel mai valoros activ al MVP-ului | 2–3 zile |
 | C2 🔴 | **Taxonomia de interese** (60–80 leaf-uri, RO/RU/EN, mapate pe categorii) | AI-ul nu poate funcționa fără ea; e contractul dintre LLM și catalog | 1–2 zile |
 | C3 🔴 | **Catalogul seed** — 300–500 produse curate, cu preț, link, categorie, `gift_score`, traduceri | fără catalog nu există produs, doar calendar | 3–4 zile |
-| C4 🟠 | **Inventarul de ecrane + wireframe-uri** (~25 ecrane) | fără el, estimările sunt ficțiune | 2 zile |
+| C4 ✅ | ~~Inventarul de ecrane + fluxuri~~ | **făcut** — `docs/09`, 31 de ecrane + 4 fluxuri. Wireframe-urile vizuale rămân de desenat | — |
 | C5 🟠 | **Design system** (culori, tipografie, carduri, stări goale, stări de eroare, loading) | RN fără design system → refactor garantat | 3–5 zile |
-| C6 🟠 | **Fișierele de traducere `ro.json` / `ru.json` / `en.json`** cu tot copy-ul, nu doar etichete | copy-ul *este* produsul într-o aplicație de remindere | continuu |
+| C6 🟠 | **Copy-ul complet**: ~150 de texte × 3 limbi | copy-ul *este* produsul într-o aplicație de remindere. Volumul și scara de notificări: `docs/09 § 3` | continuu |
 | C7 🟠 | **Contractul API (OpenAPI 3.1)** | mobile și backend se pot dezvolta în paralel doar cu el | 1 zi |
 | C8 🟠 | **Prompturile + JSON Schema + setul de evaluare** (30 profiluri de test) | fără eval, orice modificare de prompt e pe ghicite | 2 zile |
 | C9 🟠 | **Schema de evenimente analytics** implementată din prima zi | vezi `docs/07-metrici.md` | 0,5 zile |
@@ -90,6 +90,44 @@ Ca să fie clar ce s-a adăugat față de conversația de pornire:
 | Porți de abandon (kill criteria) | `02 § 3` |
 | Dimensionarea pieței și necesitatea extinderii în RO | `02 § 1` |
 | Schema de evenimente înainte de cod | `07` |
+
+---
+
+## E2. Lacune de plan închise ulterior
+
+| Lipsea | Unde e acum |
+|---|---|
+| Inventarul de ecrane și fluxurile principale | `docs/09` — 31 de ecrane, 4 fluxuri |
+| Strategia de copy și scara de notificări în 3 limbi | `docs/09 § 3` |
+| Medii, CI/CD, release mobile, OTA, versionare | `docs/10 § 1–5` |
+| Regula de migrare compatibilă înainte/înapoi | `docs/10 § 4` |
+| Strategia de testare, legată de cele 10 reguli | `docs/10 § 6` |
+| Monitorizare, alerte, backup, incidente | `docs/10 § 7–9` |
+| Modelul de costuri și economia unitară | `docs/11 § 1–4` |
+| Ordinea de implementare a monetizării | `docs/11 § 5` |
+| Planul pentru primii 1.000 de utilizatori | `docs/11 § 6` |
+| Momentul lansării, legat de vârfurile sezoniere | `docs/11 § 7` |
+
+---
+
+## G. Ce mai lipsește ca planul să fie complet
+
+Planul ca **document** este acum întreg: strategie, scop, domeniu, arhitectură, conformitate, metrici, ecrane, operare, costuri, lansare.
+
+Ce rămâne **nu sunt decizii de plan, ci lucruri care nu pot fi scrise la birou**:
+
+| | Ce | De ce nu poate fi scris acum |
+|---|---|---|
+| 🔴 | Răspunsurile A1–A5 | numai tu le știi |
+| 🔴 | Faptele B1–B7 | cer telefoane și întâlniri |
+| 🔴 | Artefactele de date C1, C2, C3 | muncă de construit, nu de decis |
+| 🟠 | Wireframe-uri vizuale | inventarul există (`docs/09`); desenul cere unelte de design |
+| 🟠 | Identitate vizuală: logo, icon, tipografie | cere decizia de nume (A5) |
+| 🟠 | Contractul API (OpenAPI) | se scrie în S1, împreună cu primele endpointuri |
+| 🟠 | Prompturile + setul de evaluare (C8) | cer corpusul din Faza 0 — **de aceea P0.8 cere să notezi tot** |
+| 🟡 | Privacy Policy, ToS, DPIA | cer decizia de entitate juridică (A7) și un jurist |
+
+**Cu alte cuvinte:** planul nu mai are goluri conceptuale. Are doar dependențe de realitate. Următorul lucru care lipsește nu se scrie — se află, în Faza 0.
 
 ---
 

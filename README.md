@@ -71,6 +71,9 @@ curl -s -H "Accept-Language: ru" http://localhost:8000/api/v1/ping
 | [docs/06-privacy-legal.md](docs/06-privacy-legal.md) | Legea 195/2024, App Store 5.1.2, harta datelor, fluxuri de consimțământ |
 | [docs/07-metrici.md](docs/07-metrici.md) | North Star, funnel, schema de evenimente, praguri |
 | [docs/08-decizii-deschise.md](docs/08-decizii-deschise.md) | **Ce lipsește ca să începi** |
+| [docs/09-ecrane-fluxuri-copy.md](docs/09-ecrane-fluxuri-copy.md) | 31 de ecrane, fluxurile principale, strategia de copy și scara de notificări |
+| [docs/10-operare.md](docs/10-operare.md) | Medii, CI/CD, release mobile, testare, backup, monitorizare, incidente |
+| [docs/11-costuri-gtm.md](docs/11-costuri-gtm.md) | Costuri, economia unitară, monetizare, primii 1.000 de utilizatori |
 | [PLAN.md](PLAN.md) | **Planul complet, pas cu pas** |
 | [CLAUDE.md](CLAUDE.md) | Reguli de dezvoltare |
 
