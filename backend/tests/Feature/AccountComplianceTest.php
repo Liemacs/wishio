@@ -151,3 +151,47 @@ it('spune explicit ce NU colectam', function () {
         ->assertSee('Nu citim și nu stocăm numere de telefon', escape: false)
         ->assertSee('Nu urcăm agenda ta pe server', escape: false);
 });
+
+it('traduce erorile de confirmare in toate cele trei limbi', function (string $locale, string $password, string $email) {
+    // Un ecran nu afiseaza niciodata o cheie bruta (CLAUDE.md, regula 1).
+    // Pana acum, RO si RU primeau textul `auth.password` la parola gresita.
+    $this->actingAs($this->user)->withHeader('Accept-Language', $locale)
+        ->deleteJson('/api/v1/account', ['confirm_email' => 'ana@example.com', 'password' => 'gresita'])
+        ->assertJsonValidationErrors(['password' => $password]);
+
+    $this->actingAs($this->user)->withHeader('Accept-Language', $locale)
+        ->deleteJson('/api/v1/account', ['confirm_email' => 'altcineva@example.com', 'password' => 'parola-buna'])
+        ->assertJsonValidationErrors(['confirm_email' => $email]);
+})->with([
+    ['ro', 'Parola nu este corectă.', 'Emailul nu corespunde.'],
+    ['ru', 'Неверный пароль.', 'Email не совпадает.'],
+    ['en', 'The password is incorrect.', 'The email does not match.'],
+]);
+
+it('deschide documentele legale in limba aplicatiei, nu a telefonului', function () {
+    // Browserul din aplicatie trimite limba telefonului. Utilizatorul poate
+    // folosi aplicatia in rusa pe un telefon setat in engleza.
+    $this->withHeader('Accept-Language', 'en')
+        ->get('/legal/privacy?lang=ru')
+        ->assertOk()
+        ->assertSee('Политика конфиденциальности', escape: false);
+});
+
+it('ignora o limba nesuportata in URL', function () {
+    $this->withHeader('Accept-Language', 'ro')
+        ->get('/legal/privacy?lang=de')
+        ->assertOk()
+        ->assertSee('Politica de confidențialitate', escape: false);
+});
+
+it('lasa comutatorul de limba din pagina sa castige fata de URL', function () {
+    // Altfel, un document deschis din aplicatie n-ar mai putea fi citit in alta limba.
+    $this->withSession(['locale' => 'en'])
+        ->get('/legal/privacy?lang=ru')
+        ->assertSee('Privacy Policy', escape: false);
+});
+
+it('pastreaza limba in linkurile dintre documente', function () {
+    $this->get('/legal/privacy?lang=ru')
+        ->assertSee(route('legal', ['key' => 'terms', 'lang' => 'ru']), escape: false);
+});

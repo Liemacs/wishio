@@ -106,3 +106,16 @@ it('limiteaza incercarile de autentificare', function () {
 
     $this->postJson('/api/v1/auth/login', ['email' => 'a@b.com', 'password' => 'x'])->assertStatus(429);
 });
+
+it('traduce mesajul de autentificare esuata in toate cele trei limbi', function (string $locale, string $expected) {
+    // Pana acum, RO si RU vedeau cheia bruta `auth.failed` pe ecranul de login.
+    User::factory()->create(['email' => 'ana@example.com', 'password' => 'parola-buna']);
+
+    $this->withHeader('Accept-Language', $locale)
+        ->postJson('/api/v1/auth/login', ['email' => 'ana@example.com', 'password' => 'gresita'])
+        ->assertJsonValidationErrors(['email' => $expected]);
+})->with([
+    ['ro', 'Emailul sau parola nu sunt corecte.'],
+    ['ru', 'Неверный email или пароль.'],
+    ['en', 'The email or password is incorrect.'],
+]);

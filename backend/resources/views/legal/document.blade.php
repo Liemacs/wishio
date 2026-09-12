@@ -1,4 +1,8 @@
-@php $doc = __("legal.$key"); @endphp
+@php
+    $doc = __("legal.$key");
+    // Documentul deschis din aplicatie ramane in limba aplicatiei si dupa un click.
+    $keep = request()->only('lang');
+@endphp
 
 <x-layouts.landing :title="$doc['title']">
 
@@ -32,8 +36,8 @@
         </div>
 
         <nav class="mt-8 flex gap-4 text-sm">
-            <a href="{{ route('legal', 'privacy') }}" class="text-primary-600">{{ __('legal.privacy.title') }}</a>
-            <a href="{{ route('legal', 'terms') }}" class="text-primary-600">{{ __('legal.terms.title') }}</a>
+            <a href="{{ route('legal', ['key' => 'privacy'] + $keep) }}" class="text-primary-600">{{ __('legal.privacy.title') }}</a>
+            <a href="{{ route('legal', ['key' => 'terms'] + $keep) }}" class="text-primary-600">{{ __('legal.terms.title') }}</a>
         </nav>
     </article>
 
