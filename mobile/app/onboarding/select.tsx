@@ -10,6 +10,7 @@ import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
 import { readContacts, type ContactsResult, type DeviceContact } from '../../src/features/contacts/deviceContacts';
 import { useImportContacts } from '../../src/features/contacts/queries';
+import { TYPE } from '../../src/design/typography';
 
 export default function SelectContacts() {
   const { t } = useTranslation();
@@ -82,7 +83,7 @@ export default function SelectContacts() {
   return (
     <Screen edges={{ top: true, bottom: false }}>
       <View className="px-5 pb-3 pt-2">
-        <Text className="text-2xl font-bold text-surface-900">{t('onboarding.selectTitle')}</Text>
+        <Text className="text-surface-900" style={TYPE.heading}>{t('onboarding.selectTitle')}</Text>
         <Text className="mt-1 text-sm text-surface-400">
           {t('onboarding.selectedCount', { count: selected.size })}
         </Text>

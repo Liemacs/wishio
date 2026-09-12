@@ -98,6 +98,7 @@ curl -s -H "Accept-Language: ru" http://localhost:8000/api/v1/ping
 | [docs/16-taxonomia-intereselor.md](docs/16-taxonomia-intereselor.md) | Taxonomia de interese — contractul dintre AI și catalog |
 | [docs/17-landing-faza-0.md](docs/17-landing-faza-0.md) | Landing-ul de validare: formular, flux concierge, privacy |
 | [docs/18-dezvoltare-locala.md](docs/18-dezvoltare-locala.md) | **Cum pornești tot, local** |
+| [docs/19-design.md](docs/19-design.md) | Fundamentele de mișcare și tipografie |
 | [PLAN.md](PLAN.md) | **Planul complet, pas cu pas** |
 | [CLAUDE.md](CLAUDE.md) | Reguli de dezvoltare |
 

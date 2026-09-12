@@ -3,6 +3,7 @@ import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 
+import { entrance, useReducedMotion } from '../../design/motion';
 import type { RecommendationItem } from './queries';
 
 /** Cardul din ecranul R4. Prețul și magazinul sunt la fel de importante ca titlul. */
@@ -16,6 +17,7 @@ export function ProductCard({
   onPress: () => void;
 }) {
   const { t, i18n } = useTranslation();
+  const reduced = useReducedMotion();
   const { product } = item;
 
   const price = product.price
@@ -23,11 +25,7 @@ export function ProductCard({
     : null;
 
   return (
-    <MotiView
-      from={{ opacity: 0, translateY: 8 }}
-      animate={{ opacity: 1, translateY: 0 }}
-      transition={{ type: 'timing', duration: 280, delay: index * 70 }}
-    >
+    <MotiView {...entrance(reduced, index)}>
       <Pressable onPress={onPress} className="flex-row gap-3 rounded-card bg-white p-3 active:opacity-70">
         <View className="h-20 w-20 items-center justify-center overflow-hidden rounded-button bg-surface-100">
           {product.image_url ? (

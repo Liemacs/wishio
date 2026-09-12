@@ -1,6 +1,9 @@
 import { Text, View } from 'react-native';
 import { MotiView } from 'moti';
 
+import { entrance, useReducedMotion } from '../../design/motion';
+import { TYPE } from '../../design/typography';
+
 type Props = {
   emoji: string;
   title: string;
@@ -9,18 +12,15 @@ type Props = {
 };
 
 export function EmptyState({ emoji, title, description, children }: Props) {
+  const reduced = useReducedMotion();
+
   return (
-    <MotiView
-      from={{ opacity: 0, translateY: 8 }}
-      animate={{ opacity: 1, translateY: 0 }}
-      transition={{ type: 'timing', duration: 350 }}
-      className="items-center px-8 py-16"
-    >
+    <MotiView {...entrance(reduced)} className="items-center px-8 py-16">
       <View className="h-16 w-16 items-center justify-center rounded-full bg-surface-100">
         <Text className="text-3xl">{emoji}</Text>
       </View>
 
-      <Text className="mt-5 text-center text-lg font-semibold text-surface-800">{title}</Text>
+      <Text className="mt-5 text-center text-surface-800" style={TYPE.heading}>{title}</Text>
 
       {description ? (
         <Text className="mt-2 text-center text-sm leading-relaxed text-surface-500">{description}</Text>

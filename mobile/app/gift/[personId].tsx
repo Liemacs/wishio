@@ -19,6 +19,7 @@ import {
   useTrackClick,
 } from '../../src/features/recommendations/queries';
 import { useAuthStore } from '../../src/stores/auth';
+import { TYPE } from '../../src/design/typography';
 
 /** Benzile din docs/09 § R1. Aceleași cu cele de pe landing, pentru consecvență. */
 const BANDS: { min: number | null; max: number | null; label: string }[] = [
@@ -135,7 +136,7 @@ export default function GiftFlow() {
           </EmptyState>
         ) : (
           <ScrollView contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40 }}>
-            <Text className="mb-4 text-2xl font-bold leading-tight text-surface-900">
+            <Text className="mb-4 text-surface-900" style={TYPE.heading}>
               {t('gift.resultsTitle', { count: items.length, name: person?.display_name ?? '' })}
             </Text>
 
@@ -164,7 +165,7 @@ export default function GiftFlow() {
       {header}
 
       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
-        <Text className="text-3xl font-bold leading-tight text-surface-900">{t('gift.title')}</Text>
+        <Text className="text-surface-900" style={TYPE.title}>{t('gift.title')}</Text>
         <Text className="mt-2 text-base text-surface-500">
           {t('gift.subtitle', { name: person?.display_name ?? '' })}
         </Text>

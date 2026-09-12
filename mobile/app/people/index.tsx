@@ -10,6 +10,7 @@ import { EmptyState } from '../../src/components/ui/EmptyState';
 import { Screen } from '../../src/components/ui/Screen';
 import { PersonRow } from '../../src/features/people/PersonRow';
 import { usePeople } from '../../src/features/people/queries';
+import { TYPE } from '../../src/design/typography';
 
 export default function PeopleList() {
   const { t } = useTranslation();
@@ -30,7 +31,7 @@ export default function PeopleList() {
     <Screen edges={{ top: true, bottom: false }}>
       <View className="flex-row items-center justify-between px-5 pb-3 pt-2">
         <View>
-          <Text className="text-3xl font-bold text-surface-900">{t('people.title')}</Text>
+          <Text className="text-surface-900" style={TYPE.title}>{t('people.title')}</Text>
           {people && people.length > 0 ? (
             <Text className="mt-0.5 text-sm text-surface-400">
               {t('people.count', { count: people.length })}

@@ -10,6 +10,7 @@ import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
 import { usePerson, useSaveInterests } from '../../src/features/people/queries';
 import { useAnalyzePerson, type InterestSuggestion } from '../../src/features/recommendations/queries';
+import { TYPE } from '../../src/design/typography';
 
 /**
  * Ecranul P5 din docs/09: „Spune-mi despre Alex”.
@@ -71,7 +72,7 @@ export default function AnalyzePerson() {
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
         <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }} keyboardShouldPersistTaps="handled">
-          <Text className="text-2xl font-bold leading-tight text-surface-900">
+          <Text className="text-surface-900" style={TYPE.heading}>
             {t('analyze.title', { name: person?.display_name ?? '' })}
           </Text>
           <Text className="mt-2 text-sm leading-relaxed text-surface-500">{t('analyze.hint')}</Text>

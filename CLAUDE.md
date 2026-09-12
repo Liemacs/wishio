@@ -24,6 +24,21 @@ Reminder-ul este mecanismul de retenție; **decizia de cumpărare este produsul*
 9. **Fără feature-uri de rețea socială.** Fără feed, followers, chat public, descoperire de persoane.
 10. **Aplicația nu trimite niciodată mesaje în numele utilizatorului.** Linkul personal se partajează manual, de către el.
 
+## Design
+
+Fundamentele de mișcare și tipografie sunt în `docs/19-design.md`, iar codul în
+`mobile/src/design/`. Pe scurt:
+
+- **Arcuri, nu durate fixe**, pe orice poate fi atins. `spring('press')` la apăsare,
+  `spring('default')` la repoziționări. Salt (`momentum`, `sheet`) doar după un gest
+  care a purtat viteză.
+- **Feedback la apăsare, nu la eliberare**, și continuu pe durata gestului.
+- **`useReducedMotion()` pe orice animație de deplasare.** Mișcarea redusă înseamnă
+  opacitate în loc de deplasare — nu absența feedbackului. Haptica rămâne.
+- **Spațierea dintre litere depinde de mărime.** Folosește scara din `TYPE`, nu
+  clase Tailwind de mărime pe titluri.
+- **Haptică doar la momente care contează.** În exces, oamenii o ignoră.
+
 ## Convenții
 
 - Backend: Laravel 12, PHP 8.3+, PostgreSQL 16, Redis/Horizon. Cod organizat pe `app/Domain/*` cu `Actions/`, nu God Services.

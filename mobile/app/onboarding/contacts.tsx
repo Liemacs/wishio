@@ -7,6 +7,7 @@ import { MotiView } from 'moti';
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
 import { requestPermission } from '../../src/features/contacts/deviceContacts';
+import { TYPE } from '../../src/design/typography';
 
 /** Textul cu **accent** devine bold, fără a introduce un parser de markdown. */
 function Emphasised({ text }: { text: string }) {
@@ -48,7 +49,7 @@ export default function ContactsExplainer() {
       <View className="flex-1 justify-center px-6">
         <MotiView from={{ opacity: 0, translateY: 12 }} animate={{ opacity: 1, translateY: 0 }}>
           <Text className="text-3xl">📇</Text>
-          <Text className="mt-4 text-3xl font-bold leading-tight text-surface-900">
+          <Text className="mt-4 text-surface-900" style={TYPE.title}>
             {t('onboarding.explainTitle')}
           </Text>
           <View className="mt-3">

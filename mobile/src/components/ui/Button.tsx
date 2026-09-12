@@ -2,6 +2,9 @@ import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
+import { spring, useReducedMotion } from '../../design/motion';
+import { TYPE } from '../../design/typography';
+
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -23,6 +26,7 @@ type Props = {
 };
 
 export function Button({ label, onPress, variant = 'primary', loading, disabled, className = '' }: Props) {
+  const reduced = useReducedMotion();
   const scale = useSharedValue(1);
   const style = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
   const inactive = disabled || loading;
@@ -34,16 +38,35 @@ export function Button({ label, onPress, variant = 'primary', loading, disabled,
       disabled={inactive}
       style={style}
       className={`rounded-button px-5 py-3.5 ${STYLES[variant].container} ${inactive ? 'opacity-50' : ''} ${className}`}
+      /*
+       * Feedbackul apare la APĂSARE, nu la eliberare. Un buton care așteaptă
+       * ridicarea degetului ca să reacționeze se simte mort, oricât de rapid
+       * ar fi restul.
+       */
       onPressIn={() => {
-        scale.value = withSpring(0.97, { damping: 15, stiffness: 400 });
+        // Mișcarea redusă elimină scalarea, dar păstrează haptica: vibrația
+        // nu e mișcare vestibulară și rămâne un semnal util.
+        if (!reduced) {
+          scale.value = withSpring(0.97, spring('press'));
+        }
+
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }}
-      onPressOut={() => { scale.value = withSpring(1, { damping: 15, stiffness: 400 }); }}
+      onPressOut={() => {
+        if (!reduced) {
+          scale.value = withSpring(1, spring('press'));
+        }
+      }}
       onPress={onPress}
     >
       <View className="flex-row items-center justify-center gap-2">
         {loading && <ActivityIndicator size="small" color={variant === 'primary' ? '#fff' : '#71717a'} />}
-        <Text className={`text-center text-base font-semibold ${STYLES[variant].label}`}>{label}</Text>
+        <Text
+          className={`text-center ${STYLES[variant].label}`}
+          style={{ ...TYPE.body, fontWeight: '600' }}
+        >
+          {label}
+        </Text>
       </View>
     </AnimatedPressable>
   );

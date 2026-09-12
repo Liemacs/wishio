@@ -6,6 +6,7 @@ import { MotiView } from 'moti';
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
 import { useOccasions } from '../../src/features/contacts/queries';
+import { TYPE } from '../../src/design/typography';
 
 /**
  * Ecranul O8 din docs/09 — momentul „aha”.
@@ -39,7 +40,7 @@ export default function OnboardingDone() {
           className="items-center"
         >
           <Text className="text-5xl">{nothing ? '📝' : '🎂'}</Text>
-          <Text className="mt-5 text-center text-3xl font-bold text-surface-900">
+          <Text className="mt-5 text-center text-surface-900" style={TYPE.title}>
             {t('onboarding.doneTitle')}
           </Text>
         </MotiView>

@@ -4,6 +4,7 @@ import { MotiView } from 'moti';
 
 import { Button } from '../../components/ui/Button';
 import { useAiConsent } from './queries';
+import { TYPE } from '../../design/typography';
 
 /**
  * Ecranul R2 din docs/09.
@@ -36,7 +37,7 @@ export function AiConsentSheet({
       <View className="flex-1 justify-center bg-surface-50 px-6">
         <MotiView from={{ opacity: 0, translateY: 10 }} animate={{ opacity: 1, translateY: 0 }}>
           <Text className="text-4xl">✨</Text>
-          <Text className="mt-4 text-3xl font-bold leading-tight text-surface-900">
+          <Text className="mt-4 text-surface-900" style={TYPE.title}>
             {t('aiConsent.title')}
           </Text>
           <Text className="mt-3 text-base leading-relaxed text-surface-600">

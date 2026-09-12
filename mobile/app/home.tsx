@@ -10,6 +10,7 @@ import { EmptyState } from '../src/components/ui/EmptyState';
 import { Screen } from '../src/components/ui/Screen';
 import { useOccasions, type Occasion } from '../src/features/contacts/queries';
 import { useAuthStore } from '../src/stores/auth';
+import { TYPE } from '../src/design/typography';
 
 const ACCENT: Record<string, [string, string]> = {
   birthday:    ['#fff1f2', '#ffffff'],
@@ -81,7 +82,7 @@ export default function Home() {
             <Text className="text-sm text-surface-400">
               {t('home.greeting', { name: profile?.name ?? '' })}
             </Text>
-            <Text className="mt-1 text-3xl font-bold leading-tight text-surface-900">
+            <Text className="mt-1 text-surface-900" style={TYPE.title}>
               {t('home.todayTitle')}
             </Text>
           </View>
@@ -123,7 +124,7 @@ export default function Home() {
                     ) : null}
                   </View>
 
-                  <Text className="mt-1 text-3xl font-bold text-surface-900">{titleOf(next)}</Text>
+                  <Text className="mt-1 text-surface-900" style={TYPE.title}>{titleOf(next)}</Text>
                   <Text className="mt-1 text-lg text-surface-500">{when(next)}</Text>
 
                   {next.person ? (

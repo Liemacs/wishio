@@ -7,6 +7,7 @@ import { MotiView } from 'moti';
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
 import { useOccasions, useSetOccasionStatus } from '../../src/features/contacts/queries';
+import { TYPE } from '../../src/design/typography';
 
 const MONTHS_KEY = 'months';
 
@@ -69,7 +70,7 @@ export default function ConfirmNameDays() {
   return (
     <Screen>
       <View className="flex-1 px-6 pt-6">
-        <Text className="text-2xl font-bold text-surface-900">{t('onboarding.confirmTitle')}</Text>
+        <Text className="text-surface-900" style={TYPE.heading}>{t('onboarding.confirmTitle')}</Text>
         <Text className="mt-2 text-sm leading-relaxed text-surface-500">{t('onboarding.confirmBody')}</Text>
 
         <View className="mt-4 h-1 flex-row gap-1">

@@ -11,6 +11,7 @@ import { Screen } from '../src/components/ui/Screen';
 import { SUPPORTED_LOCALES, type Locale } from '../src/i18n';
 import { useAuthStore } from '../src/stores/auth';
 import { useLocaleStore } from '../src/stores/locale';
+import { TYPE } from '../src/design/typography';
 
 const LOCALE_NAMES: Record<Locale, string> = { ro: 'Română', ru: 'Русский', en: 'English' };
 
@@ -50,7 +51,7 @@ export default function Login() {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24 }}>
           <MotiView from={{ opacity: 0, translateY: 12 }} animate={{ opacity: 1, translateY: 0 }}>
-            <Text className="text-3xl font-bold text-surface-900">{t('auth.welcome')}</Text>
+            <Text className="text-surface-900" style={TYPE.title}>{t('auth.welcome')}</Text>
             <Text className="mt-2 text-base leading-relaxed text-surface-500">{t('auth.subtitle')}</Text>
           </MotiView>
 

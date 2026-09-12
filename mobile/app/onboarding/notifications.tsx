@@ -7,6 +7,7 @@ import { MotiView } from 'moti';
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
 import { requestPushPermission } from '../../src/features/notifications/push';
+import { TYPE } from '../../src/design/typography';
 
 /**
  * Ecranul O9 din docs/09. Cerem push DUPĂ momentul „aha”, niciodată la pornire.
@@ -38,7 +39,7 @@ export default function PushPermission() {
           <Text className="text-5xl">🔔</Text>
         </MotiView>
 
-        <Text className="mt-6 text-center text-3xl font-bold leading-tight text-surface-900">
+        <Text className="mt-6 text-center text-surface-900" style={TYPE.title}>
           {t('push.title')}
         </Text>
 
