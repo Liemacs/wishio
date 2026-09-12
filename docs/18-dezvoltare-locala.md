@@ -69,11 +69,37 @@ alt utilizator cere persoana mea  →  403
 
 1. **Lipsea `postcss.config.js`.** NativeWind v5 (`react-native-css`) nu procesează el CSS-ul — îl dă pipeline-ului web al Expo, care rulează PostCSS **doar dacă găsește o configurație**. Fără ea, `@import "tailwindcss"` și `@theme` ajungeau neatinse la lightningcss, care nu le înțelege.
 
-2. **Versiune greșită de `lightningcss`.** `@expo/metro-config` cere `^1.30.1`, dar npm instala `1.33.0` — compatibil semantic, incompatibil ca format de serializare. Fixat prin `overrides` în `package.json`.
+2. **Conflict de `lightningcss` între Tailwind și NativeWind.** Două pachete cer aceeași bibliotecă nativă în versiuni incompatibile:
+
+   | Consumator | Cere | De ce |
+   |---|---|---|
+   | `@tailwindcss/node` (Tailwind v4) | `1.32.0` **exact** | compilează `@theme` → CSS |
+   | `react-native-css` (motorul NativeWind v5) | `>=1.27.0`, dar **rupe pe 1.32.0** | parcurge AST-ul prin API-ul `visitor` |
+
+   npm ridica `1.32.0` la rădăcină, deci NativeWind primea versiunea care îl strică. `react-native-css` trimite regulile înapoi în Rust prin `visitor`, iar formatul AST s-a schimbat în 1.32 → `failed to deserialize; expected an object-like struct named Specifier, found ()`.
+
+   **Soluția — două versiuni în paralel, nu una impusă global:**
+
+   ```json
+   "overrides": {
+     "@expo/metro-config": { "lightningcss": "1.30.1" },
+     "react-native-css":   { "lightningcss": "1.30.1" }
+   }
+   ```
+
+   Rezultat pe disc: `node_modules/lightningcss` = 1.30.1 (Expo + NativeWind), `node_modules/@tailwindcss/node/node_modules/lightningcss` = 1.32.0 (Tailwind). Un `overrides` global pe `1.30.1` **nu** merge: rupe Tailwind, care are versiunea fixată exact.
+
+   > `npm install` nu rescrie singur arborele când schimbi `overrides`. Secvența care funcționează: `npm install --package-lock-only` (re-rezolvă lockfile-ul), apoi `npm ci` (reconstruiește `node_modules` exact după el).
 
 > **Lecția, care contează dincolo de bug:** `expo export` **trecea** înainte de corectură. Producea un fișier CSS de 0 octeți, fără nicio eroare. Am considerat asta „bundle verificat" de cinci ori la rând. Un build care trece nu înseamnă că funcționează — dovada e că token-urile definite doar în `global.css` (`#27272a`, `#8b5cf6`) **lipseau din bundle** înainte și apar după.
 
-Dacă vezi stiluri lipsă după o schimbare de dependențe, verifică întâi dacă token-urile din `global.css` ajung efectiv în bundle.
+Dacă vezi stiluri lipsă după o schimbare de dependențe, verifică întâi dacă token-urile din `global.css` ajung efectiv în bundle:
+
+```bash
+curl -s "http://127.0.0.1:8081/.expo/.virtual-metro-entry.bundle?platform=ios&dev=true" | grep -c "#27272a"
+```
+
+Zero înseamnă că CSS-ul nu a ajuns în aplicație, oricât de verde ar fi build-ul. Aceasta e calea pe care o cere chiar Expo Go — `expo export` ocolește serverul de dezvoltare și ascunde exact acest tip de eșec.
 
 ## 6. ⚠️ Versiunea web a aplicației mobile nu pornește
 
