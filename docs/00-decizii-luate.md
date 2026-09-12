@@ -62,3 +62,32 @@ Produsul urmărește zile de naștere, **onomastici**, sărbători cu cadouri ș
 
 ### A5 · Numele final + domeniu
 > _de completat după P0.4_
+
+---
+
+## D-006 · Layer de stilizare — DESCHISĂ ⚠️
+**Data:** 2026-09-12 · **Stare:** blochează S1.6
+
+**Constatare din testare reală** (nu din documentație):
+
+| Combinație | Rezultat |
+|---|---|
+| Expo SDK 57 + NativeWind **v4.2.6** (stabil) + Tailwind 3 | ❌ nu compilează — Metro din SDK 57 e incompatibil |
+| Expo SDK 57 + NativeWind **v5.0.0-preview.4** + Tailwind 4 | ✅ **compilează**, token-urile Wishio ajung în CSS |
+| gluestack-ui **v2** (linia documentată, stabilă) | cere NativeWind v4 + Tailwind 3 → cere Expo SDK ≤54 |
+| gluestack-ui **v5** CLI | `Welcome to gluestack-ui v5 alpha` — alpha, `init` interactiv |
+| `@legendapp/motion` (dependință gluestack v2) | blochează NativeWind v5 (peer `>=4.0.0` nu acceptă prerelease) |
+
+**Starea actuală a repo-ului:** Expo SDK 57 + NativeWind v5 preview + Tailwind v4, build verificat, fără gluestack.
+
+**Opțiunile:**
+
+**A — Rămânem pe SDK 57 + NativeWind v5 preview.** Fără gluestack deocamdată; componentele de bază (Button, Card, Input, Sheet) se scriu manual pe NativeWind — sunt oricum copy-paste și în gluestack. gluestack v5 se adaugă când iese din alpha.
+*Plus:* SDK modern, build dovedit, zero dependențe alpha în runtime.
+*Minus:* NativeWind v5 e preview; scrii ~8 componente de bază singur (1–2 zile).
+
+**B — Coborâm la Expo SDK 54 + NativeWind 4.2.6 + Tailwind 3 + gluestack-ui v2.** Combinația documentată și folosită de comunitate.
+*Plus:* gluestack funcționează azi, set complet de componente.
+*Minus:* SDK mai vechi, reinstalare completă, iar issue-urile raportate pe SDK 54 + gluestack (Reanimated, overlay) trebuie verificate.
+
+**De decis înainte de S1.6.** Vezi `docs/05-arhitectura.md § 1`.

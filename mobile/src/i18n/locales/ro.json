@@ -1,0 +1,31 @@
+{
+  "common": {
+    "appName": "Wishio",
+    "tagline": "Nu uiți nicio ocazie. Știi exact ce să faci.",
+    "language": "Limba",
+    "continue": "Continuă",
+    "cancel": "Anulează",
+    "save": "Salvează"
+  },
+  "occasions": {
+    "birthday": "Zi de naștere",
+    "nameDay": "Onomastică",
+    "anniversary": "Aniversare",
+    "holiday": "Sărbătoare",
+    "custom": "Ocazie personalizată"
+  },
+  "reminder": {
+    "daysBefore_one": "peste {{count}} zi",
+    "daysBefore_few": "peste {{count}} zile",
+    "daysBefore_other": "peste {{count}} de zile",
+    "today": "Astăzi",
+    "tomorrow": "Mâine",
+    "findGift": "Găsește un cadou"
+  },
+  "home": {
+    "greeting": "Bună, {{name}}",
+    "whoToday": "La cine trebuie să te gândești azi?",
+    "upcoming": "Ocazii apropiate",
+    "empty": "Nicio ocazie apropiată. Adaugă persoane ca să începem."
+  }
+}

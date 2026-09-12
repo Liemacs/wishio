@@ -1,0 +1,30 @@
+{
+  "common": {
+    "appName": "Wishio",
+    "tagline": "Never miss an occasion. Always know what to give.",
+    "language": "Language",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "occasions": {
+    "birthday": "Birthday",
+    "nameDay": "Name day",
+    "anniversary": "Anniversary",
+    "holiday": "Holiday",
+    "custom": "Custom occasion"
+  },
+  "reminder": {
+    "daysBefore_one": "in {{count}} day",
+    "daysBefore_other": "in {{count}} days",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "findGift": "Find a gift"
+  },
+  "home": {
+    "greeting": "Hi, {{name}}",
+    "whoToday": "Who should you think about today?",
+    "upcoming": "Upcoming occasions",
+    "empty": "No upcoming occasions. Add people to get started."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "common": {
+    "appName": "Wishio",
+    "tagline": "Не пропускайте важные события. Знайте, что подарить.",
+    "language": "Язык",
+    "continue": "Продолжить",
+    "cancel": "Отмена",
+    "save": "Сохранить"
+  },
+  "occasions": {
+    "birthday": "День рождения",
+    "nameDay": "Именины",
+    "anniversary": "Годовщина",
+    "holiday": "Праздник",
+    "custom": "Особый повод"
+  },
+  "reminder": {
+    "daysBefore_one": "через {{count}} день",
+    "daysBefore_few": "через {{count}} дня",
+    "daysBefore_many": "через {{count}} дней",
+    "daysBefore_other": "через {{count}} дня",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "findGift": "Подобрать подарок"
+  },
+  "home": {
+    "greeting": "Привет, {{name}}",
+    "whoToday": "О ком стоит подумать сегодня?",
+    "upcoming": "Ближайшие события",
+    "empty": "Ближайших событий нет. Добавьте людей, чтобы начать."
+  }
+}

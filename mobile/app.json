@@ -1,31 +1,62 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
-    "version": "1.0.0",
+    "name": "Wishio",
+    "slug": "wishio",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "scheme": "wishio",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "md.wishio.app",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true,
+        "NSContactsUsageDescription": "Wishio citește doar numele și, dacă există, ziua de naștere, ca să-ți amintească de ocaziile importante. Numerele de telefon nu ajung niciodată la noi în clar, iar pozele rămân pe telefonul tău."
+      }
     },
     "android": {
+      "package": "md.wishio.app",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "locales": {
+      "ro": "./src/i18n/ios/ro.json",
+      "ru": "./src/i18n/ios/ru.json",
+      "en": "./src/i18n/ios/en.json"
     },
     "plugins": [
       "expo-router",
       "expo-localization",
       "expo-secure-store",
-      "expo-splash-screen"
-    ]
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Wishio citește doar numele și ziua de naștere, ca să nu uiți ocaziile importante."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }
