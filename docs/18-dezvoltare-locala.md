@@ -109,6 +109,24 @@ curl -s "http://127.0.0.1:8081/.expo/.virtual-metro-entry.bundle?platform=ios&de
 
 Zero înseamnă că CSS-ul nu a ajuns în aplicație, oricât de verde ar fi build-ul. Aceasta e calea pe care o cere chiar Expo Go — `expo export` ocolește serverul de dezvoltare și ascunde exact acest tip de eșec.
 
+## 5b. ⚠️ Expo Go trebuie să fie de aceeași versiune cu SDK-ul
+
+**Simptom:** bundle-ul se construiește („`Bundled ... 2564 modules`"), dar aplicația cade imediat pe telefon:
+
+```
+WARN   No native ExponentConstants module found
+ERROR  Cannot find native module 'ExpoAsset'
+ERROR  Invariant Violation: "main" has not been registered
+```
+
+Nu lipsește un modul, ci **toate** modulele native Expo. Expo Go conține modulele native compilate pentru un singur SDK; dacă aplicația de pe telefon e mai veche decât proiectul, JS-ul se încarcă și nu găsește nimic sub el.
+
+Proiectul e pe **SDK 57** → cere **Expo Go iOS 57.x**. Versiunea e scrisă în josul ecranului de pornire din Expo Go. Se actualizează din App Store.
+
+Corolar: pachetele native trebuie să fie exact la versiunea pe care o conține Expo Go, altfel apar aceleași erori pentru un singur modul. `npx expo install --check` le arată, `npx expo install --fix` le aliniază. (Ne-a prins cu `@shopify/flash-list` 2.3.2 în loc de 2.0.2.)
+
+---
+
 ## 6. ⚠️ Versiunea web a aplicației mobile nu pornește
 
 `npx expo export --platform web` construiește bundle-ul, dar la rulare cade în modulul `Animated` al lui **react-native-web**, care nu-și rezolvă propriile importuri cu această combinație de versiuni (Expo SDK 57 / RN 0.86 / react-native-web 0.21).
