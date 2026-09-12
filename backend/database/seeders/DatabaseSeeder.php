@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             NameDaySeeder::class,
             InterestSeeder::class,
             HolidaySeeder::class,
+            CatalogSeeder::class,
         ]);
 
         // User::factory(10)->create();

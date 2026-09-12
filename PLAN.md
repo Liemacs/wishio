@@ -38,7 +38,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Remindere** — planificare, trimitere, preferințe, ecran principal |
 | ✅ | **Sărbători** — 9 pentru MD, Paștele ortodox calculat, public per sărbătoare |
 | ✅ | **Digest săptămânal** — email în RO/RU/EN, cu dezabonare semnată |
-| ✅ | 164 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Catalog** — produs/oferte, deduplicare, scor de cadou, căutare, clickuri |
+| ✅ | 186 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -161,12 +162,12 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S6.1 | Migrări: `merchants`, **`products` + `offers`** (deduplicare între magazine), `product_categories`, `product_interests` |
-| S6.2 | `CatalogAdapter` + **`MagazinerCatalog`** cu sync delta pe cozi |
-| S6.3 🔴 | **Stratul de curatare** (`docs/05 § 4`): filtru de cadou, `gift_score` pe reguli, apoi corecție manuală pe top 500–1000 |
-| S6.4 | Căutare + filtre (buget, categorie, interes) |
-| S6.5 | Card de produs + click spre magazin cu tracking `outbound_click` |
-| S6.6 | Deduplicare produs/oferte între magazine + afișare „vezi la alte N magazine" |
+| S6.1 ✅ | ~~Migrări catalog~~ — `products` + `offers`, 22 categorii cu scor de bază |
+| S6.2 ✅ | ~~`CatalogAdapter`~~ + `ManualCatalog`; `MagazinerCatalog` când apare API-ul |
+| S6.3 ✅ | ~~Stratul de curatare~~ — filtru „nu e cadou” + `gift_score` pe reguli; corecția manuală rămâne pentru catalogul real |
+| S6.4 ✅ | ~~Căutare + filtre~~ — text, buget, interese |
+| S6.5 ✅ | ~~Click spre magazin cu tracking~~ — rămâne cardul în aplicație |
+| S6.6 ✅ | ~~Deduplicare + „vezi la alte N magazine”~~ |
 
 ## S7–S8 · Recomandări (săptămânile 7–8)
 

@@ -235,7 +235,15 @@ products      un produs canonic (titlu, categorie, interese, gift_score)
 
 În recomandări arăți produsul **o singură dată**, cu cel mai bun preț disponibil și opțiunea „vezi la alte 2 magazine". Fără asta, o listă de 8 sugestii poate conține de 3 ori aceleași căști.
 
-**Potrivire:** normalizare titlu + brand + model, prag de similaritate, iar ce rămâne ambiguu se lasă separat. Mai bine două produse duplicate decât două produse diferite îmbinate greșit.
+**Potrivire — implementată, cu o limită importantă.** Cheia canonică se construiește din brand + codul de model, recunoscut după faptul că are **și litere, și cifre** (`WH-1000XM5`, `MX Master 3S`, `A54`). Unitățile se separă, ca `100ml` și `100 ml` să însemne același lucru.
+
+Tokenii pur numerici sunt excluși deliberat: `Dior Sauvage 100ml` și `Dior J'adore 100ml` ar fi fuzionat în același produs. Mai bine două duplicate decât două produse diferite îmbinate greșit.
+
+> **Limita, constatată pe date reale:** produsele **fără cod de model** — parfumuri, cosmetice, textile — nu se pot uni în siguranță. „Dior Sauvage EDT 100ml" și „Dior Sauvage 100 ml apă de toaletă" sunt același parfum, dar a le uni ar cere un dicționar de sinonime pe care nu-l putem întreține.
+>
+> Soluția corectă nu e o euristică mai deșteaptă, ci **EAN-ul**. De aceea `docs/12 § 2.1` îl cere explicit de la Magaziner, marcat „rezolvă deduplicarea aproape perfect". Merită insistat pe el în discuție.
+
+⚠️ **Capcană:** `NameNormalizer` elimină cifrele — corect pentru prenume, fatal pentru coduri de produs. `BuildCanonicalKey` are propria normalizare, tocmai din acest motiv.
 
 ### Sync
 
