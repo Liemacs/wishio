@@ -21,7 +21,11 @@ class SetLocale
         return $next($request);
     }
 
-    private function resolve(Request $request): string
+    /**
+     * Publica: randarea exceptiilor o foloseste pentru cererile oprite inaintea
+     * acestui middleware, de exemplu de `throttle` — vezi bootstrap/app.php.
+     */
+    public function resolve(Request $request): string
     {
         /** @var list<string> $supported */
         $supported = config('wishio.locales.supported');

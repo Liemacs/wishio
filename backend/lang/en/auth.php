@@ -3,5 +3,5 @@
 return [
     'failed'   => 'The email or password is incorrect.',
     'password' => 'The password is incorrect.',
-    'throttle' => 'Too many attempts. Try again in :seconds seconds.',
+    'throttle' => 'Too many attempts. Try again in one second.|Too many attempts. Try again in :seconds seconds.',
 ];
