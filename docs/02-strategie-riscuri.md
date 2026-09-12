@@ -100,11 +100,13 @@ Reminder-ul este mecanismul de retenție. Rata de opt-in la push pe iOS este tip
 
 ---
 
-### R4 — Dependența de Magaziner: parteneriatul nu există încă 🟠 MARE
+### R4 — Dependența de Magaziner ✅ ÎNCHIS (era 🟠 MARE)
 
-Verificat: Magaziner agregă ~70.000 de produse din 15+ magazine (Ultra.md, Bomba, Darwin, Foxmart, Enter etc.), acceptă **feed-uri XML/CSV/Google** de la comercianți, are statistici de clickuri/impresii și un plan PRO de promovare. **Nu are API public documentat.**
+**Rezolvat.** Proprietarul Magaziner a acceptat să ofere un API cu toate produsele — vezi `docs/00 § D-008`. Magaziner agregă ~70.000 de produse din 15+ magazine (Ultra.md, Bomba, Darwin, Foxmart, Enter etc.), cu prețuri actualizate și statistici de clickuri.
 
-Deci: integrarea = **o negociere**, nu o task tehnică. Și o negociere în care noi suntem partea mică.
+**Riscul rezidual, mult mai mic:** dependență de un singur furnizor, pe o înțelegere verbală. Se acoperă prin (a) formalizarea în scris, o pagină — `docs/12`, și (b) păstrarea abstracției `CatalogAdapter`, ca sursa să fie înlocuibilă fără să atingi Recommendation Engine.
+
+**Atenție — riscul s-a mutat, nu a dispărut:** problema nu mai e „nu am catalog", ci „am 70.000 de produse needitate". Vezi R7, care devine acum riscul tehnic principal.
 
 **Mitigări:**
 1. **Discuție cu ei în săptămâna 1**, nu în sprintul 5. Propunerea de valoare: le aducem trafic sezonier cu intenție de cumpărare, ei ne dau feed + revenue share. Rezultatul acestei discuții schimbă planul.
@@ -137,12 +139,14 @@ Riscul care a omorât ideea Secret Santa. Mitigat prin Occasion Engine (§ Refra
 
 ---
 
-### R7 — Calitatea recomandărilor AI 🟡 MEDIU
+### R7 — Calitatea recomandărilor pe un catalog mare 🟠 MARE *(promovat după D-008)*
 
 Dacă la „cadou pentru Alex, 27 ani, mașini + gaming, 1000 MDL” aplicația scoate 3 produse irelevante, userul nu mai revine niciodată. Prima impresie e singura.
 
+Cu API-ul Magaziner ai ~70.000 de produse. Marea majoritate **nu sunt cadouri**: cabluri, filtre de apă, consumabile, piese de schimb. Dacă intră toate în recomandări, produsul pare prost chiar dacă motorul e corect.
+
 **Mitigări:**
-- Catalog mic și **curat** bate catalog mare și murdar. 400 de produse bine taguite > 70.000 needitate.
+- **Stratul de curatare este acum componenta critică a produsului.** Vezi `docs/05 § 4`. Nu catalogul te diferențiază — Magaziner îl are deja — ci faptul că știi *care dintre cele 70.000 e un cadou pentru Alex*.
 - Ranking determinist (filtre + embeddings), LLM doar pentru extragerea criteriilor și pentru text explicativ. Vezi `docs/05-arhitectura.md`.
 - **Set de evaluare** de 30 de persoane-fictive cu răspuns așteptat, rulat la fiecare schimbare de prompt. Fără asta, zbori pe ceață.
 - Fallback onest: *„Nu avem destule idei bune pentru acest buget — încearcă X sau mărește bugetul”* e mai bun decât 3 sugestii proaste.

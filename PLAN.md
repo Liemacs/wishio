@@ -50,7 +50,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 |---|---|---|---|
 | **P0.1** 🔴 | **Răspunde-ți în scris** la A1–A4 din `docs/08`: ore/săptămână, singur sau cu echipă, buget, criteriu de abandon | 1 h | Sunt scrise în `docs/00-decizii-luate.md` |
 | **P0.2** 🔴 | **Testul contactelor.** 10 telefoane reale, numără câte contacte au ziua de naștere completată. Notează procentul. | 1 h | Cifra e scrisă. Sub 5% → onboarding-ul se construiește pe onomastici + link |
-| **P0.3** 🔴 | **Contact Magaziner** — email + apel. Cere: feed, statistici, revenue share | 2 h | Ai un răspuns, da sau nu |
+| **P0.3** ✅ | ~~Contact Magaziner~~ — **acceptat**. Acum: trimite specificația din `docs/12` și formalizează înțelegerea | 2 h | Ai specificația API confirmată în scris |
 | **P0.4** 🟠 | Verifică nume + domeniu (`.md`/`.com`/`.app`) + App Store + marcă AGEPI | 2 h | Numele e confirmat sau schimbat |
 | **P0.5** 🟠 | Deschide **Apple Developer** (99 USD/an) și **Google Play** (25 USD) — activarea durează | 1 h | Conturile sunt în curs de activare |
 | **P0.6** 🔴 | **Landing page RO/RU/EN** + formular + analytics. „Scrie-ne despre persoană, îți trimitem 5 idei reale, cu preț și magazin. Gratis.” | 2 zile | E live, cu analytics |
@@ -144,12 +144,12 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 
 | ID | Pas |
 |---|---|
-| S6.1 | Migrări: `merchants`, `products`, `product_categories`, `product_interests`, coloane `JSON translations` + coloane generate indexate |
-| S6.2 | `CatalogAdapter` + `ManualCatalog` |
-| S6.3 🔴 | **C3 — 300–500 produse curate**, cu preț, link, categorie, interese, `gift_score` editorial 1–5 |
+| S6.1 | Migrări: `merchants`, **`products` + `offers`** (deduplicare între magazine), `product_categories`, `product_interests` |
+| S6.2 | `CatalogAdapter` + **`MagazinerCatalog`** cu sync delta pe cozi |
+| S6.3 🔴 | **Stratul de curatare** (`docs/05 § 4`): filtru de cadou, `gift_score` pe reguli, apoi corecție manuală pe top 500–1000 |
 | S6.4 | Căutare + filtre (buget, categorie, interes) |
 | S6.5 | Card de produs + click spre magazin cu tracking `outbound_click` |
-| S6.6 | `MagazinerCatalog` — **doar dacă** P0.3 s-a concretizat |
+| S6.6 | Deduplicare produs/oferte între magazine + afișare „vezi la alte N magazine" |
 
 ## S7–S8 · Recomandări (săptămânile 7–8)
 

@@ -74,6 +74,8 @@ curl -s -H "Accept-Language: ru" http://localhost:8000/api/v1/ping
 | [docs/09-ecrane-fluxuri-copy.md](docs/09-ecrane-fluxuri-copy.md) | 31 de ecrane, fluxurile principale, strategia de copy și scara de notificări |
 | [docs/10-operare.md](docs/10-operare.md) | Medii, CI/CD, release mobile, testare, backup, monitorizare, incidente |
 | [docs/11-costuri-gtm.md](docs/11-costuri-gtm.md) | Costuri, economia unitară, monetizare, primii 1.000 de utilizatori |
+| [docs/12-integrare-magaziner.md](docs/12-integrare-magaziner.md) | Ce să ceri și ce să agreezi cu Magaziner — gata de trimis |
+| [docs/13-recomandari.md](docs/13-recomandari.md) | **Recomandarea mea pentru fiecare punct deschis** |
 | [PLAN.md](PLAN.md) | **Planul complet, pas cu pas** |
 | [CLAUDE.md](CLAUDE.md) | Reguli de dezvoltare |
 

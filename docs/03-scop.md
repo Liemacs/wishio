@@ -62,7 +62,7 @@ Planul inițial sărea direct în 7 sprinturi. Aceasta este cea mai ieftină asi
 - Buget + tip (cadou / experiență) → 5–8 sugestii din catalog real
 - Motiv scurt pentru fiecare („pentru că îi plac mașinile”)
 - Salvare ca idee, marcare „i-am luat asta”
-- Catalog: `ManualCatalog` (300–500 produse curate) sau `MagazinerCatalog` dacă parteneriatul e semnat
+- Catalog: **`MagazinerCatalog`** — ~70.000 produse, cu stratul de curatare din `docs/05 § 4`. Doar `gift_score >= 3` intră în recomandări.
 
 **Profilul meu**
 - Ziua mea, interese, „ce îmi doresc” (produse) și „unde aș vrea să merg” (locuri/experiențe)

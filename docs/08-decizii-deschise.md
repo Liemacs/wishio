@@ -3,6 +3,8 @@
 > Răspunsul direct la întrebarea „ce lipsește ca să pot începe lucrul”.
 > Documentele 01–07 acoperă **ce** construim și **de ce**. Aici e ce **nu se poate decide fără tine** sau fără o informație din exterior.
 > Împărțit în: 🔴 blocant (nu poți începe fără), 🟠 necesar înainte de cod, 🟡 necesar înainte de lansare.
+>
+> **Pentru ce să faci la fiecare punct, vezi `docs/13-recomandari.md`.** Acest document listează golurile; acela le răspunde.
 
 ---
 
@@ -14,7 +16,7 @@
 | A2 🔴 | **Ești singur sau ai echipă?** Dacă singur: cine face design? RN+Laravel+AI+catalog+design de un singur om = risc real | ? | planificare |
 | A3 🔴 | **Buget disponibil** pentru primele 6 luni (conturi dev, hosting, AI, domeniu, eventual design) | ? | fezabilitate |
 | A4 🔴 | **Care e criteriul tău de abandon?** Dacă la 3 luni de la lansare ai 400 useri și 2% click rate — continui sau oprești? Scris acum, nu atunci | ? | sănătate mintală |
-| A5 🟠 | **Numele final.** „Wishio” e verificat? Domeniu, App Store, marcă? | ? | brand, App Store |
+| A5 ✅ | ~~Numele final~~ | **Wishio / wishio.md** — `docs/00 § D-009` | — |
 | A6 🟠 | Faci **Faza 0** (validare 2 săpt. fără app) sau sari direct la MVP? | ? | 6 luni din viață |
 | A7 🟠 | Companie sau persoană fizică? Conturile dev, contractele cu comercianții și factura pentru un magazin cer entitate juridică | ? | monetizare |
 
@@ -25,9 +27,9 @@
 | # | De aflat | Cum | Blochează |
 |---|---|---|---|
 | B1 🔴 | **Câte contacte reale au ziua de naștere completată?** (riscul R1) | 10 telefoane de la prieteni, numărat manual, 1 oră | designul întregului onboarding |
-| B2 🔴 | **Magaziner vrea parteneriat?** Ce dau: feed? statistici? revenue share? | email + apel, săptămâna asta | strategia de catalog |
+| B2 ✅ | ~~Magaziner vrea parteneriat?~~ | **Da, API confirmat** — `docs/00 § D-008`. Acum: trimite `docs/12` | — |
 | B3 🔴 | **Plătește vreun comerciant?** Cât? Pentru ce model? (riscul R5) | 5 magazine + 2 restaurante, discuții de 20 min | existența modelului de business |
-| B4 🟠 | Magazinele mari (Darwin, Bomba, Ultra, Enter) au feed XML accesibil? | verificare tehnică, 2 ore | planul B de catalog |
+| B4 🟡 | ~~Feed-uri XML directe~~ — rezolvat de B2, rămâne doar plan de rezervă | — | — |
 | B5 🟠 | Există vreo rețea de afiliere funcțională în MD? | întrebat comercianții la B3 | monetizare |
 | B6 🟡 | Care e realitatea plăților online în MD pentru group gifting? (Stripe nu e oficial disponibil; maib Mastercard Gateway și paynet sunt opțiunile locale) | discuție cu banca | v2 |
 | B7 🟡 | Costul real de achiziție prin comunități (grupuri FB, Telegram, influenceri MD) | test cu 200 MDL | GTM |
@@ -40,7 +42,7 @@
 |---|---|---|---|
 | C1 🔴 | **Tabelul de onomastici + aliasuri de prenume** (RO + variante RU) | fără el, cold-start-ul rămâne nerezolvat — e cel mai valoros activ al MVP-ului | 2–3 zile |
 | C2 🔴 | **Taxonomia de interese** (60–80 leaf-uri, RO/RU/EN, mapate pe categorii) | AI-ul nu poate funcționa fără ea; e contractul dintre LLM și catalog | 1–2 zile |
-| C3 🔴 | **Catalogul seed** — 300–500 produse curate, cu preț, link, categorie, `gift_score`, traduceri | fără catalog nu există produs, doar calendar | 3–4 zile |
+| C3 🔴 | **Stratul de curatare** peste cele ~70.000 de produse din API: filtru de cadou, `gift_score` pe reguli + corecție manuală pe top 500–1.000 | catalogul există acum; ce lipsește e *care produs e cadou* | 3–4 zile |
 | C4 ✅ | ~~Inventarul de ecrane + fluxuri~~ | **făcut** — `docs/09`, 31 de ecrane + 4 fluxuri. Wireframe-urile vizuale rămân de desenat | — |
 | C5 🟠 | **Design system** (culori, tipografie, carduri, stări goale, stări de eroare, loading) | RN fără design system → refactor garantat | 3–5 zile |
 | C6 🟠 | **Copy-ul complet**: ~150 de texte × 3 limbi | copy-ul *este* produsul într-o aplicație de remindere. Volumul și scara de notificări: `docs/09 § 3` | continuu |

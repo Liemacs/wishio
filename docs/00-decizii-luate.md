@@ -125,3 +125,47 @@ Potrivirea insensibilă la diacritice este condiția de funcționare a name-day 
 **Avertisment:** MariaDB 10.4 este **EOL din iunie 2024**. Acceptabil în dev, inacceptabil în producție pentru un produs care prelucrează date personale sub Legea 195/2024. `docker/compose.yaml` pornește MySQL 8.4 pentru CI și staging.
 
 **Verificat:** migrările Laravel 12 rulează pe MariaDB 10.4 fără modificări; `/api/v1/ping` răspunde localizat în RO/RU/EN cu fallback corect la RO.
+
+---
+
+## D-008 · Catalogul — API Magaziner confirmat
+**Data:** 2026-09-12 · **Stare:** confirmată verbal, **de formalizat**
+
+Proprietarul Magaziner este de acord să ofere un API cu toate produsele. Asta închide riscul R4 din `docs/02`, care era al patrulea ca gravitate.
+
+**Ce se schimbă:**
+
+| Înainte | Acum |
+|---|---|
+| `ManualCatalog` cu 300–500 produse construite de mână (3–4 zile) | `MagazinerCatalog` cu ~70.000 de produse din 15+ magazine |
+| Riscul: catalog prea mic → „0 rezultate" | Riscul se **inversează**: catalog prea mare și needitat → recomandări proaste (R7) |
+| Muncă: *construirea* catalogului | Muncă: **curatarea** catalogului |
+
+**Consecința importantă:** 70.000 de produse needitate dau recomandări *mai proaste* decât 400 curatate. Un router Wi-Fi și o pereche de căști au același preț și aceeași categorie, dar unul nu e cadou. Vezi `docs/05 § 4` pentru noul pipeline: **ingestie totală + strat de curatare deasupra**.
+
+**De formalizat, chiar dacă relația e bună:** un document de o pagină cu ce oferă fiecare parte, cine deține datele, ce se întâmplă cu tracking-ul de clickuri și cum se împart veniturile. Nu din neîncredere — ci pentru că peste doi ani nimeni nu-și mai amintește ce s-a înțeles la telefon. Vezi `docs/12`.
+
+**Oportunitate secundară:** proprietarul cunoaște piața de e-commerce din Moldova mai bine decât oricine. Merită întrebat direct despre B3 și B5 (plătesc comercianții? există afiliere reală?) și cerută o introducere la 2–3 magazine.
+
+---
+
+## D-009 · Nume și domeniu — Wishio / wishio.md
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Numele produsului este **Wishio**. Domeniul principal: **wishio.md**.
+
+**Verificat la 2026-09-12:**
+
+| Domeniu | Stare |
+|---|---|
+| `wishio.md` | liber → **ales** |
+| `wishio.ro` | liber → **de înregistrat acum**, e piața #2 (`docs/02 § 1`) |
+| `wishio.io` | liber |
+| `wishio.com` | ocupat, parcat la un revânzător (NS `ztomy.com`) — cumpărabil, probabil scump |
+| `wishio.app` | ocupat și **folosit activ** (A record pe Vercel) |
+
+**Consecințe:**
+- Linkurile publice sunt `wishio.md/@slug`. Scurt, local, potrivit.
+- `wishio.ro` costă ~10 €/an. Răscumpărarea lui peste doi ani, după ce produsul are tracțiune, costă de 50–100 de ori mai mult. Înregistrează-l odată cu `.md`.
+- `wishio.app` fiind folosit activ de altcineva: **verifică numele „Wishio" în App Store și Google Play** înainte de submit, și verifică marca la AGEPI (MD) și EUIPO (dacă mergi în RO). Riscul e mic, dar se verifică în 20 de minute.
+- `.com` nu e necesar acum. Dacă vreodată produsul crește, se negociază atunci.

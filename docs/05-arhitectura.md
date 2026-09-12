@@ -149,25 +149,70 @@ Metrici: `relevanță@5`, `% în buget`, `% duplicate cu gift_history`, `cost me
 
 ---
 
-## 4. Catalog — adaptoare
+## 4. Catalog — ingestie și curatare
+
+Cu API-ul Magaziner (`docs/00 § D-008`) avem ~70.000 de produse din 15+ magazine. Problema nu mai este *de unde luăm produse*, ci **care dintre ele sunt cadouri**.
 
 ```php
 interface CatalogAdapter {
-    public function sync(): CatalogSyncResult;   // idempotent
+    public function sync(?Carbon $since = null): CatalogSyncResult;   // idempotent, delta
     public function supports(string $country): bool;
 }
 ```
 
-| Implementare | Când | Sursă |
-|---|---|---|
-| `ManualCatalog` | **MVP** | seed curat, 300–500 produse, taguite manual |
-| `GoogleFeedCatalog` | plan B | feed XML Google Merchant direct de la magazine |
-| `MagazinerCatalog` | dacă se semnează parteneriatul | feed/export agreat |
-| `ExperienceCatalog` | v1.1 | manual, 30–60 locații Chișinău |
+| Implementare | Rol |
+|---|---|
+| `MagazinerCatalog` | **sursa principală** — ~70.000 produse, sync delta |
+| `GoogleFeedCatalog` | rezervă, dacă relația se schimbă |
+| `ManualCatalog` | Faza 0 și teste — catalog mic, previzibil |
+| `ExperienceCatalog` | v1.1 — 30–60 locații Chișinău, manual |
 
-Sync pe cron, în cozi, cu `last_seen_at`. Produsele nevăzute 7 zile → `in_stock = false`, nu șterse.
+### Pipeline-ul de ingestie
 
-**`gift_score` este editorial, nu calculat.** Un router și o pereche de căști pot avea același preț și aceeași categorie, dar unul nu e cadou. Acest scor manual, pe 400 de produse, valorează mai mult decât orice model.
+```
+Magaziner API (delta, la 6h)
+        ↓
+[1] NORMALIZARE      preț, valută, disponibilitate, deduplicare între magazine
+        ↓            (același produs la 4 magazine = 1 produs, 4 oferte)
+[2] FILTRU DE CADOU  elimină ce nu poate fi cadou niciodată
+        ↓            (consumabile, piese, cabluri, accesorii de nișă)
+[3] GIFT SCORE       1-5, cât de „de cadou" e produsul
+        ↓
+[4] MAPARE INTERESE  produs -> leaf-uri din taxonomie
+        ↓
+[5] POOL RECOMANDABIL  doar produsele cu gift_score >= 3 intră in recomandari
+```
+
+**Doar pasul [5] alimentează Recommendation Engine.** Restul catalogului rămâne căutabil, dar nu e sugerat activ. Asta e diferența dintre „ți-am găsit 8 idei" și „ți-am aruncat 8 produse".
+
+### Cum atribui `gift_score` pe 70.000 de produse
+
+Nu manual. În trei straturi, în ordinea asta:
+
+| Strat | Metodă | Acoperire | Efort |
+|---|---|---|---|
+| **1. Reguli** | categorie + interval de preț + prezența unui brand. „Cabluri" → 1. „Căști, 500–3000 MDL, brand cunoscut" → 4. | ~100% | 1 zi |
+| **2. Corecție manuală** | treci prin **top 500–1000 produse** după popularitate/click și corectezi scorul de mână | ~2% din catalog, dar ~60% din afișări | 2–3 zile |
+| **3. Învățare din comportament** | produsele pe care userii chiar le salvează sau accesează urcă; cele ignorate coboară | continuu, după lansare | automat |
+
+**Stratul 2 este cel mai bine plătit efort din tot proiectul.** Câteva zile de muncă plictisitoare pe produsele cele mai văzute schimbă percepția întregii aplicații.
+
+### Deduplicare între magazine
+
+Același produs apare la Darwin, Bomba și Enter cu prețuri diferite. Modelul corect:
+
+```
+products      un produs canonic (titlu, categorie, interese, gift_score)
+  └── offers  o ofertă per magazin (preț, stoc, deeplink, merchant_id)
+```
+
+În recomandări arăți produsul **o singură dată**, cu cel mai bun preț disponibil și opțiunea „vezi la alte 2 magazine". Fără asta, o listă de 8 sugestii poate conține de 3 ori aceleași căști.
+
+**Potrivire:** normalizare titlu + brand + model, prag de similaritate, iar ce rămâne ambiguu se lasă separat. Mai bine două produse duplicate decât două produse diferite îmbinate greșit.
+
+### Sync
+
+Delta la 6 ore (`updated_since`), în cozi. `last_seen_at` pe fiecare ofertă; nevăzută 7 zile → `in_stock = false`, nu ștearsă — istoricul de cadouri trebuie să rămână valid.
 
 ---
 
