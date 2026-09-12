@@ -33,7 +33,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Landing Faza 0** — RO/RU/EN, formular cu consimțământ versionat, unealtă concierge (`docs/17`) |
 | ✅ | **Domeniul People** — ierarhia de încredere, override-uri definitive, note criptate |
 | ✅ | **API v1** — persoane, interese, autorizare pe proprietar |
-| ✅ | 78 de teste verzi pe MySQL |
+| ✅ | **Ecrane mobile** — login, listă persoane, detaliu, adăugare, selector de interese |
+| ✅ | 90 de teste verzi pe MySQL |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -119,7 +120,7 @@ Cifrele îți spun unde să insiști.
 | S3.1 ✅ | ~~Migrări `people`, `person_field_sources`, `person_interests`, `person_avoids`~~ |
 | S3.2 ✅ | ~~CRUD Person prin API~~ — `/api/v1/people`, cu politică de acces și 16 teste |
 | S3.3 ✅ | ~~**Ierarhia de trust + override-uri**~~ — `FieldSource` + `WritePersonField`, 11 teste |
-| S3.4 | Ecrane: listă persoane (grupate pe proximitate), detaliu persoană, adăugare manuală |
+| S3.4 ✅ | ~~Ecrane: listă cu căutare, detaliu, adăugare, ștergere~~ |
 | S3.5 | Selector de interese din taxonomie, în limba userului |
 
 **Gata când:** adaugi manual o persoană cu interese și un override manual nu e suprascris de un sync simulat.

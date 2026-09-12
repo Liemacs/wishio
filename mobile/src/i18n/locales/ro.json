@@ -1,11 +1,13 @@
 {
   "common": {
-    "appName": "Wishio",
-    "tagline": "Nu uiți nicio ocazie. Știi exact ce să faci.",
-    "language": "Limba",
-    "continue": "Continuă",
+    "save": "Salvează",
     "cancel": "Anulează",
-    "save": "Salvează"
+    "delete": "Șterge",
+    "edit": "Editează",
+    "done": "Gata",
+    "back": "Înapoi",
+    "retry": "Încearcă din nou",
+    "loading": "Se încarcă…"
   },
   "occasions": {
     "birthday": "Zi de naștere",
@@ -27,5 +29,70 @@
     "whoToday": "La cine trebuie să te gândești azi?",
     "upcoming": "Ocazii apropiate",
     "empty": "Nicio ocazie apropiată. Adaugă persoane ca să începem."
+  },
+  "errors": {
+    "network": "Nu am putut contacta serverul. Verifică conexiunea.",
+    "unknown": "Ceva n-a mers. Încearcă din nou.",
+    "required": "Completează acest câmp."
+  },
+  "auth": {
+    "welcome": "Bine ai venit",
+    "subtitle": "Nu uiți nicio ocazie. Știi exact ce să faci.",
+    "email": "Email",
+    "password": "Parolă",
+    "name": "Numele tău",
+    "login": "Intră în cont",
+    "register": "Creează cont",
+    "toRegister": "N-ai cont? Creează unul",
+    "toLogin": "Ai deja cont? Intră",
+    "passwordHelp": "Cel puțin 8 caractere",
+    "logout": "Ieși din cont"
+  },
+  "people": {
+    "title": "Persoane",
+    "add": "Adaugă persoană",
+    "search": "Caută",
+    "emptyTitle": "Încă nicio persoană",
+    "emptyText": "Adaugă oamenii importanți ca să nu le uiți ocaziile.",
+    "years_one": "{{count}} an",
+    "years_few": "{{count}} ani",
+    "years_other": "{{count}} de ani",
+    "count_one": "{{count}} persoană",
+    "count_few": "{{count}} persoane",
+    "count_other": "{{count}} de persoane"
+  },
+  "person": {
+    "new": "Persoană nouă",
+    "name": "Nume",
+    "namePlaceholder": "Ex.: Alexandru Ciobanu",
+    "relationship": "Ce relație ai cu această persoană?",
+    "gender": "Gen",
+    "birthDate": "Zi de naștere",
+    "birthDatePlaceholder": "ZZ.LL.AAAA sau ZZ.LL",
+    "birthDateHelp": "Anul e opțional — deseori știm doar ziua și luna.",
+    "budget": "Buget de cadou",
+    "budgetMin": "De la",
+    "budgetMax": "Până la",
+    "notes": "Note",
+    "notesHelp": "Rămân private. Nu se trimit niciodată către AI.",
+    "interests": "Interese",
+    "interestsEmpty": "Niciun interes încă",
+    "chooseInterests": "Alege interese",
+    "deleteConfirm": "Ștergi această persoană?",
+    "deleteText": "Se șterg și notele, interesele și istoricul.",
+    "inferred": "dedus"
+  },
+  "relationships": {
+    "partner": "Partener",
+    "friend": "Prieten",
+    "parent": "Părinte",
+    "child": "Copil",
+    "sibling": "Frate / soră",
+    "colleague": "Coleg",
+    "other": "Altcineva"
+  },
+  "genders": {
+    "m": "Bărbat",
+    "f": "Femeie"
   }
 }

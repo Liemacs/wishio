@@ -1,11 +1,13 @@
 {
   "common": {
-    "appName": "Wishio",
-    "tagline": "Never miss an occasion. Always know what to give.",
-    "language": "Language",
-    "continue": "Continue",
+    "save": "Save",
     "cancel": "Cancel",
-    "save": "Save"
+    "delete": "Delete",
+    "edit": "Edit",
+    "done": "Done",
+    "back": "Back",
+    "retry": "Try again",
+    "loading": "Loading…"
   },
   "occasions": {
     "birthday": "Birthday",
@@ -26,5 +28,68 @@
     "whoToday": "Who should you think about today?",
     "upcoming": "Upcoming occasions",
     "empty": "No upcoming occasions. Add people to get started."
+  },
+  "errors": {
+    "network": "Could not reach the server. Check your connection.",
+    "unknown": "Something went wrong. Try again.",
+    "required": "This field is required."
+  },
+  "auth": {
+    "welcome": "Welcome",
+    "subtitle": "Never miss an occasion. Always know what to give.",
+    "email": "Email",
+    "password": "Password",
+    "name": "Your name",
+    "login": "Sign in",
+    "register": "Create account",
+    "toRegister": "No account? Create one",
+    "toLogin": "Already have an account? Sign in",
+    "passwordHelp": "At least 8 characters",
+    "logout": "Sign out"
+  },
+  "people": {
+    "title": "People",
+    "add": "Add person",
+    "search": "Search",
+    "emptyTitle": "No one yet",
+    "emptyText": "Add the people who matter so you never miss their occasions.",
+    "years_one": "{{count}} year",
+    "years_other": "{{count}} years",
+    "count_one": "{{count}} person",
+    "count_other": "{{count}} people"
+  },
+  "person": {
+    "new": "New person",
+    "name": "Name",
+    "namePlaceholder": "e.g. Alexandru Ciobanu",
+    "relationship": "How do you know them?",
+    "gender": "Gender",
+    "birthDate": "Birthday",
+    "birthDatePlaceholder": "DD.MM.YYYY or DD.MM",
+    "birthDateHelp": "The year is optional — often you only know the day and month.",
+    "budget": "Gift budget",
+    "budgetMin": "From",
+    "budgetMax": "To",
+    "notes": "Notes",
+    "notesHelp": "Kept private. Never sent to AI.",
+    "interests": "Interests",
+    "interestsEmpty": "No interests yet",
+    "chooseInterests": "Choose interests",
+    "deleteConfirm": "Delete this person?",
+    "deleteText": "Notes, interests and history are deleted too.",
+    "inferred": "inferred"
+  },
+  "relationships": {
+    "partner": "Partner",
+    "friend": "Friend",
+    "parent": "Parent",
+    "child": "Child",
+    "sibling": "Sibling",
+    "colleague": "Colleague",
+    "other": "Someone else"
+  },
+  "genders": {
+    "m": "Male",
+    "f": "Female"
   }
 }
