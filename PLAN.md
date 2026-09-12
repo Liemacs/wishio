@@ -43,7 +43,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Evaluare + CI** — 30 de profiluri, paritate traduceri, formatare |
 | ✅ | **Ecranele de recomandare** — buget, consimțământ AI, rezultate, magazin |
 | ✅ | **Pagini publice `@slug`** — bucla virală, cu consimțământ și ștergere fără cont |
-| ✅ | 236 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Ecranul de profil** — link de partajat, listă de dorințe, vizibilitate, setări |
+| ✅ | 238 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -193,12 +194,12 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S9.1 ✅ | ~~Profilul meu + lista de dorințe~~ — API; rămâne ecranul mobil |
+| S9.1 ✅ | ~~Profilul meu + lista de dorințe~~ — API și ecran |
 | S9.2 | Vizibilitate per câmp, inclusiv `signal_only` (`docs/04 § 6`) |
 | S9.3 ✅ | ~~Pagini publice `@slug`~~ — Blade, RO/RU/EN, `noindex` implicit, slug cu sufix aleator |
 | S9.4 ✅ | ~~Formular + consimțământ versionat + rate limit + ștergere fără cont~~ |
 | S9.5 ✅ | ~~Prompt de instalare + eveniment `profile_submission`~~ |
-| S9.6 | Deep link `@slug` → aplicație, dacă e instalată |
+| S9.6 ✅ | ~~Deep link `@slug` → aplicație~~ — config + fișiere de asociere; cer un build semnat ca să funcționeze |
 
 ## S10 · Istoric cadouri & idei (săptămâna 10)
 

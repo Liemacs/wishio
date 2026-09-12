@@ -59,7 +59,23 @@ alt utilizator cere persoana mea  →  403
 
 ---
 
-## 5. ⚠️ Versiunea web a aplicației mobile nu pornește
+## 5. ⚠️ Capcană rezolvată: Tailwind nu rula deloc
+
+**Simptom:** `npx expo start` cădea la bundling pe iOS cu
+`Unknown at rule: @theme`, urmat de
+`failed to deserialize; expected an object-like struct named Specifier`.
+
+**Două cauze suprapuse:**
+
+1. **Lipsea `postcss.config.js`.** NativeWind v5 (`react-native-css`) nu procesează el CSS-ul — îl dă pipeline-ului web al Expo, care rulează PostCSS **doar dacă găsește o configurație**. Fără ea, `@import "tailwindcss"` și `@theme` ajungeau neatinse la lightningcss, care nu le înțelege.
+
+2. **Versiune greșită de `lightningcss`.** `@expo/metro-config` cere `^1.30.1`, dar npm instala `1.33.0` — compatibil semantic, incompatibil ca format de serializare. Fixat prin `overrides` în `package.json`.
+
+> **Lecția, care contează dincolo de bug:** `expo export` **trecea** înainte de corectură. Producea un fișier CSS de 0 octeți, fără nicio eroare. Am considerat asta „bundle verificat" de cinci ori la rând. Un build care trece nu înseamnă că funcționează — dovada e că token-urile definite doar în `global.css` (`#27272a`, `#8b5cf6`) **lipseau din bundle** înainte și apar după.
+
+Dacă vezi stiluri lipsă după o schimbare de dependențe, verifică întâi dacă token-urile din `global.css` ajung efectiv în bundle.
+
+## 6. ⚠️ Versiunea web a aplicației mobile nu pornește
 
 `npx expo export --platform web` construiește bundle-ul, dar la rulare cade în modulul `Animated` al lui **react-native-web**, care nu-și rezolvă propriile importuri cu această combinație de versiuni (Expo SDK 57 / RN 0.86 / react-native-web 0.21).
 
@@ -71,7 +87,7 @@ Ce funcționează pe web rămâne neatins: landing-ul Faza 0 și, mai târziu, p
 
 ---
 
-## 6. Porturi folosite
+## 7. Porturi folosite
 
 | Port | Ce |
 |---|---|

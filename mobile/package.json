@@ -17,6 +17,7 @@
     "axios": "^1.12.2",
     "expo": "~57.0.22",
     "expo-blur": "~57.0.3",
+    "expo-clipboard": "~57.0.2",
     "expo-constants": "~57.0.18",
     "expo-contacts": "~57.0.5",
     "expo-device": "~57.0.2",
@@ -51,11 +52,13 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/react": "~19.2.2",
     "babel-preset-expo": "~57.0.0",
     "typescript": "~6.0.3"
   },
   "overrides": {
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "lightningcss": "1.30.1"
   }
 }

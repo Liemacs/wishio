@@ -60,6 +60,20 @@ return [
         'min_confidence_to_push' => 0.75,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Deep links
+    |--------------------------------------------------------------------------
+    | Ca linkul `wishio.md/@slug` să deschidă aplicația când e instalată,
+    | domeniul trebuie să servească fișierele de asociere. Rămân goale până
+    | când există un build semnat — vezi docs/18 § 7.
+    */
+    'deep_links' => [
+        'ios_app_id'                 => env('WISHIO_IOS_APP_ID'),        // TEAMID.md.wishio.app
+        'android_package'            => env('WISHIO_ANDROID_PACKAGE', 'md.wishio.app'),
+        'android_sha256_fingerprint' => env('WISHIO_ANDROID_SHA256'),
+    ],
+
     'push' => [
         // 'null' (implicit) sau 'expo'
         'driver' => env('WISHIO_PUSH_DRIVER', 'null'),

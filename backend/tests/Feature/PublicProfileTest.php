@@ -221,6 +221,27 @@ it('gestioneaza lista de dorinte', function () {
     $this->actingAs($this->owner)->deleteJson("/api/v1/wishlist/$item")->assertNoContent();
 });
 
+it('nu serveste fisiere de asociere goale', function () {
+    // Un fisier de asociere gresit strica deep link-urile mai rau decat
+    // lipsa lui: sistemul il cacheaza si nu mai reincearca curand.
+    $this->get('/.well-known/apple-app-site-association')->assertNotFound();
+    $this->get('/.well-known/assetlinks.json')->assertNotFound();
+});
+
+it('serveste asocierea cand identificatorii sunt configurati', function () {
+    config(['wishio.deep_links.ios_app_id' => 'ABCDE12345.md.wishio.app']);
+    config(['wishio.deep_links.android_sha256_fingerprint' => 'AA:BB:CC']);
+
+    $this->get('/.well-known/apple-app-site-association')
+        ->assertOk()
+        ->assertJsonPath('applinks.details.0.appID', 'ABCDE12345.md.wishio.app')
+        ->assertJsonPath('applinks.details.0.paths.0', '/@*');
+
+    $this->get('/.well-known/assetlinks.json')
+        ->assertOk()
+        ->assertJsonPath('0.target.package_name', 'md.wishio.app');
+});
+
 it('nu lasa un utilizator sa stearga din lista altuia', function () {
     $item = $this->actingAs($this->owner)
         ->postJson('/api/v1/wishlist', ['kind' => 'product', 'title' => 'Secret'])

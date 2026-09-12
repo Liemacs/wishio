@@ -64,3 +64,42 @@ Route::post('/@{slug}', [PublicProfileController::class, 'store'])
 Route::get('/@{slug}/multumim/{token}', [PublicProfileController::class, 'thanks'])->name('profile.thanks');
 
 Route::get('/@{slug}/sterge/{token}', [PublicProfileController::class, 'destroy'])->name('profile.destroy');
+
+/*
+|--------------------------------------------------------------------------
+| Asocierea aplicatiei cu domeniul
+|--------------------------------------------------------------------------
+| Fara aceste fisiere, linkul `wishio.md/@slug` se deschide doar in browser.
+| Raspund 404 pana cand exista un build semnat si identificatorii configurati:
+| un fisier gresit strica asocierea mai rau decat lipsa lui.
+*/
+Route::get('/.well-known/apple-app-site-association', function () {
+    $appId = config('wishio.deep_links.ios_app_id');
+
+    abort_if(blank($appId), 404);
+
+    return response()->json([
+        'applinks' => [
+            'apps'    => [],
+            'details' => [[
+                'appID' => $appId,
+                'paths' => ['/@*'],
+            ]],
+        ],
+    ])->header('Content-Type', 'application/json');
+});
+
+Route::get('/.well-known/assetlinks.json', function () {
+    $fingerprint = config('wishio.deep_links.android_sha256_fingerprint');
+
+    abort_if(blank($fingerprint), 404);
+
+    return response()->json([[
+        'relation' => ['delegate_permission/common.handle_all_urls'],
+        'target'   => [
+            'namespace'                => 'android_app',
+            'package_name'             => config('wishio.deep_links.android_package'),
+            'sha256_cert_fingerprints' => [$fingerprint],
+        ],
+    ]]);
+});

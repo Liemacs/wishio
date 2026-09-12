@@ -10,12 +10,10 @@ import { EmptyState } from '../../src/components/ui/EmptyState';
 import { Screen } from '../../src/components/ui/Screen';
 import { PersonRow } from '../../src/features/people/PersonRow';
 import { usePeople } from '../../src/features/people/queries';
-import { useAuthStore } from '../../src/stores/auth';
 
 export default function PeopleList() {
   const { t } = useTranslation();
   const router = useRouter();
-  const logout = useAuthStore((s) => s.logout);
   const { data: people, isLoading, isError, error, refetch, isRefetching } = usePeople();
 
   const [query, setQuery] = useState('');
@@ -40,8 +38,11 @@ export default function PeopleList() {
           ) : null}
         </View>
 
-        <Pressable onPress={logout} className="rounded-full bg-surface-200/70 px-3 py-2 active:opacity-60">
-          <Text className="text-xs font-semibold text-surface-600">{t('auth.logout')}</Text>
+        <Pressable
+          onPress={() => router.push('/profile')}
+          className="h-10 w-10 items-center justify-center rounded-full bg-surface-200/70 active:opacity-60"
+        >
+          <Text className="text-base">👤</Text>
         </Pressable>
       </View>
 

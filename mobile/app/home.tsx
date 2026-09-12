@@ -76,13 +76,22 @@ export default function Home() {
   return (
     <Screen edges={{ top: true, bottom: false }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
-        <View className="px-5 pb-2 pt-2">
-          <Text className="text-sm text-surface-400">
-            {t('home.greeting', { name: profile?.name ?? '' })}
-          </Text>
-          <Text className="mt-1 text-3xl font-bold leading-tight text-surface-900">
-            {t('home.todayTitle')}
-          </Text>
+        <View className="flex-row items-start justify-between px-5 pb-2 pt-2">
+          <View className="flex-1">
+            <Text className="text-sm text-surface-400">
+              {t('home.greeting', { name: profile?.name ?? '' })}
+            </Text>
+            <Text className="mt-1 text-3xl font-bold leading-tight text-surface-900">
+              {t('home.todayTitle')}
+            </Text>
+          </View>
+
+          <Pressable
+            onPress={() => router.push('/profile')}
+            className="ml-3 h-10 w-10 items-center justify-center rounded-full bg-surface-200/70 active:opacity-60"
+          >
+            <Text className="text-base">👤</Text>
+          </Pressable>
         </View>
 
         {!next ? (
