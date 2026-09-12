@@ -28,6 +28,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | `docker/compose.yaml` (MySQL 8.4 + Redis + Mailpit), `Makefile`, `.gitignore` |
 | ✅ | i18n RO/RU/EN cap-coadă: `/api/v1/ping` localizat, plural rusesc în 3 forme verificat |
 | ✅ | Migrări rulate pe MariaDB (XAMPP), bază `wishio` creată |
+| ✅ | **Resolver de onomastici** — 49 sărbători × 2 calendare, 658 aliasuri, 16 teste verzi (`docs/15`) |
+| ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
 ### Blocante de mediu — de rezolvat înainte de S1
@@ -57,7 +59,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | **P0.7** 🔴 | **Distribuție:** grupuri Facebook MD, Telegram, colegi, cunoscuți | 3 h | 150+ vizitatori |
 | **P0.8** 🔴 | **Concierge: 20 de recomandări manuale.** Caută de mână pe Magaziner/Darwin/Bomba/Ultra. Trimite 5 carduri în limba cerută. Întreabă „ai cumpăra?”. **Notează tot** — e corpusul pentru prompt | 10 zile, ~1 h/zi | 20 livrate, feedback notat |
 | **P0.9** 🔴 | **Discuții cu 5 magazine + 2 restaurante.** Întrebarea: „ai plăti 2.000 MDL/lună pentru 500 de clickuri de la oameni cu buget declarat?” | 6 h | 7 răspunsuri, cu cifre |
-| **P0.10** 🟠 | În serile libere: începe **C1 tabelul de onomastici** și **C2 taxonomia de interese** | 3 zile | Draft v1 |
+| **P0.10** ✅ | ~~C1 tabelul de onomastici~~ — **făcut**: 49 sărbători, 658 aliasuri, resolver + 16 teste. Rămâne **verificarea datelor** cu un calendar bisericesc (`docs/15 § 4`) | — | `is_verified = true` pe cele 21 majore |
+| **P0.11** 🟠 | În serile libere: **C2 taxonomia de interese** | 2 zile | Draft v1 în RO/RU/EN |
 
 ### 🚦 Poarta de decizie — ziua 14
 
@@ -95,7 +98,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ID | Pas | Gata când |
 |---|---|---|
 | S2.1 🔴 | **C2 — Taxonomia de interese**: 60–80 leaf-uri, RO/RU/EN, mapate pe categorii. Migrare + seeder | `interests` populat în 3 limbi |
-| S2.2 🔴 | **C1 — Onomastici**: `name_days` + `name_day_aliases`, 150+ prenume RO cu variante RU și diminutive | seeder rulat, potrivire testată |
+| S2.2 ✅ | ~~C1 Onomastici~~ — implementat și testat. La S2: doar **verificarea datelor** și extinderea cu numele frecvente care lipsesc (`docs/15 § 4`) | `is_verified = true` pe cele majore |
 | S2.3 | **C10 — Sărbători MD** cu relevanță pentru cadouri (8 Martie, 1 Iunie, Crăciun, Paște, 1 Sep, 5 Oct), cu reguli de dată | `holidays` populat |
 | S2.4 | Normalizare telefon E.164 (libphonenumber) + HMAC cu pepper | teste: `069123456` = `+373 69 123 456` = `00373...` |
 | S2.5 | Normalizare nume insensibilă la diacritice + transliterare RU→RO | `Ștefan` = `stefan` = `Штефан` |
