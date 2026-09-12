@@ -81,7 +81,7 @@ curl -s -H "Accept-Language: ru" http://localhost:8000/api/v1/ping
 |---|---|
 | [docs/00-decizii-luate.md](docs/00-decizii-luate.md) | Registrul deciziilor luate, cu motivele |
 | [docs/01-produs.md](docs/01-produs.md) | Viziune, poziționare, public țintă, bucle de creștere, principii |
-| [docs/02-strategie-riscuri.md](docs/02-strategie-riscuri.md) | Dimensiunea pieței, 10 riscuri cu mitigări, porți de abandon |
+| [docs/02-strategie-riscuri.md](docs/02-strategie-riscuri.md) | Dimensiunea pieței, 10 riscuri cu mitigări, ținte de măsurat |
 | [docs/03-scop.md](docs/03-scop.md) | Faza 0, MVP, v1.1, v2, v3 — și ce NU construim |
 | [docs/04-model-domeniu.md](docs/04-model-domeniu.md) | Entități, identitate sigură legal, ierarhia de trust, onomastici, taxonomia de interese |
 | [docs/05-arhitectura.md](docs/05-arhitectura.md) | Stack, module, recommendation engine anti-halucinație, MySQL, i18n |

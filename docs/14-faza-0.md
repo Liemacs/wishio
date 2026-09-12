@@ -77,7 +77,6 @@ Dacă după 8 simți că pierzi timpul căutând, atunci unealta e justificată 
 ### Săptămâna 1 (15 h)
 
 #### Ziua 1 — Administrativ și decizii *(3 h)*
-- [ ] Scrie **A4, criteriul de abandon**, cu cifre și dată. Propunerea e în `docs/13 § A4`. Pune-l în `docs/00`.
 - [ ] Înregistrează **wishio.md** și **wishio.ro**
 - [ ] Deschide **Apple Developer** și **Google Play Console** — activarea durează, pornește-le azi
 - [ ] Caută „Wishio" în App Store și Google Play; verifică marca la AGEPI
@@ -150,7 +149,7 @@ Pentru fiecare cerere, în maximum 24 de ore:
 
 #### Ziua 11 — Evaluarea *(2 h)*
 
-| Poartă | Criteriu | Cifra ta |
+| Reper | Prag | Cifra ta |
 |---|---|---|
 | **G0** | 150+ vizitatori, 20+ cereri, la cost 0 | ___ |
 | **G1** | din 20 de recomandări: **10+** „asta chiar aș lua", **5+** au dat click | ___ |
@@ -162,18 +161,16 @@ Pentru fiecare cerere, în maximum 24 de ore:
 
 | Rezultat | Ce înseamnă | Ce faci |
 |---|---|---|
-| G0 ✅ G1 ✅ G2 ✅ | ipotezele țin | **MVP**, `PLAN.md § S1` |
-| G0 ✅ G1 ✅ G2 ❌ | oamenii vor, comercianții nu plătesc **încă** | construiește MVP-ul; monetizarea se rezolvă cu tracțiune în mână. Comercianții plătesc pentru trafic dovedit, nu pentru promisiuni |
-| G0 ✅ G1 ❌ | vin, dar recomandările nu-i conving | **cea mai importantă bifurcație.** Vezi mai jos |
-| G0 ❌ | nimeni nu cere ajutor | mesajul e greșit, sau problema nu e resimțită. Reformulează și mai încearcă o dată. Dacă și a doua oară — oprește |
+| toate trei ✅ | ipotezele țin | mergi la MVP cu încredere |
+| G0 ✅ G1 ✅ G2 ❌ | oamenii vor, comercianții nu plătesc **încă** | construiește; monetizarea se rezolvă cu tracțiune în mână |
+| G0 ✅ G1 ❌ | vin, dar recomandările nu-i conving | cea mai utilă informație din toată faza — vezi mai jos |
+| G0 ❌ | nimeni nu cere ajutor | mesajul sau canalul; reformulează și mai încearcă |
 
-**Dacă pici G1**, întreabă-te care din două:
-- *recomandările erau proaste* → problema e catalogul și criteriile, nu ideea. Mai încearcă 10, cu ce ai învățat.
-- *recomandările erau bune, dar oamenii tot n-au cumpărat* → **ideea nu ține.** Nu construi MVP-ul. Pivotează spre wishlist pur (tu îți spui singur ce vrei, nu ghicește altcineva) sau oprește.
+**Dacă G1 e sub prag**, întreabă-te care din două:
+- *recomandările erau proaste* → problema e catalogul și criteriile. Mai încearcă 10, cu ce ai învățat.
+- *recomandările erau bune, dar oamenii tot n-au cumpărat* → frâna e altundeva: preț, încredere, timing. Merită înțeleasă.
 
-Diferența dintre cele două se vede din ce ți-au răspuns. De asta notezi totul.
-
----
+Diferența se vede din ce ți-au răspuns. De asta notezi totul.
 
 ## 6. Ce NU faci în Faza 0
 

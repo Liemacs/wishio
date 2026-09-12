@@ -7,7 +7,7 @@
 
 ## A. Deciziile tale
 
-### A1 — Câte ore pe săptămână 🔴
+### A1 — Câte ore pe săptămână ✅ *(15 h, `docs/00 § D-010`)*
 **Recomandare: planifică pe 15 ore, nu pe cât speri.**
 
 Majoritatea proiectelor solo eșuează nu din lipsă de timp, ci din planificare pe timpul optimist. Dacă ai un job, 15 h/săptămână susținute bat 35 h în două săptămâni bune urmate de o lună de nimic.
@@ -35,20 +35,6 @@ Dacă nu ai bani deloc: cumpără un UI kit de 50–100 USD pentru mobile și **
 | Micro-influenceri la lansare | 100–300 |
 
 Faza 0 costă **zero**. Nu cheltui nimic până nu treci G1. Dacă G1 pică, ai pierdut două săptămâni, nu 1.500 USD.
-
-### A4 — Criteriul de abandon 🔴
-**Recomandare: scrie-l acum, cu cifre și cu dată.**
-
-Propunerea mea, de copiat în `docs/00`:
-
-> *La 3 luni de la lansare, opresc dezvoltarea activă dacă se întâmplă oricare din:*
-> - *sub 500 de utilizatori care au adăugat cel puțin 3 persoane, sau*
-> - *sub 10% din cei care deschid un reminder cer recomandări, sau*
-> - *zero comercianți dispuși să plătească ceva.*
->
-> *„Oprire" înseamnă: las aplicația în funcțiune, nu mai investesc timp. Nu înseamnă rușine.*
-
-Motivul pentru care se scrie **înainte**: peste trei luni vei fi atașat emoțional de proiect și vei găsi explicații pentru orice cifră. Singurul moment în care poți fi obiectiv este acum.
 
 ### A5 — Nume și domeniu ✅
 **Rezolvat: Wishio / wishio.md** — vezi `docs/00 § D-009`.
@@ -186,7 +172,6 @@ Ordinea în care aș deschide lucrurile în browser chiar acum:
 
 | Când | Ce | De ce acum |
 |---|---|---|
-| **Ziua 1, dimineață** | A4 criteriul de abandon, scris | singurul moment în care poți fi obiectiv |
 | **Ziua 1** | D1–D3: domenii + conturi dev | activarea durează, pornește-le |
 | **Ziua 1** | B1: numără zilele de naștere din agenda ta | o oră, poate schimba ecranul O8 |
 | **Ziua 1** | Trimite `docs/12` proprietarului Magaziner + cere setul de test | el are nevoie de timp, tu ai nevoie de date |

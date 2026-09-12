@@ -182,17 +182,17 @@ Aceeași obiecție care a îngropat ideea Stack Generator se aplică și aici. U
 
 ---
 
-## 3. Porțile de validare (kill criteria)
+## 3. Ținte de măsurat
 
-Nu continua la faza următoare dacă nu treci poarta. Scris acum, ca să nu te minți mai târziu.
+Praguri pe care merită să le urmărești. Sunt repere, nu verdicte — dacă una nu e atinsă, îți spune **unde** e problema.
 
-| Poartă | Când | Criteriu de trecere | Dacă pici |
+| Reper | Când | Prag | Ce înseamnă dacă e sub prag |
 |---|---|---|---|
-| **G0 — Interes** | după 2 săpt. de Faza 0 | 150+ emailuri din trafic organic/comunități, la cost ≈0 | mesajul e greșit, nu produsul |
-| **G1 — Valoarea „help me choose”** | Faza 0 | din 20 de recomandări date manual, 10+ persoane spun „asta chiar aș cumpăra”, 5+ dau click spre magazin | **oprește proiectul** sau pivotează pe pur wishlist |
-| **G2 — Merchant plătește** | Faza 0 | 2 din 5 comercianți spun „da, aș plăti” cu o cifră concretă | nu există business, doar utilitate |
-| **G3 — Onboarding** | 2 săpt. de la lansare MVP | >60% din useri ajung la 5+ persoane adăugate | cold-start-ul e nerezolvat (R1) |
-| **G4 — Reminder funcționează** | 1 lună | >35% din push-uri deschise | mecanismul de retenție e mort |
-| **G5 — Conversie spre acțiune** | 2 luni | >20% din cei care deschid un reminder cer recomandări; >15% din ei dau click spre magazin | produsul e doar calendar |
-| **G6 — Retenție** | 3 luni | D30 > 25% | nu e un produs recurent |
-| **G7 — Viralitate** | 3 luni | K > 0.25 | achiziția va trebui plătită — recalculează economia |
+| Interes | Faza 0 | 150+ leaduri la cost ≈0 | mesajul nu prinde — reformulează |
+| Valoarea „help me choose" | Faza 0 | 10+ din 20 spun „asta chiar aș cumpăra" | recomandările sau catalogul au nevoie de lucru |
+| Comerciant | Faza 0 | 2 din 5 dau o cifră concretă | monetizarea are nevoie de alt model (§ R5) |
+| Onboarding | 2 săpt. de la lansare | >60% ajung la 5+ persoane | cold-start-ul nu e rezolvat (§ R1) |
+| Reminder | 1 lună | >35% din push-uri deschise | copy-ul sau momentul notificării |
+| Conversie spre acțiune | 2 luni | >20% cer recomandări, >15% din ei dau click | produsul rămâne la nivel de calendar |
+| Retenție | 3 luni | D30 > 25% | ocaziile sunt prea rare — adaugă tipuri |
+| Viralitate | 3 luni | K > 0.25 | linkul personal nu circulă (`docs/09 § F3`) |

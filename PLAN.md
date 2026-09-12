@@ -57,7 +57,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 
 | ID | Pas | Efort | Gata când |
 |---|---|---|---|
-| **P0.1** 🔴 | **Răspunde-ți în scris** la A1–A4 din `docs/08`: ore/săptămână, singur sau cu echipă, buget, criteriu de abandon | 1 h | Sunt scrise în `docs/00-decizii-luate.md` |
+| **P0.1** 🔴 | **Răspunde-ți în scris** la A1–A3 din `docs/08`: ore/săptămână, singur sau cu echipă, buget | 1 h | Sunt scrise în `docs/00-decizii-luate.md` |
 | **P0.2** 🔴 | **Testul contactelor.** 10 telefoane reale, numără câte contacte au ziua de naștere completată. Notează procentul. | 1 h | Cifra e scrisă. Sub 5% → onboarding-ul se construiește pe onomastici + link |
 | **P0.3** ✅ | ~~Contact Magaziner~~ — **acceptat**. Acum: trimite specificația din `docs/12` și formalizează înțelegerea | 2 h | Ai specificația API confirmată în scris |
 | **P0.4** 🟠 | Verifică nume + domeniu (`.md`/`.com`/`.app`) + App Store + marcă AGEPI | 2 h | Numele e confirmat sau schimbat |
@@ -69,15 +69,15 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | **P0.10** ✅ | ~~C1 tabelul de onomastici~~ — **făcut**: 49 sărbători, 658 aliasuri, resolver + 16 teste. Rămâne **verificarea datelor** cu un calendar bisericesc (`docs/15 § 4`) | — | `is_verified = true` pe cele 21 majore |
 | **P0.11** ✅ | ~~C2 taxonomia de interese~~ — **făcut**: 15 grupuri, 80 interese, 1.164 cuvinte-cheie, potrivire din text liber + 11 teste. Rămâne maparea pe categoriile Magaziner (`docs/16 § 5`) | — | mapare completă |
 
-### 🚦 Poarta de decizie — ziua 14
+### Ce măsori la final
 
-| Poartă | Criteriu | Dacă pici |
+| Reper | Prag | Dacă e sub prag |
 |---|---|---|
-| **G0** | 150+ leaduri la cost ≈0 | mesajul e greșit, nu produsul — reformulează și reia |
-| **G1** | din 20 de recomandări, **10+** spun „asta chiar aș cumpăra”, **5+** dau click | **oprește sau pivotează** |
+| **G0** | 150+ leaduri la cost ≈0 | mesajul nu prinde — reformulează |
+| **G1** | din 20 de recomandări, **10+** spun „asta chiar aș cumpăra”, **5+** dau click | recomandările sau catalogul au nevoie de lucru |
 | **G2** | **2 din 7** comercianți spun „da, aș plăti”, cu o cifră | e utilitate, nu business — reconsideră modelul |
 
-**Treci toate trei → mergi la MVP. Pici G1 → nu construi aplicația.**
+Cifrele îți spun unde să insiști.
 
 ---
 

@@ -15,7 +15,6 @@
 | A1 🔴 | **Cât timp ai pe săptămână?** 10h sau 35h schimbă complet planul (12 săpt. vs. 8 luni) | ? | tot |
 | A2 🔴 | **Ești singur sau ai echipă?** Dacă singur: cine face design? RN+Laravel+AI+catalog+design de un singur om = risc real | ? | planificare |
 | A3 🔴 | **Buget disponibil** pentru primele 6 luni (conturi dev, hosting, AI, domeniu, eventual design) | ? | fezabilitate |
-| A4 🔴 | **Care e criteriul tău de abandon?** Dacă la 3 luni de la lansare ai 400 useri și 2% click rate — continui sau oprești? Scris acum, nu atunci | ? | sănătate mintală |
 | A5 ✅ | ~~Numele final~~ | **Wishio / wishio.md** — `docs/00 § D-009` | — |
 | A6 🟠 | Faci **Faza 0** (validare 2 săpt. fără app) sau sari direct la MVP? | ? | 6 luni din viață |
 | A7 🟠 | Companie sau persoană fizică? Conturile dev, contractele cu comercianții și factura pentru un magazin cer entitate juridică | ? | monetizare |
@@ -89,7 +88,7 @@ Ca să fie clar ce s-a adăugat față de conversația de pornire:
 | Plan B și C pentru catalog, dacă Magaziner spune nu | `02 § R4`, `05 § 4` |
 | Modele de monetizare care funcționează fără infrastructură de afiliere | `02 § R5` |
 | Faza 0 de validare înainte de 7 sprinturi | `03` |
-| Porți de abandon (kill criteria) | `02 § 3` |
+| Ținte de măsurat | `02 § 3` |
 | Dimensionarea pieței și necesitatea extinderii în RO | `02 § 1` |
 | Schema de evenimente înainte de cod | `07` |
 
@@ -120,7 +119,7 @@ Ce rămâne **nu sunt decizii de plan, ci lucruri care nu pot fi scrise la birou
 
 | | Ce | De ce nu poate fi scris acum |
 |---|---|---|
-| 🔴 | Răspunsurile A1–A5 | numai tu le știi |
+| 🔴 | Răspunsurile A1–A3, A5 | numai tu le știi |
 | 🔴 | Faptele B1–B7 | cer telefoane și întâlniri |
 | 🔴 | Artefactele de date C1, C2, C3 | muncă de construit, nu de decis |
 | 🟠 | Wireframe-uri vizuale | inventarul există (`docs/09`); desenul cere unelte de design |
@@ -136,7 +135,7 @@ Ce rămâne **nu sunt decizii de plan, ci lucruri care nu pot fi scrise la birou
 ## F. Ordinea recomandată în următoarele 14 zile
 
 ```
-Ziua 1     A1–A4 (răspunde-ți în scris), A5 nume + domeniu
+Ziua 1     A1–A3 (răspunde-ți în scris), A5 nume + domeniu
 Ziua 1     D1, D2 (conturile durează — pornește-le azi)
 Ziua 2     B1  ← testul contactelor. O oră. Poate schimba tot designul.
 Ziua 2     B2  ← email către Magaziner
@@ -145,7 +144,7 @@ Ziua 5–7   B3  ← discuții cu comercianții (paralel cu traficul pe landing)
 Ziua 6–12  Concierge: 20 de recomandări manuale. Notează tot.
 Ziua 8–12  C1 tabelul de onomastici, C2 taxonomia (se pot face în serile astea)
 Ziua 13    Evaluează G0, G1, G2
-Ziua 14    DECIZIE: mergi la MVP, pivotezi, sau oprești
+Ziua 14    Evaluezi ce ai învățat și ajustezi
 ```
 
-**Dacă treci porțile G0–G2, `PLAN.md` conține planul de 12 săptămâni pentru MVP.**
+**Dacă treci reperele G0–G2, `PLAN.md` conține planul de 12 săptămâni pentru MVP.**

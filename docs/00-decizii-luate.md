@@ -57,9 +57,6 @@ Produsul urmărește zile de naștere, **onomastici**, sărbători cu cadouri ș
 ### A3 · Buget pentru primele 6 luni
 > _de completat_
 
-### A4 · Criteriul de abandon
-> _de completat — scrie-l acum, nu peste 3 luni_
-
 ### A5 · Numele final + domeniu
 > _de completat după P0.4_
 
@@ -219,7 +216,6 @@ Validarea concierge din `docs/14` nu se execută acum. Landing-ul rămâne const
 **Consecințe, asumate:**
 - Porțile G0–G2 nu se măsoară înainte de a construi. Riscul rămâne cel din `docs/02`: se poate construi ceva ce nu are cerere.
 - **Corpusul pentru prompturi (C8) nu există.** La S7, criteriile AI se vor scrie din intuiție, nu din 20 de conversații reale. Se compensează prin setul de evaluare și prin calibrare după lansare.
-- Criteriile de abandon se mută **după lansarea MVP-ului**, nu înainte de a construi.
 
 **De reținut:** landing-ul poate fi pornit oricând, în paralel cu dezvoltarea. Dacă la un moment dat apare o săptămână liberă, cele 20 de conversații rămân cel mai ieftin mod de a valida — și singurul mod de a obține corpusul.
 
