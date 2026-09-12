@@ -93,6 +93,14 @@ alt utilizator cere persoana mea  →  403
 
 > **Lecția, care contează dincolo de bug:** `expo export` **trecea** înainte de corectură. Producea un fișier CSS de 0 octeți, fără nicio eroare. Am considerat asta „bundle verificat" de cinci ori la rând. Un build care trece nu înseamnă că funcționează — dovada e că token-urile definite doar în `global.css` (`#27272a`, `#8b5cf6`) **lipseau din bundle** înainte și apar după.
 
+**Cum recunoști un server Metro vechi.** `postcss.config.js` e citit o singură dată, la pornirea worker-ilor de transformare. Dacă schimbi configurația sau dependențele în timp ce `expo start` rulează, procesul continuă cu starea veche și dă exact eroarea de mai sus. Semnul sigur în terminal:
+
+```
+Warning: Unknown at rule: @theme (global.css:6:7)
+```
+
+`@theme` ajuns crud la lightningcss înseamnă că PostCSS nu a rulat. Oprește serverul și pornește-l cu `npx expo start -c`. Un server curat nu produce niciodată acest avertisment.
+
 Dacă vezi stiluri lipsă după o schimbare de dependențe, verifică întâi dacă token-urile din `global.css` ajung efectiv în bundle:
 
 ```bash
