@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Domain\People\Models\Person;
+use App\Domain\Profiles\Models\PublicProfile;
+use App\Domain\Profiles\Models\WishlistItem;
 use App\Domain\Reminders\Models\UserSettings;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -70,10 +72,11 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'birth_date'        => 'date',
-            'ai_consent_at'     => 'datetime',
+            'email_verified_at'   => 'datetime',
+            'password'            => 'hashed',
+            'birth_date'          => 'date',
+            'ai_consent_at'       => 'datetime',
+            'ai_consent_asked_at' => 'datetime',
         ];
     }
 
@@ -85,5 +88,15 @@ class User extends Authenticatable
     public function settings(): HasOne
     {
         return $this->hasOne(UserSettings::class);
+    }
+
+    public function publicProfile(): HasOne
+    {
+        return $this->hasOne(PublicProfile::class);
+    }
+
+    public function wishlistItems(): HasMany
+    {
+        return $this->hasMany(WishlistItem::class)->orderBy('sort_order');
     }
 }

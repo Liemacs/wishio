@@ -38,6 +38,16 @@ it('respinge o sursa mai slaba decat cea existenta', function () {
         ->and($this->person->fresh()->birth_date->format('Y-m-d'))->toBe('1995-04-23');
 });
 
+it('lasa proprietarul sa editeze chiar si ce a completat persoana insasi', function () {
+    // Ierarhia guverneaza scrierile AUTOMATE, nu actiunile omului. Contactul
+    // e al lui: daca vrea „Ana ❤️”, asta ramane.
+    ($this->write)($this->person, 'display_name', 'Ana Casianov', FieldSource::SubjectProvided);
+
+    expect(($this->write)($this->person, 'display_name', 'Ana ❤️', FieldSource::OwnerManual))->toBeTrue()
+        ->and($this->person->fresh()->display_name)->toBe('Ana ❤️')
+        ->and($this->person->fresh()->isOverridden('display_name'))->toBeTrue();
+});
+
 it('lasa persoana insasi sa corecteze datele deduse', function () {
     // Ierarhia: subject_confirmed bate tot ce nu e modificat manual.
     ($this->write)($this->person, 'birth_date', '1995-04-23', FieldSource::DeviceContact);

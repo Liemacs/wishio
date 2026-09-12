@@ -286,3 +286,24 @@ Pentru „copii" ne bazăm pe **relație înaintea vârstei**: vârsta lipsește
 **Paștele se calculează, nu se stochează.** E mobil, iar o dată greșită ar muta cea mai mare sărbătoare din an. Algoritmul lui Meeus pentru calendarul iulian, plus decalajul de 13 zile — verificat pe 2024 (5 mai), 2025 (20 aprilie), 2026 (12 aprilie), 2027 (2 mai).
 
 ⚠️ Datele celorlalte sărbători se verifică cu un calendar oficial înainte de lansare, la fel ca onomasticile (`docs/15 § 4`).
+
+
+---
+
+## D-019 · Editarea manuală bate ierarhia de încredere
+**Data:** 2026-09-12 · **Stare:** confirmată · *corectează D-004*
+
+`docs/04 § 3` spunea că `subject_provided` depășește `owner_manual`. Logic, dar greșit în practică: dacă Ana își completează numele prin linkul public ca „Ana Casianov", Maxim nu-și mai putea redenumi propriul contact în „Ana ❤️". Aplicația îi ignora editarea **în tăcere**.
+
+**Regula corectată:** ierarhia guvernează scrierile **automate** — sincronizarea agendei, deducerile, completările de pe pagina publică. O acțiune explicită a proprietarului trece întotdeauna, și de atunci câmpul e protejat de orice sursă automată.
+
+Contactul e al lui, iar vederea lui asupra contactului e a lui. Un sistem care „știe mai bine" decât utilizatorul despre propriile lui date e un sistem pe care oamenii îl abandonează.
+
+## D-020 · Paginile publice se fac în Blade, nu Inertia + Vue
+**Data:** 2026-09-12 · **Stare:** confirmată · *ajustează `docs/05 § 1`*
+
+`docs/05` prevedea Inertia + Vue pentru web-ul public. Paginile sunt însă aproape statice — un formular și trei ecrane de stare — iar landing-ul era deja în Blade.
+
+Inertia ar fi însemnat un al doilea strat de build, un al doilea sistem de rutare și un bundle JS pentru pagini care nu au nevoie de el. Blade le servește server-rendered, indexabile și fără JavaScript obligatoriu.
+
+**Se reconsideră** dacă merchant dashboard-ul (v2) cere interactivitate reală — acolo Inertia își merită costul.

@@ -42,7 +42,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Motorul de recomandări** — criterii, filtre, scoring, diversificare, anti-repetare |
 | ✅ | **Evaluare + CI** — 30 de profiluri, paritate traduceri, formatare |
 | ✅ | **Ecranele de recomandare** — buget, consimțământ AI, rezultate, magazin |
-| ✅ | 212 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Pagini publice `@slug`** — bucla virală, cu consimțământ și ștergere fără cont |
+| ✅ | 236 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -192,11 +193,11 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S9.1 | Profilul meu: ziua mea, interese, „ce îmi doresc”, „unde aș vrea să merg” |
+| S9.1 ✅ | ~~Profilul meu + lista de dorințe~~ — API; rămâne ecranul mobil |
 | S9.2 | Vizibilitate per câmp, inclusiv `signal_only` (`docs/04 § 6`) |
-| S9.3 🔴 | **Pagini publice `@slug`** — Inertia + Vue, RO/RU/EN, `hreflang`, `noindex` implicit, slug neghicibil |
-| S9.4 | Formular de completare + **consimțământ versionat** + rate limit + ștergere fără cont |
-| S9.5 | Prompt de instalare la final; tracking `profile_submission → install` (K-factor) |
+| S9.3 ✅ | ~~Pagini publice `@slug`~~ — Blade, RO/RU/EN, `noindex` implicit, slug cu sufix aleator |
+| S9.4 ✅ | ~~Formular + consimțământ versionat + rate limit + ștergere fără cont~~ |
+| S9.5 ✅ | ~~Prompt de instalare + eveniment `profile_submission`~~ |
 | S9.6 | Deep link `@slug` → aplicație, dacă e instalată |
 
 ## S10 · Istoric cadouri & idei (săptămâna 10)

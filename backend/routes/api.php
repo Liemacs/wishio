@@ -3,6 +3,7 @@
 use App\Http\Api\V1\Controllers\AuthController;
 use App\Http\Api\V1\Controllers\ContactImportController;
 use App\Http\Api\V1\Controllers\InterestController;
+use App\Http\Api\V1\Controllers\MyProfileController;
 use App\Http\Api\V1\Controllers\OccasionController;
 use App\Http\Api\V1\Controllers\PersonAnalysisController;
 use App\Http\Api\V1\Controllers\PersonController;
@@ -62,6 +63,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/products', [ProductController::class, 'index']);
         Route::get('/products/{product}', [ProductController::class, 'show']);
         Route::post('/offers/{offer}/click', [ProductController::class, 'click']);
+
+        // Profilul public propriu si lista de dorinte
+        Route::get('/profile', [MyProfileController::class, 'show']);
+        Route::patch('/profile', [MyProfileController::class, 'update']);
+        Route::post('/wishlist', [MyProfileController::class, 'storeWishlistItem']);
+        Route::delete('/wishlist/{item}', [MyProfileController::class, 'destroyWishlistItem']);
 
         Route::get('/settings', [SettingsController::class, 'show']);
         Route::patch('/settings', [SettingsController::class, 'update']);

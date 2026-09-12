@@ -2,6 +2,7 @@
 
 use App\Domain\Reminders\Models\UserSettings;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PublicProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -47,3 +48,19 @@ Route::get('/digest/unsubscribe/{user}', function (User $user) {
 
     return view('mail.unsubscribed');
 })->name('digest.unsubscribe')->middleware('signed');
+
+/*
+|--------------------------------------------------------------------------
+| Pagini publice de profil
+|--------------------------------------------------------------------------
+| Se deschid fara cont si fara aplicatie. Vezi docs/01 § Reframe 2.
+*/
+Route::get('/@{slug}', [PublicProfileController::class, 'show'])->name('profile.show');
+
+Route::post('/@{slug}', [PublicProfileController::class, 'store'])
+    ->middleware('throttle:10,10')
+    ->name('profile.store');
+
+Route::get('/@{slug}/multumim/{token}', [PublicProfileController::class, 'thanks'])->name('profile.thanks');
+
+Route::get('/@{slug}/sterge/{token}', [PublicProfileController::class, 'destroy'])->name('profile.destroy');

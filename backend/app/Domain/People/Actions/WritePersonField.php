@@ -71,12 +71,26 @@ class WritePersonField
             return true;
         }
 
-        // Regula 1: modificarea manuală e definitivă față de orice automatism.
-        if ($existing->overridden_at !== null && $incoming !== FieldSource::OwnerManual) {
+        /*
+         * Proprietarul poate întotdeauna să-și editeze propriul contact.
+         *
+         * Ierarhia guvernează scrierile AUTOMATE, nu acțiunile omului. Dacă
+         * Ana își completează numele ca „Ana Casianov” prin linkul public,
+         * Maxim trebuie să poată totuși s-o salveze ca „Ana ❤️” la el în
+         * agendă — e vederea LUI asupra contactului LUI.
+         *
+         * Fără excepția asta, aplicația i-ar ignora editarea în tăcere.
+         */
+        if ($incoming === FieldSource::OwnerManual) {
+            return true;
+        }
+
+        // Modificarea manuală e definitivă față de orice sursă ulterioară.
+        if ($existing->overridden_at !== null) {
             return false;
         }
 
-        // Regula 2: egal sau mai de încredere.
+        // În rest: egal sau mai de încredere.
         return $incoming->outranksOrEquals($existing->source);
     }
 }
