@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\People\Models\Interest;
 use App\Domain\People\Models\InterestGroup;
 use App\Domain\Profiles\Actions\AcceptSubmission;
+use App\Domain\Profiles\Actions\WithdrawSubmission;
 use App\Domain\Profiles\Models\ProfileSubmission;
 use App\Domain\Profiles\Models\PublicProfile;
 use Illuminate\Contracts\View\View;
@@ -101,15 +102,8 @@ class PublicProfileController extends Controller
         $submission = ProfileSubmission::where('delete_token', $token)->firstOrFail();
         $profile = $submission->profile->load('user');
 
-        // Ștergem și persoana creată, dacă utilizatorul n-a modificat-o între
-        // timp — altfel i-am șterge propria muncă.
-        $person = $submission->person;
-
-        if ($person && $person->fieldSources()->whereNotNull('overridden_at')->doesntExist()) {
-            $person->forceDelete();
-        }
-
-        $submission->delete();
+        // Ce se șterge și ce rămâne din persoană decide acțiunea, nu controllerul.
+        app(WithdrawSubmission::class)($submission);
 
         return view('profile.deleted', ['profile' => $profile]);
     }

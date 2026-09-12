@@ -28,6 +28,7 @@ class Person extends Model
         'birth_date'       => 'date',
         'birth_year_known' => 'boolean',
         'archived_at'      => 'datetime',
+        'from_public_link' => 'boolean',
         // Notele pot conține date sensibile („e diabetic”, „divorțează”).
         // Criptate la rest; nu se trimit niciodată spre AI (docs/05 § 5).
         'notes' => 'encrypted',

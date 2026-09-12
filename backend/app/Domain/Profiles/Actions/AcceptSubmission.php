@@ -17,6 +17,11 @@ use App\Support\Names\NameNormalizer;
  * confirmarea directă a persoanei în aplicație. Sunt mai bune decât orice
  * import din agendă, fiindcă vin de la sursă, cu consimțământ explicit
  * (docs/04 § 3).
+ *
+ * O completare nu atinge niciodată un contact care exista deja. Potrivirea
+ * după prenume lipea „Ana Popescu” de „Ana Rusu” din agendă și îi suprascria
+ * numele și ziua (docs/00 § D-021). Legarea de un contact existent va cere
+ * confirmarea proprietarului (PLAN.md S9.8).
  */
 class AcceptSubmission
 {
@@ -30,15 +35,11 @@ class AcceptSubmission
     {
         $user = $submission->profile->user;
 
-        // Dacă aceeași persoană completează de două ori, actualizăm, nu dublăm.
-        $person = $submission->person
-            ?? $user->people()
-                ->where('given_name_normalized', $this->normalizer->firstName($submission->display_name))
-                ->whereNull('archived_at')
-                ->first()
+        $person = $this->earlierPersonOfSameSubmitter($submission)
             ?? $user->people()->create([
                 'display_name'          => $submission->display_name,
                 'given_name_normalized' => $this->normalizer->firstName($submission->display_name),
+                'from_public_link'      => true,
             ]);
 
         ($this->writeField)($person, 'display_name', $submission->display_name, FieldSource::SubjectProvided);
@@ -64,5 +65,32 @@ class AcceptSubmission
         $submission->update(['person_id' => $person->id, 'accepted_at' => now()]);
 
         return $person->fresh();
+    }
+
+    /**
+     * Persoana creată de o completare anterioară a aceluiași om — același link,
+     * același nume complet —, ca o a doua completare să actualizeze, nu să dubleze.
+     *
+     * Doar persoane apărute din link. Un contact din agendă sau adăugat de
+     * proprietar nu e niciodată candidat, oricât ar semăna numele.
+     */
+    private function earlierPersonOfSameSubmitter(ProfileSubmission $submission): ?Person
+    {
+        $name = $this->normalizer->normalize($submission->display_name);
+
+        // Un nume fără nicio literă nu identifică pe nimeni.
+        if ($name === '') {
+            return null;
+        }
+
+        return ProfileSubmission::query()
+            ->where('public_profile_id', $submission->public_profile_id)
+            ->whereKeyNot($submission->id)
+            ->whereHas('person', fn ($query) => $query->where('from_public_link', true)->whereNull('archived_at'))
+            ->with('person')
+            ->latest('id')
+            ->get()
+            ->first(fn (ProfileSubmission $earlier) => $this->normalizer->normalize($earlier->display_name) === $name)
+            ?->person;
     }
 }

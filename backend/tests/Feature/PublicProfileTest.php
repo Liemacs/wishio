@@ -1,6 +1,10 @@
 <?php
 
+use App\Domain\Occasions\Actions\SyncOccasionsForPerson;
+use App\Domain\People\Actions\ImportContacts;
+use App\Domain\People\Actions\WritePersonField;
 use App\Domain\People\Enums\FieldSource;
+use App\Domain\People\Models\Interest;
 use App\Domain\People\Models\Person;
 use App\Domain\Profiles\Models\ProfileSubmission;
 use App\Domain\Profiles\Models\PublicProfile;
@@ -8,6 +12,7 @@ use App\Models\User;
 use Database\Seeders\InterestSeeder;
 use Database\Seeders\NameDaySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 
 uses(RefreshDatabase::class);
 
@@ -250,4 +255,135 @@ it('nu lasa un utilizator sa stearga din lista altuia', function () {
     $this->actingAs(User::factory()->create())
         ->deleteJson("/api/v1/wishlist/$item")
         ->assertForbidden();
+});
+
+/** Un contact adus din agendă, ca la importul real: sursă device_contact, cu ocazii. */
+function importedContact(User $owner, string $name, string $birthDate): Person
+{
+    app(ImportContacts::class)($owner, [[
+        'device_contact_id' => 'agenda-'.md5($name),
+        'display_name'      => $name,
+        'birth_date'        => $birthDate,
+        'birth_year_known'  => true,
+    ]]);
+
+    return Person::where('user_id', $owner->id)->where('device_contact_id', 'agenda-'.md5($name))->sole();
+}
+
+/** Starea lăsată de potrivirea veche după prenume: o completare lipită de un contact din agendă. */
+function legacyAttachedSubmission(PublicProfile $profile, Person $contact): ProfileSubmission
+{
+    $submission = ProfileSubmission::create([
+        'public_profile_id' => $profile->id, 'display_name' => 'Ana Popescu',
+        'birth_date'        => '1995-05-05', 'birth_year_known' => true, 'interest_codes' => ['coffee'],
+        'consent_version'   => '2026-09-1', 'consented_at' => now(), 'delete_token' => Str::random(48),
+    ]);
+
+    // Exact ce făcea AcceptSubmission înainte de D-021.
+    app(WritePersonField::class)($contact, 'display_name', 'Ana Popescu', FieldSource::SubjectProvided);
+    app(WritePersonField::class)($contact, 'birth_date', '1995-05-05', FieldSource::SubjectProvided);
+    app(WritePersonField::class)($contact, 'birth_year_known', true, FieldSource::SubjectProvided);
+    $contact->interests()->syncWithoutDetaching([
+        Interest::where('code', 'coffee')->value('id') => ['source' => 'subject_provided', 'confidence' => 0.9],
+    ]);
+    app(SyncOccasionsForPerson::class)($contact->fresh());
+
+    $submission->update(['person_id' => $contact->id, 'accepted_at' => now()]);
+
+    return $submission;
+}
+
+it('nu lipeste completarea de un contact din agenda cu acelasi prenume', function () {
+    // Pana acum, „Ana Popescu” suprascria numele si ziua lui „Ana Rusu” (docs/00 § D-021).
+    $contact = importedContact($this->owner, 'Ana Rusu', '1990-01-10');
+
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, [
+        'display_name' => 'Ana Popescu', 'birthday' => '05.05.1995',
+    ]))->assertRedirect();
+
+    $contact->refresh();
+
+    expect(Person::count())->toBe(2)
+        ->and($contact->display_name)->toBe('Ana Rusu')
+        ->and($contact->birth_date->format('Y-m-d'))->toBe('1990-01-10')
+        ->and($contact->occasions()->where('type', 'birthday')->sole()->month)->toBe(1)
+        ->and(ProfileSubmission::sole()->person_id)->not->toBe($contact->id);
+});
+
+it('pastreaza separat doi oameni cu acelasi prenume', function () {
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Popescu', 'birthday' => '05.05.1995']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Rusu', 'birthday' => '10.01.1990']));
+
+    expect(Person::orderBy('id')->pluck('display_name')->all())->toBe(['Ana Popescu', 'Ana Rusu']);
+});
+
+it('recunoaste acelasi om si cu alte majuscule sau diacritice', function () {
+    // Omul care isi corecteaza ziua nu trebuie sa apara de doua ori.
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ștefan Rusu', 'birthday' => '23.04.1998']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'stefan rusu', 'birthday' => '24.04.1998']));
+
+    expect(Person::count())->toBe(1)
+        ->and(Person::sole()->birth_date->format('m-d'))->toBe('04-24');
+});
+
+it('la retragere nu sterge un contact care exista inainte, doar datele trimise', function () {
+    $contact = importedContact($this->owner, 'Ana Rusu', '1990-01-10');
+    $submission = legacyAttachedSubmission($this->profile, $contact);
+
+    $this->get(route('profile.destroy', ['slug' => $this->profile->slug, 'token' => $submission->delete_token]))
+        ->assertOk();
+
+    $contact = Person::find($contact->id);
+
+    // „:name nu le mai vede” trebuie sa fie adevarat si cand contactul ramane.
+    expect($contact)->not->toBeNull()
+        ->and($contact->birth_date)->toBeNull()
+        ->and($contact->interests)->toBeEmpty()
+        ->and($contact->occasions()->where('type', 'birthday')->exists())->toBeFalse();
+});
+
+it('lasa agenda sa refaca contactul dupa retragere', function () {
+    $contact = importedContact($this->owner, 'Ana Rusu', '1990-01-10');
+    $submission = legacyAttachedSubmission($this->profile, $contact);
+
+    $this->get(route('profile.destroy', ['slug' => $this->profile->slug, 'token' => $submission->delete_token]));
+
+    // Urmatoarea sincronizare a agendei.
+    $contact = importedContact($this->owner, 'Ana Rusu', '1990-01-10');
+
+    expect($contact->display_name)->toBe('Ana Rusu')
+        ->and($contact->birth_date->format('Y-m-d'))->toBe('1990-01-10')
+        ->and($contact->occasions()->where('type', 'birthday')->sole()->month)->toBe(1);
+});
+
+it('scoate datele trimise si din persoana pastrata pentru ca proprietarul a editat-o', function () {
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug));
+
+    $person = Person::sole();
+    $this->actingAs($this->owner)->patchJson("/api/v1/people/{$person->id}", ['display_name' => 'Gicu ❤️']);
+
+    $token = ProfileSubmission::sole()->delete_token;
+    $this->get(route('profile.destroy', ['slug' => $this->profile->slug, 'token' => $token]))->assertOk();
+
+    $person = Person::sole();
+
+    expect($person->display_name)->toBe('Gicu ❤️')
+        ->and($person->birth_date)->toBeNull()
+        ->and($person->interests)->toBeEmpty()
+        ->and($person->occasions()->where('type', 'birthday')->exists())->toBeFalse();
+});
+
+it('sterge persoana abia cand omul si-a retras toate completarile', function () {
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birthday' => '24.04.1998']));
+
+    [$first, $second] = ProfileSubmission::orderBy('id')->pluck('delete_token')->all();
+
+    $this->get(route('profile.destroy', ['slug' => $this->profile->slug, 'token' => $first]))->assertOk();
+
+    expect(Person::count())->toBe(1);
+
+    $this->get(route('profile.destroy', ['slug' => $this->profile->slug, 'token' => $second]))->assertOk();
+
+    expect(Person::count())->toBe(0);
 });
