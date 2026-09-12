@@ -15,6 +15,9 @@
 
 ## 2. Modelul de identitate, sigur din punct de vedere legal
 
+> **Actualizare — `docs/00 § D-017`:** în MVP **nu colectăm deloc numere de telefon**. Schema de mai jos rămâne valabilă pentru momentul în care implementăm claim-ul, singura funcție care are nevoie de ea. Până atunci, importul citește doar numele și ziua de naștere, iar re-sincronizarea se face pe identificatorul local al contactului.
+
+
 ### Ce NU facem
 - Nu urcăm agenda brută pe server.
 - Nu creăm profiluri globale îmbogățite din agendele altor utilizatori.

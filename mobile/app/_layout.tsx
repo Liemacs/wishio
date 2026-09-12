@@ -27,10 +27,12 @@ function AuthGate() {
     const first = segments[0] as string | undefined;
     const onLogin = first === 'login';
     const atRoot = first === undefined;
+    // Onboarding-ul e o zonă autentificată cu rutare proprie; nu-l întrerupem.
+    const inOnboarding = first === 'onboarding';
 
     if (status === 'guest' && !onLogin) {
       router.replace('/login');
-    } else if (status === 'authenticated' && (onLogin || atRoot)) {
+    } else if (status === 'authenticated' && (onLogin || atRoot) && !inOnboarding) {
       router.replace('/people');
     }
   }, [status, segments, router]);

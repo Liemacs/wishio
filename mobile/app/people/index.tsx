@@ -71,7 +71,12 @@ export default function PeopleList() {
           title={query ? t('people.search') : t('people.emptyTitle')}
           description={query ? undefined : t('people.emptyText')}
         >
-          {!query && <Button label={t('people.add')} onPress={() => router.push('/people/new')} />}
+          {!query && (
+            <View className="gap-3">
+              <Button label={t('onboarding.allow')} onPress={() => router.push('/onboarding/contacts')} />
+              <Button label={t('people.add')} variant="secondary" onPress={() => router.push('/people/new')} />
+            </View>
+          )}
         </EmptyState>
       ) : (
         <FlashList

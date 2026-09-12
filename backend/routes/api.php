@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Api\V1\Controllers\AuthController;
+use App\Http\Api\V1\Controllers\ContactImportController;
+use App\Http\Api\V1\Controllers\OccasionController;
 use App\Http\Api\V1\Controllers\InterestController;
 use App\Http\Api\V1\Controllers\PersonController;
 use App\Http\Api\V1\Controllers\PersonInterestController;
@@ -39,5 +41,12 @@ Route::prefix('v1')->group(function () {
 
         Route::apiResource('people', PersonController::class);
         Route::put('/people/{person}/interests', [PersonInterestController::class, 'update']);
+
+        // Import din agenda telefonului: doar contactele alese explicit, si
+        // doar nume + zi de nastere (docs/00 § D-017).
+        Route::post('/contacts/import', [ContactImportController::class, 'store']);
+
+        Route::get('/occasions', [OccasionController::class, 'index']);
+        Route::patch('/occasions/{occasion}', [OccasionController::class, 'update']);
     });
 });

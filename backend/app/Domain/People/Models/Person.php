@@ -52,6 +52,11 @@ class Person extends Model
         return $this->hasMany(PersonAvoid::class);
     }
 
+    public function occasions(): HasMany
+    {
+        return $this->hasMany(\App\Domain\Occasions\Models\Occasion::class);
+    }
+
     /** Sursa înregistrată pentru un câmp, dacă există. */
     public function sourceFor(string $field): ?PersonFieldSource
     {

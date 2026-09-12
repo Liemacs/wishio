@@ -34,7 +34,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Domeniul People** — ierarhia de încredere, override-uri definitive, note criptate |
 | ✅ | **API v1** — persoane, interese, autorizare pe proprietar |
 | ✅ | **Ecrane mobile** — login, listă persoane, detaliu, adăugare, selector de interese |
-| ✅ | 90 de teste verzi pe MySQL |
+| ✅ | **Import contacte + ocazii** — onomastici deduse, confirmare, re-sync fără duplicate |
+| ✅ | 105 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -129,13 +130,13 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S4.1 🔴 | Ecran explicativ **înainte** de promptul nativ de Contacts (cerință App Store 5.1.2) |
-| S4.2 🔴 | Citire contacte, normalizare, HMAC. **Zero upload de agendă brută. Pozele rămân pe device.** |
-| S4.3 | Selecție explicită a persoanelor de urmărit |
-| S4.4 🔴 | **Name-day resolver** + ecran de confirmare („Gheorghe își serbează onomastica pe 23 aprilie. Corect?”) |
-| S4.5 | Deduplicare, re-sync, detectarea modificărilor din agendă |
-| S4.6 🔴 | **Flow complet funcțional fără permisiune de contacte** — se testează la fiecare release |
-| S4.7 | Eveniment `contacts_permission` cu `with_birthday_pct` — măsoară R1 în producție |
+| S4.1 ✅ | ~~Ecran explicativ înainte de promptul nativ~~ |
+| S4.2 ✅ | ~~Citire contacte~~ — doar nume + zi de naștere. **Fără numere de telefon deloc** (`docs/00 § D-017`) |
+| S4.3 ✅ | ~~Selecție explicită~~ — cu pre-bifarea celor care au deja ziua completată |
+| S4.4 ✅ | ~~Name-day resolver + ecran de confirmare~~ — una câte una, cu corectarea datei |
+| S4.5 ✅ | ~~Deduplicare, re-sync, detectarea modificărilor~~ — pe `device_contact_id` |
+| S4.6 ✅ | ~~Flow funcțional fără permisiune~~ — refuzul duce la adăugare manuală |
+| S4.7 ✅ | ~~Telemetrie R1~~ — `stats.contacts_with_birthday` trimis agregat la import |
 
 **Gata când:** un telefon real cu 200+ de contacte produce un calendar plin, chiar dacă doar 5 au ziua de naștere.
 
@@ -143,7 +144,7 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S5.1 | `occasions`, `occasion_types`, recurență, ocazii personalizate |
+| S5.1 ✅ | ~~`occasions`~~ — tabel + model + sincronizare; rămân ocaziile personalizate și sărbătorile |
 | S5.2 | `ScheduleOccasionReminders` — per fus orar, quiet hours, anti-spam (max 4/ocazie, 2 push/zi) |
 | S5.3 | Push prin expo-notifications, în locale-ul fixat la programare |
 | S5.4 | Promptul de push **după** aha moment, nu la pornire |

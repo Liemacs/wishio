@@ -91,5 +91,36 @@
   "genders": {
     "m": "Male",
     "f": "Female"
+  },
+  "onboarding": {
+    "explainTitle": "Let's find occasions in your contacts",
+    "explainBody": "We read **only names** and, when present, **birthdays**. That's all.",
+    "explainNo1": "We don't read phone numbers",
+    "explainNo2": "We don't read photos, emails or addresses",
+    "explainNo3": "You choose who we track",
+    "allow": "Allow access",
+    "manual": "I'll add people manually",
+    "deniedTitle": "No contacts access",
+    "deniedBody": "That's fine. You can add people manually and the app works just the same.",
+    "selectTitle": "Who should we track?",
+    "selectAll": "Select all",
+    "selectNone": "Clear selection",
+    "selectedCount_one": "{{count}} selected",
+    "selectedCount_other": "{{count}} selected",
+    "hasBirthday": "has a birthday",
+    "importing": "Importing…",
+    "confirmTitle": "Confirm name days",
+    "confirmBody": "We worked these out from first names. Confirm the correct ones — we only send reminders for those.",
+    "confirmQuestion": "Does {{name}} celebrate their name day on {{date}}?",
+    "yes": "Yes",
+    "no": "Doesn't celebrate",
+    "later": "Later",
+    "doneTitle": "All set",
+    "foundBirthdays_one": "{{count}} birthday",
+    "foundBirthdays_other": "{{count}} birthdays",
+    "foundNameDays_one": "{{count}} name day",
+    "foundNameDays_other": "{{count}} name days",
+    "foundNothing": "No dates found in your contacts. You can add them manually — it takes a few seconds per person.",
+    "start": "Get started"
   }
 }

@@ -247,3 +247,24 @@ Ecranul adaptiv e oricum soluția mai bună decât a ghici în avans distribuți
 API-ul nu există încă. `CatalogAdapter` rămâne abstract; se implementează `MagazinerCatalog` când apare. Până atunci, dezvoltarea merge pe `ManualCatalog` cu un set mic de produse, suficient pentru a construi și testa motorul de recomandări.
 
 Nimic din S3–S5 (persoane, contacte, ocazii, remindere) nu depinde de catalog, deci amânarea nu blochează drumul critic.
+
+---
+
+## D-017 · MVP nu colectează deloc numere de telefon
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Importul din contacte citește **doar numele și, dacă există, ziua de naștere**. Numărul de telefon nu se citește, nu se transmite și nu se stochează — nici măcar sub formă de hash.
+
+**De ce, deși `docs/04 § 2` descria un `contact_hash`:**
+
+Hash-ul avea un singur rol — legarea unei persoane de contul ei când se înregistrează („claim"), ca să-și poată confirma datele. Acea funcție **nu e în scopul MVP-ului** (`docs/03`). Până atunci, hash-ul n-ar fi servit la nimic, dar ar fi trebuit apărat.
+
+Și mai important, schema n-ar fi fost atât de curată pe cât părea. Ca serverul să poată potrivi contactele a doi utilizatori, trebuie să poată calcula aceeași valoare din număr. Deci ori serverul vede numărul, ori clientul cunoaște cheia. Un SHA-256 pe un număr de telefon e reversibil prin forță brută — spațiul de căutare e mic. Protecția ar fi fost **operațională** (nu-l stocăm, nu-l logăm), nu criptografică.
+
+Cea mai onestă variantă este să nu-l colectăm deloc cât timp nu ne trebuie.
+
+**Consecințe:**
+- Coloana `contact_hash` rămâne, nefolosită, pentru momentul în care apare claim-ul.
+- Re-sincronizarea se face pe `device_contact_id`, identificatorul local al contactului — nu părăsește dispozitivul ca date personale și nu spune nimic despre persoană.
+- Textul permisiunii poate spune adevărul simplu: *„citim doar numele și ziua de naștere"*. Nu mai avem nevoie de formulări despre numere care „nu ajung la noi în clar".
+- Când vom implementa claim-ul, decizia se redeschide, cu o evaluare de impact scrisă (`docs/06`).

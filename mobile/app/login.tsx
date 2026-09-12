@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 
@@ -15,6 +16,7 @@ const LOCALE_NAMES: Record<Locale, string> = { ro: 'Română', ru: 'Русски
 
 export default function Login() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { locale, setLocale } = useLocaleStore();
   const { login, register } = useAuthStore();
 
@@ -33,6 +35,8 @@ export default function Login() {
         await login(email.trim(), password);
       } else {
         await register(name.trim(), email.trim(), password);
+        // Un cont nou pornește direct în onboarding; unul existent are deja oameni.
+        router.replace('/onboarding/contacts');
       }
     } catch (e) {
       setError(errorMessage(e));
