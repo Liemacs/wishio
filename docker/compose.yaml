@@ -1,0 +1,60 @@
+# Servicii de infrastructura pentru dezvoltare locala.
+# Aplicatia (Laravel + Expo) ruleaza NATIV pe masina, nu in container:
+# e mai rapid pe macOS si evita problemele de I/O pe volume externe.
+#
+#   docker compose -f docker/compose.yaml up -d
+#
+# Alternativa fara Docker (macOS):
+#   brew install mysql@8.4 redis mailpit && brew services start mysql@8.4 redis
+
+name: wishio
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: wishio-mysql
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci   # accent + case insensitive: critic pentru diacritice RO
+      - --default-time-zone=+00:00              # totul in UTC; conversia se face in aplicatie
+    environment:
+      MYSQL_DATABASE: wishio
+      MYSQL_USER: wishio
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: wishio-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 20
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: wishio-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # UI — http://localhost:8025
+    environment:
+      MP_MAX_MESSAGES: 500
+
+volumes:
+  mysql-data:
+  redis-data:

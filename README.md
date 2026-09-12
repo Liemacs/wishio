@@ -1,0 +1,78 @@
+# Wishio
+
+**Nu uiți nicio ocazie. Știi exact ce să faci.**
+
+Asistent de ocazii și cadouri pentru Republica Moldova — zile de naștere, **onomastici**, sărbători, aniversări — cu sugestii de cadouri și experiențe din magazine reale, locale, în bugetul tău.
+
+**RO** (limba de bază) · **RU** · **EN**
+
+---
+
+## Stare
+
+**Faza 0 — validare.** Infrastructura este pregătită; produsul nu este încă implementat.
+Pasul următor: `PLAN.md § FAZA 0`.
+
+## Stack
+
+| | |
+|---|---|
+| Mobile | React Native + Expo (SDK 57) + TypeScript + **gluestack-ui** (NativeWind) + expo-router |
+| Backend | **Laravel 12** / PHP 8.3 |
+| Bază de date | **MySQL 8.4** (`utf8mb4_0900_ai_ci` — accent-insensitive, critic pentru diacritice RO) |
+| Cozi / cache | Redis + Laravel Horizon |
+| Web public | Laravel + Inertia + Vue 3 (landing, pagini `@slug`, merchant dashboard) |
+| Observabilitate | PostHog + Sentry |
+
+## Structură
+
+```
+wishio/
+├── backend/      Laravel 12 — API, web public, cozi
+│   ├── app/Domain/        People Occasions Reminders Catalog
+│   │                      Recommendations Identity Profiles Merchants
+│   ├── app/Support/       Ai/ Localization/ PhoneNumbers/
+│   ├── config/wishio.php  configurația produsului
+│   └── lang/{ro,ru,en}/
+├── mobile/       Expo + React Native + gluestack-ui
+├── docker/       MySQL 8.4 + Redis + Mailpit
+└── docs/         documentația de produs și arhitectură
+```
+
+## Pornire rapidă
+
+> ⚠️ **Înainte de orice build nativ**, rezolvă `PLAN.md § E1` — spațiul din calea proiectului rupe Gradle și CocoaPods.
+
+```bash
+make up        # MySQL + Redis + Mailpit (cere Docker sau OrbStack)
+make setup     # composer install, key:generate, migrate --seed, npm install
+make api       # API pe http://localhost:8000
+make queue     # worker de cozi
+make mobile    # Expo
+```
+
+`make help` listează toate comenzile.
+
+## Documentație
+
+| Document | Conținut |
+|---|---|
+| [docs/00-decizii-luate.md](docs/00-decizii-luate.md) | Registrul deciziilor luate, cu motivele |
+| [docs/01-produs.md](docs/01-produs.md) | Viziune, poziționare, public țintă, bucle de creștere, principii |
+| [docs/02-strategie-riscuri.md](docs/02-strategie-riscuri.md) | Dimensiunea pieței, 10 riscuri cu mitigări, porți de abandon |
+| [docs/03-scop.md](docs/03-scop.md) | Faza 0, MVP, v1.1, v2, v3 — și ce NU construim |
+| [docs/04-model-domeniu.md](docs/04-model-domeniu.md) | Entități, identitate sigură legal, ierarhia de trust, onomastici, taxonomia de interese |
+| [docs/05-arhitectura.md](docs/05-arhitectura.md) | Stack, module, recommendation engine anti-halucinație, MySQL, i18n |
+| [docs/06-privacy-legal.md](docs/06-privacy-legal.md) | Legea 195/2024, App Store 5.1.2, harta datelor, fluxuri de consimțământ |
+| [docs/07-metrici.md](docs/07-metrici.md) | North Star, funnel, schema de evenimente, praguri |
+| [docs/08-decizii-deschise.md](docs/08-decizii-deschise.md) | **Ce lipsește ca să începi** |
+| [PLAN.md](PLAN.md) | **Planul complet, pas cu pas** |
+| [CLAUDE.md](CLAUDE.md) | Reguli de dezvoltare |
+
+## Cele 10 reguli care nu se negociază
+
+Sunt în [CLAUDE.md](CLAUDE.md). Cele mai importante trei:
+
+1. **Trei limbi, mereu.** Nicio funcționalitate nu e terminată fără RO + RU + EN.
+2. **AI-ul nu inventează niciodată un produs.** Produsele vin exclusiv din catalogul nostru.
+3. **Nicio dată despre o persoană nu ajunge la alt utilizator** fără consimțământul ei explicit.

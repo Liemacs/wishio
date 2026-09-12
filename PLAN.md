@@ -1,0 +1,236 @@
+# PLAN.md — Planul complet de execuție
+
+**Wishio** — asistent de ocazii și cadouri. RO (bază) · RU · EN
+Stack: React Native + Expo + gluestack-ui · Laravel 12 · MySQL 8.4 · Redis
+
+---
+
+## Cum se citește
+
+Fiecare pas are un **ID** (`P0.3`, `S4.2`), un livrabil verificabil și un criteriu de „gata”.
+Mergem secvențial. Un pas nu se consideră terminat fără criteriul lui.
+
+**Estimări la ~20 h/săptămână.** La 10 h/săpt. dublează; la 35 h/săpt. taie ~35%.
+
+Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
+
+---
+
+## Starea curentă
+
+| | |
+|---|---|
+| ✅ | Documentație completă de produs, strategie, domeniu, arhitectură, privacy, metrici (`docs/01`–`08`) |
+| ✅ | Monorepo inițializat, git + remote `github.com/Liemacs/wishio` |
+| ✅ | Laravel 12 scaffoldat, configurat pentru MySQL cu `utf8mb4_0900_ai_ci` |
+| ✅ | Structură pe domenii `app/Domain/*`, `config/wishio.php`, `.env` |
+| ✅ | Expo + TypeScript scaffoldat (SDK 57 / RN 0.86 / React 19) |
+| ✅ | `docker/compose.yaml` (MySQL 8.4 + Redis + Mailpit), `Makefile`, `.gitignore` |
+| 🔄 | Dependențe mobile în curs de instalare |
+| ⬜ | Tot restul |
+
+### Blocante de mediu — de rezolvat înainte de S1
+
+| ID | Problemă | Acțiune |
+|---|---|---|
+| **E1** 🔴 | **Spațiu în calea proiectului** (`/Volumes/T7 1/`). Rupe build-urile native RN (Gradle, CocoaPods). | `ln -s "/Volumes/T7 1/Wishio" ~/wishio` și lucrează prin `~/wishio`. Sau mută proiectul pe discul intern. |
+| **E2** 🟠 | Cache npm cu fișiere root-owned | `sudo chown -R $(id -u):$(id -g) ~/.npm` |
+| **E3** 🟠 | Docker și MySQL nu sunt instalate | OrbStack sau Docker Desktop → `make up`. Sau `brew install mysql@8.4 redis mailpit` |
+| **E4** 🟠 | PHP activ este 8.2; recomandat 8.3 | `brew link --overwrite php@8.3` (php@8.3 e deja instalat) |
+
+---
+
+# FAZA 0 — Validare (săptămânile 1–2, fără aplicație)
+
+> Scopul: să afli dacă cineva vrea „ajută-mă să aleg” **înainte** de 3 luni de cod.
+> Ieftin, rapid, și poate salva jumătate de an. Detalii în `docs/03-scop.md`.
+
+| ID | Pas | Efort | Gata când |
+|---|---|---|---|
+| **P0.1** 🔴 | **Răspunde-ți în scris** la A1–A4 din `docs/08`: ore/săptămână, singur sau cu echipă, buget, criteriu de abandon | 1 h | Sunt scrise în `docs/00-decizii-luate.md` |
+| **P0.2** 🔴 | **Testul contactelor.** 10 telefoane reale, numără câte contacte au ziua de naștere completată. Notează procentul. | 1 h | Cifra e scrisă. Sub 5% → onboarding-ul se construiește pe onomastici + link |
+| **P0.3** 🔴 | **Contact Magaziner** — email + apel. Cere: feed, statistici, revenue share | 2 h | Ai un răspuns, da sau nu |
+| **P0.4** 🟠 | Verifică nume + domeniu (`.md`/`.com`/`.app`) + App Store + marcă AGEPI | 2 h | Numele e confirmat sau schimbat |
+| **P0.5** 🟠 | Deschide **Apple Developer** (99 USD/an) și **Google Play** (25 USD) — activarea durează | 1 h | Conturile sunt în curs de activare |
+| **P0.6** 🔴 | **Landing page RO/RU/EN** + formular + analytics. „Scrie-ne despre persoană, îți trimitem 5 idei reale, cu preț și magazin. Gratis.” | 2 zile | E live, cu analytics |
+| **P0.7** 🔴 | **Distribuție:** grupuri Facebook MD, Telegram, colegi, cunoscuți | 3 h | 150+ vizitatori |
+| **P0.8** 🔴 | **Concierge: 20 de recomandări manuale.** Caută de mână pe Magaziner/Darwin/Bomba/Ultra. Trimite 5 carduri în limba cerută. Întreabă „ai cumpăra?”. **Notează tot** — e corpusul pentru prompt | 10 zile, ~1 h/zi | 20 livrate, feedback notat |
+| **P0.9** 🔴 | **Discuții cu 5 magazine + 2 restaurante.** Întrebarea: „ai plăti 2.000 MDL/lună pentru 500 de clickuri de la oameni cu buget declarat?” | 6 h | 7 răspunsuri, cu cifre |
+| **P0.10** 🟠 | În serile libere: începe **C1 tabelul de onomastici** și **C2 taxonomia de interese** | 3 zile | Draft v1 |
+
+### 🚦 Poarta de decizie — ziua 14
+
+| Poartă | Criteriu | Dacă pici |
+|---|---|---|
+| **G0** | 150+ leaduri la cost ≈0 | mesajul e greșit, nu produsul — reformulează și reia |
+| **G1** | din 20 de recomandări, **10+** spun „asta chiar aș cumpăra”, **5+** dau click | **oprește sau pivotează** |
+| **G2** | **2 din 7** comercianți spun „da, aș plăti”, cu o cifră | e utilitate, nu business — reconsideră modelul |
+
+**Treci toate trei → mergi la MVP. Pici G1 → nu construi aplicația.**
+
+---
+
+# MVP — 12 săptămâni
+
+## S1 · Fundație (săptămâna 1)
+
+| ID | Pas | Gata când |
+|---|---|---|
+| S1.1 | Rezolvă E1–E4 | `make up` pornește, `php -v` arată 8.3, lucrezi prin cale fără spații |
+| S1.2 | `make setup`; migrările rulează pe MySQL | `php artisan migrate` trece |
+| S1.3 | **Schema de evenimente analytics** (PostHog) — `docs/07 § 3`, **înainte de orice feature** | un eveniment de test ajunge în PostHog |
+| S1.4 | i18n backend: middleware `Accept-Language` → `users.locale` → RO; `lang/{ro,ru,en}` | `/api/v1/ping` răspunde localizat în toate trei |
+| S1.5 | i18n mobile: i18next + expo-localization, comutator de limbă, `ro/ru/en.json` | ecran de test comută corect, plural RU corect |
+| S1.6 | gluestack-ui + NativeWind: init, `tailwind.config.js`, **paleta și tipografia** | un `Button` și un `Card` randează în ambele teme |
+| S1.7 | expo-router + structura `app/`; TanStack Query + Zustand + client API | navigare între 2 ecrane, un fetch reușit |
+| S1.8 | Auth: Sanctum + Apple + Google + email OTP | te loghezi din app și primești token |
+| S1.9 | CI GitHub Actions: Pint, PHPStan, `php artisan test`, `tsc --noEmit` | build verde pe PR |
+| S1.10 | OpenAPI 3.1 + generare tipuri TS | tipurile se generează din spec |
+
+**Gata când:** te loghezi din aplicație, schimbi limba, primești răspuns localizat, CI e verde.
+
+## S2 · Date de bază (săptămâna 2)
+
+| ID | Pas | Gata când |
+|---|---|---|
+| S2.1 🔴 | **C2 — Taxonomia de interese**: 60–80 leaf-uri, RO/RU/EN, mapate pe categorii. Migrare + seeder | `interests` populat în 3 limbi |
+| S2.2 🔴 | **C1 — Onomastici**: `name_days` + `name_day_aliases`, 150+ prenume RO cu variante RU și diminutive | seeder rulat, potrivire testată |
+| S2.3 | **C10 — Sărbători MD** cu relevanță pentru cadouri (8 Martie, 1 Iunie, Crăciun, Paște, 1 Sep, 5 Oct), cu reguli de dată | `holidays` populat |
+| S2.4 | Normalizare telefon E.164 (libphonenumber) + HMAC cu pepper | teste: `069123456` = `+373 69 123 456` = `00373...` |
+| S2.5 | Normalizare nume insensibilă la diacritice + transliterare RU→RO | `Ștefan` = `stefan` = `Штефан` |
+
+## S3 · Persoane (săptămâna 3)
+
+| ID | Pas |
+|---|---|
+| S3.1 | Migrări: `people`, `person_field_sources`, `person_interests`, `person_avoids` |
+| S3.2 | CRUD Person: nume, dată, relație, gen, buget, note (criptate la rest) |
+| S3.3 | **Ierarhia de trust + override-uri** (`docs/04 § 3`) — cu teste |
+| S3.4 | Ecrane: listă persoane (grupate pe proximitate), detaliu persoană, adăugare manuală |
+| S3.5 | Selector de interese din taxonomie, în limba userului |
+
+**Gata când:** adaugi manual o persoană cu interese și un override manual nu e suprascris de un sync simulat.
+
+## S4 · Contacts & onomastici (săptămâna 4) ← *săptămâna cu cel mai mare risc*
+
+| ID | Pas |
+|---|---|
+| S4.1 🔴 | Ecran explicativ **înainte** de promptul nativ de Contacts (cerință App Store 5.1.2) |
+| S4.2 🔴 | Citire contacte, normalizare, HMAC. **Zero upload de agendă brută. Pozele rămân pe device.** |
+| S4.3 | Selecție explicită a persoanelor de urmărit |
+| S4.4 🔴 | **Name-day resolver** + ecran de confirmare („Gheorghe își serbează onomastica pe 23 aprilie. Corect?”) |
+| S4.5 | Deduplicare, re-sync, detectarea modificărilor din agendă |
+| S4.6 🔴 | **Flow complet funcțional fără permisiune de contacte** — se testează la fiecare release |
+| S4.7 | Eveniment `contacts_permission` cu `with_birthday_pct` — măsoară R1 în producție |
+
+**Gata când:** un telefon real cu 200+ de contacte produce un calendar plin, chiar dacă doar 5 au ziua de naștere.
+
+## S5 · Ocazii & remindere (săptămâna 5)
+
+| ID | Pas |
+|---|---|
+| S5.1 | `occasions`, `occasion_types`, recurență, ocazii personalizate |
+| S5.2 | `ScheduleOccasionReminders` — per fus orar, quiet hours, anti-spam (max 4/ocazie, 2 push/zi) |
+| S5.3 | Push prin expo-notifications, în locale-ul fixat la programare |
+| S5.4 | Promptul de push **după** aha moment, nu la pornire |
+| S5.5 | Email digest săptămânal, în 3 limbi |
+| S5.6 | Home: „la cine trebuie să mă gândesc azi?” |
+| S5.7 | Widget iOS/Android cu următoarea ocazie (retenție fără push) |
+
+**Gata când:** un push programat ajunge pe device fizic, în RU, la ora corectă, fără să încalce quiet hours.
+
+## S6 · Catalog (săptămâna 6)
+
+| ID | Pas |
+|---|---|
+| S6.1 | Migrări: `merchants`, `products`, `product_categories`, `product_interests`, coloane `JSON translations` + coloane generate indexate |
+| S6.2 | `CatalogAdapter` + `ManualCatalog` |
+| S6.3 🔴 | **C3 — 300–500 produse curate**, cu preț, link, categorie, interese, `gift_score` editorial 1–5 |
+| S6.4 | Căutare + filtre (buget, categorie, interes) |
+| S6.5 | Card de produs + click spre magazin cu tracking `outbound_click` |
+| S6.6 | `MagazinerCatalog` — **doar dacă** P0.3 s-a concretizat |
+
+## S7–S8 · Recomandări (săptămânile 7–8)
+
+| ID | Pas |
+|---|---|
+| S7.1 | `AiProvider` + implementare + prompturi + JSON Schema |
+| S7.2 🔴 | Validare strictă: doar leaf-uri din taxonomie; orice altceva se aruncă |
+| S7.3 | Pipeline `docs/05 § 3`: criterii → filtre SQL → scoring determinist → diversificare → explicații |
+| S7.4 | Anti-repetare din `gift_history`, excludere `person_avoids` |
+| S7.5 🔴 | **Ecran de consimțământ AI** + rută complet funcțională **fără** AI |
+| S7.6 | Generare asincronă pe cozi, cu stare „căutăm idei...” |
+| S8.1 🔴 | **C8 — set de evaluare cu 30 de profiluri**, rulat în CI, în toate trei limbile |
+| S8.2 | Onboarding AI: o frază liberă → interese structurate, confirmate de user |
+| S8.3 | Buget de cost + circuit breaker la depășire |
+
+**Gata când:** pentru 8 din 10 profiluri de test, ≥3 din 5 sugestii sunt plauzibile, în RO, RU și EN.
+
+## S9 · Profil propriu & link public (săptămâna 9) ← *motorul de creștere*
+
+| ID | Pas |
+|---|---|
+| S9.1 | Profilul meu: ziua mea, interese, „ce îmi doresc”, „unde aș vrea să merg” |
+| S9.2 | Vizibilitate per câmp, inclusiv `signal_only` (`docs/04 § 6`) |
+| S9.3 🔴 | **Pagini publice `@slug`** — Inertia + Vue, RO/RU/EN, `hreflang`, `noindex` implicit, slug neghicibil |
+| S9.4 | Formular de completare + **consimțământ versionat** + rate limit + ștergere fără cont |
+| S9.5 | Prompt de instalare la final; tracking `profile_submission → install` (K-factor) |
+| S9.6 | Deep link `@slug` → aplicație, dacă e instalată |
+
+## S10 · Istoric cadouri & idei (săptămâna 10)
+
+| ID | Pas |
+|---|---|
+| S10.1 | `gift_ideas`, `gift_history`; salvare, „ales”, „cumpărat”, „oferit” |
+| S10.2 | Timeline per persoană |
+| S10.3 | Filtrare anti-repetare activată în recomandări |
+
+## S11 · Conformitate & polish (săptămâna 11)
+
+| ID | Pas |
+|---|---|
+| S11.1 🔴 | **Ștergere cont + export date**, în aplicație (obligatoriu Apple) |
+| S11.2 🔴 | **C11 — Privacy Policy + ToS în RO/RU/EN**, la URL stabil |
+| S11.3 🔴 | **C12 — DPIA + registrul prelucrărilor** (Legea 195/2024, în vigoare din 23 aug 2026) |
+| S11.4 | Privacy Nutrition Label (Apple) + Data Safety (Google) |
+| S11.5 | Stări goale, erori, offline, skeletons, animații |
+| S11.6 🔴 | **Audit de traduceri**: zero stringuri hardcodate, zero fallback vizibil, testat cu RU (texte mai lungi) |
+| S11.7 | Sentry cu scrubbing PII; test real de restaurare backup |
+| S11.8 | Test: aplicația **fără** Contacts și **fără** push — complet utilizabilă |
+
+## S12 · Lansare (săptămâna 12)
+
+| ID | Pas |
+|---|---|
+| S12.1 | **C13 — materiale store în 3 limbi**: icon, screenshot-uri, descriere |
+| S12.2 | Cont demo pentru App Review, cu date populate, instrucțiuni în EN |
+| S12.3 | TestFlight / Internal Testing cu 20–30 de oameni reali |
+| S12.4 | Submit — **buffer de 2 săptămâni** pentru respingeri (5.1.2 e probabilă la prima încercare) |
+| S12.5 | Lansare: grupuri FB MD, Telegram, Reddit local, PR |
+
+---
+
+# După MVP
+
+| Perioadă | Focus | Poartă |
+|---|---|---|
+| Săpt. 13–16 | Analiza G3–G5, reparat onboarding-ul, catalog extins | G3 activare >60%, G4 push >35%, G5 click >15% |
+| Săpt. 17–22 | **v1.1 Experiențe** — 30–60 locații Chișinău în 3 limbi | ticket mediu mai mare |
+| Săpt. 23–30 | **v2** — merchant dashboard, sponsorizări, group gifting **fără** plăți | primul venit real |
+| Luna 9+ | **România** — 19 mil., afiliere matură (2Performant, Profitshare, eMAG) | G6 D30>25%, G7 K>0.25 |
+
+---
+
+# Camp de mine
+
+| Capcană | Contramăsură |
+|---|---|
+| Spațiul din calea proiectului | **E1, rezolvă-l acum**, nu după primul build nativ eșuat |
+| Contacts sync „merge la mine pe telefon” | 5 telefoane reale, 500+ contacte, ambele platforme, din S4 |
+| Push-urile nu ajung | device fizic din S5; simulatorul minte |
+| Traducerile lăsate la final | DoD le include; S11.6 e verificare, nu muncă |
+| Catalogul „se face într-o zi” | sunt 3–4 zile de muncă plictisitoare — programează-le |
+| Promptul se ajustează la nesfârșit | eval set în CI; dacă scorul nu crește, oprește-te |
+| App Review respinge 5.1.2 | citește `docs/06` **înainte** de S4 |
+| Scope creep | `docs/03 § Anti-scop` |
+| Construiești 3 luni fără să vorbești cu un comerciant | P0.9 e obligatoriu |

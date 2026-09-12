@@ -1,0 +1,51 @@
+# --- OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# --- Node / Expo
+node_modules/
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.tsbuildinfo
+.npm-cache/
+
+# --- PHP / Laravel
+/backend/vendor/
+/backend/node_modules/
+/backend/public/build/
+/backend/public/hot
+/backend/public/storage
+/backend/storage/*.key
+/backend/storage/pail
+/backend/bootstrap/cache/*.php
+/backend/.phpunit.cache
+/backend/.phpunit.result.cache
+/backend/auth.json
+
+# --- Secrete: NIMIC din astea nu ajunge in repo
+.env
+.env.*
+!.env.example
+*.pem
+*.p8
+*.p12
+*.mobileprovision
+*.keystore
+!debug.keystore
+google-services.json
+GoogleService-Info.plist
+/backend/storage/app/private/
+
+# --- Build nativ
+/mobile/ios/
+/mobile/android/
+*.jks
+
+# --- Local
+/docker/data/
+/docker/mysql/data/
+*.log
