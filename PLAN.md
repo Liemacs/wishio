@@ -31,7 +31,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Resolver de onomastici** — 49 sărbători × 2 calendare, 658 aliasuri (`docs/15`) |
 | ✅ | **Taxonomia de interese** — 15 grupuri, 80 interese, 1.164 cuvinte-cheie RO/RU/EN (`docs/16`) |
 | ✅ | **Landing Faza 0** — RO/RU/EN, formular cu consimțământ versionat, unealtă concierge (`docs/17`) |
-| ✅ | 51 de teste verzi pe MySQL |
+| ✅ | **Domeniul People** — ierarhia de încredere, override-uri definitive, note criptate |
+| ✅ | 62 de teste verzi pe MySQL |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -114,9 +115,9 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S3.1 | Migrări: `people`, `person_field_sources`, `person_interests`, `person_avoids` |
+| S3.1 ✅ | ~~Migrări `people`, `person_field_sources`, `person_interests`, `person_avoids`~~ |
 | S3.2 | CRUD Person: nume, dată, relație, gen, buget, note (criptate la rest) |
-| S3.3 | **Ierarhia de trust + override-uri** (`docs/04 § 3`) — cu teste |
+| S3.3 ✅ | ~~**Ierarhia de trust + override-uri**~~ — `FieldSource` + `WritePersonField`, 11 teste |
 | S3.4 | Ecrane: listă persoane (grupate pe proximitate), detaliu persoană, adăugare manuală |
 | S3.5 | Selector de interese din taxonomie, în limba userului |
 
