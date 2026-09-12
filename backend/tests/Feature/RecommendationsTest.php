@@ -221,3 +221,25 @@ it('inregistreaza consimtamantul AI', function () {
 
     expect($this->user->fresh()->ai_consent_at)->toBeNull();
 });
+
+it('retine ca a intrebat, chiar si cand raspunsul e nu', function () {
+    // „Nu am intrebat inca” si „a refuzat” sunt stari diferite. Fara separare,
+    // cine refuza o data ar fi intrebat la fiecare cautare — exact ce
+    // transforma un consimtamant intr-un dark pattern.
+    $this->actingAs($this->user)->postJson('/api/v1/ai-consent', ['granted' => false])->assertOk();
+
+    $user = $this->user->fresh();
+
+    expect($user->ai_consent_at)->toBeNull()
+        ->and($user->ai_consent_asked_at)->not->toBeNull();
+
+    $this->actingAs($this->user)->getJson('/api/v1/auth/me')
+        ->assertJsonPath('data.ai_consent', false)
+        ->assertJsonPath('data.ai_consent_asked', true);
+});
+
+it('nu marcheaza drept intrebat un utilizator nou', function () {
+    $this->actingAs($this->user)->getJson('/api/v1/auth/me')
+        ->assertJsonPath('data.ai_consent', false)
+        ->assertJsonPath('data.ai_consent_asked', false);
+});

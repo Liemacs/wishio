@@ -117,7 +117,13 @@ export default function Home() {
                   <Text className="mt-1 text-3xl font-bold text-surface-900">{titleOf(next)}</Text>
                   <Text className="mt-1 text-lg text-surface-500">{when(next)}</Text>
 
-                  <Button label={t('reminder.findGift')} className="mt-5" onPress={() => {}} />
+                  {next.person ? (
+                    <Button
+                      label={t('reminder.findGift')}
+                      className="mt-5"
+                      onPress={() => router.push(`/gift/${next.person!.id}`)}
+                    />
+                  ) : null}
                 </Pressable>
               </LinearGradient>
             </MotiView>

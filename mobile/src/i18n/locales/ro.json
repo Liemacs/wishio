@@ -148,5 +148,46 @@
     "skip": "Nu acum",
     "deniedTitle": "Fără notificări",
     "deniedBody": "E în regulă. Ocaziile apropiate apar oricum pe ecranul principal."
+  },
+  "gift": {
+    "title": "Ce buget ai?",
+    "subtitle": "Căutăm idei pentru {{name}}",
+    "anyBudget": "Nu contează",
+    "custom": "Alt buget",
+    "min": "De la",
+    "max": "Până la",
+    "search": "Caută idei",
+    "searching": "Căutăm idei…",
+    "searchingHint": "Durează câteva secunde.",
+    "emptyTitle": "N-am găsit idei potrivite",
+    "emptyText": "Încearcă un buget mai larg, sau adaugă câteva interese ca să știm ce-i place.",
+    "emptyAction": "Adaugă interese",
+    "otherOffers": "și la alte {{count}} magazine",
+    "at": "la {{merchant}}",
+    "buy": "Vezi la magazin",
+    "noReason": "Din interesele lui",
+    "retry": "Caută din nou",
+    "sponsored": "promovat",
+    "resultsTitle_one": "{{count}} idee pentru {{name}}",
+    "resultsTitle_few": "{{count}} idei pentru {{name}}",
+    "resultsTitle_other": "{{count}} de idei pentru {{name}}"
+  },
+  "aiConsent": {
+    "title": "Vrei idei mai bune?",
+    "body": "Ca să găsim idei potrivite, trimitem către furnizorul nostru de inteligență artificială:",
+    "sends": "vârsta aproximativă, relația, interesele și bugetul",
+    "notSends": "NU trimitem numele, telefonul sau notele tale",
+    "allow": "De acord",
+    "skip": "Nu, doar filtre",
+    "note": "Poți schimba oricând din setări."
+  },
+  "analyze": {
+    "title": "Spune-mi despre {{name}}",
+    "hint": "Scrie liber, cu cuvintele tale. Cu cât ne spui mai mult, cu atât ideile sunt mai bune.",
+    "placeholder": "De exemplu: lucrează în IT, îi plac mașinile și de curând a început să meargă la sală.",
+    "analyze": "Vezi ce am înțeles",
+    "found": "Am înțeles asta. Bifează ce e corect:",
+    "nothing": "N-am reușit să deduc nimic. Poți alege interesele manual.",
+    "save": "Salvează selecția"
   }
 }

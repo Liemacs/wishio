@@ -41,7 +41,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Catalog** — produs/oferte, deduplicare, scor de cadou, căutare, clickuri |
 | ✅ | **Motorul de recomandări** — criterii, filtre, scoring, diversificare, anti-repetare |
 | ✅ | **Evaluare + CI** — 30 de profiluri, paritate traduceri, formatare |
-| ✅ | 210 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Ecranele de recomandare** — buget, consimțământ AI, rezultate, magazin |
+| ✅ | 212 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -168,7 +169,7 @@ Cifrele îți spun unde să insiști.
 | S6.2 ✅ | ~~`CatalogAdapter`~~ + `ManualCatalog`; `MagazinerCatalog` când apare API-ul |
 | S6.3 ✅ | ~~Stratul de curatare~~ — filtru „nu e cadou” + `gift_score` pe reguli; corecția manuală rămâne pentru catalogul real |
 | S6.4 ✅ | ~~Căutare + filtre~~ — text, buget, interese |
-| S6.5 ✅ | ~~Click spre magazin cu tracking~~ — rămâne cardul în aplicație |
+| S6.5 ✅ | ~~Card de produs + click spre magazin cu tracking~~ |
 | S6.6 ✅ | ~~Deduplicare + „vezi la alte N magazine”~~ |
 
 ## S7–S8 · Recomandări (săptămânile 7–8)
@@ -179,10 +180,10 @@ Cifrele îți spun unde să insiști.
 | S7.2 ✅ | ~~Validare strictă~~ — codurile inexistente se aruncă, nu se aproximează |
 | S7.3 ✅ | ~~Pipeline complet~~ — cu descompunerea scorului salvată, ca rezultatele să fie depanabile |
 | S7.4 ✅ | ~~Anti-repetare + excluderi~~ |
-| S7.5 ✅ | ~~Consimțământ AI + rută fără AI~~ în backend; rămâne ecranul mobil |
+| S7.5 ✅ | ~~Consimțământ AI + rută fără AI~~ — backend și ecran |
 | S7.6 ✅ | ~~Generare asincronă~~ — 202 Accepted, clientul interoghează starea |
 | S8.1 ✅ | ~~Set de evaluare, 30 de profiluri~~ — rulat în CI, 30/30, p95 15 ms |
-| S8.2 ✅ | ~~Frază liberă → interese~~ — API gata; rămâne ecranul P5 |
+| S8.2 ✅ | ~~Frază liberă → interese~~ — API și ecranul P5 |
 | S8.3 ✅ | ~~Buget de cost + comutare pe ruta fără AI la depășire~~ |
 
 **Gata când:** pentru 8 din 10 profiluri de test, ≥3 din 5 sugestii sunt plauzibile, în RO, RU și EN.

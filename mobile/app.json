@@ -54,7 +54,8 @@
           "contactsPermission": "Wishio citește doar numele și ziua de naștere, ca să nu uiți ocaziile importante."
         }
       ],
-      "expo-image"
+      "expo-image",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

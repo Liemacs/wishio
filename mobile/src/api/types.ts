@@ -11,6 +11,9 @@ export type Profile = {
   timezone: string;
   name_day_calendar: NameDayCalendar;
   birth_date: string | null;
+  /** A fost deja întrebat despre AI, și ce a răspuns. Stări distincte. */
+  ai_consent: boolean;
+  ai_consent_asked: boolean;
 };
 
 /** Sursele, de la cea mai de încredere la cea mai slabă. Vezi docs/04 § 3. */

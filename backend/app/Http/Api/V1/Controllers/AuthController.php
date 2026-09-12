@@ -112,6 +112,9 @@ class AuthController extends Controller
             'timezone'          => $user->timezone,
             'name_day_calendar' => $user->name_day_calendar,
             'birth_date'        => $user->birth_date?->format('Y-m-d'),
+            // Două stări distincte: dacă a fost întrebat și ce a răspuns.
+            'ai_consent'       => $user->ai_consent_at !== null,
+            'ai_consent_asked' => $user->ai_consent_asked_at !== null,
         ];
     }
 }

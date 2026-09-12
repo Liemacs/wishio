@@ -33,6 +33,7 @@ class User extends Authenticatable
         'name_day_calendar',
         'birth_date',
         'ai_consent_at',
+        'ai_consent_asked_at',
     ];
 
     /**

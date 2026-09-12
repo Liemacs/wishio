@@ -140,5 +140,45 @@
     "skip": "Not now",
     "deniedTitle": "No notifications",
     "deniedBody": "That's fine. Upcoming occasions still show on the home screen."
+  },
+  "gift": {
+    "title": "What's your budget?",
+    "subtitle": "Looking for ideas for {{name}}",
+    "anyBudget": "Doesn't matter",
+    "custom": "Custom budget",
+    "min": "From",
+    "max": "To",
+    "search": "Find ideas",
+    "searching": "Looking for ideas…",
+    "searchingHint": "This takes a few seconds.",
+    "emptyTitle": "No good ideas found",
+    "emptyText": "Try a wider budget, or add a few interests so we know what they like.",
+    "emptyAction": "Add interests",
+    "otherOffers": "and at {{count}} other shops",
+    "at": "at {{merchant}}",
+    "buy": "Open shop",
+    "noReason": "Based on their interests",
+    "retry": "Search again",
+    "sponsored": "sponsored",
+    "resultsTitle_one": "{{count}} idea for {{name}}",
+    "resultsTitle_other": "{{count}} ideas for {{name}}"
+  },
+  "aiConsent": {
+    "title": "Want better ideas?",
+    "body": "To find suitable ideas, we send our AI provider:",
+    "sends": "approximate age, relationship, interests and budget",
+    "notSends": "we do NOT send names, phone numbers or your notes",
+    "allow": "I agree",
+    "skip": "No, filters only",
+    "note": "You can change this in settings at any time."
+  },
+  "analyze": {
+    "title": "Tell me about {{name}}",
+    "hint": "Write freely, in your own words. The more you tell us, the better the ideas.",
+    "placeholder": "For example: works in IT, loves cars and recently started going to the gym.",
+    "analyze": "See what we understood",
+    "found": "Here's what we understood. Tick what's right:",
+    "nothing": "We couldn't work anything out. You can pick interests manually.",
+    "save": "Save selection"
   }
 }

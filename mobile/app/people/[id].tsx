@@ -61,9 +61,15 @@ export default function PersonDetail() {
           <Text className="text-base text-primary-600">‹ {t('common.back')}</Text>
         </Pressable>
 
-        <Pressable onPress={confirmDelete} className="py-1 pl-2 active:opacity-60">
-          <Text className="text-sm font-medium text-danger">{t('common.delete')}</Text>
-        </Pressable>
+        <View className="flex-row items-center gap-4">
+          <Pressable onPress={() => router.push(`/gift/${personId}`)} className="py-1 active:opacity-60">
+            <Text className="text-sm font-semibold text-primary-600">{t('reminder.findGift')}</Text>
+          </Pressable>
+
+          <Pressable onPress={confirmDelete} className="py-1 active:opacity-60">
+            <Text className="text-sm font-medium text-danger">{t('common.delete')}</Text>
+          </Pressable>
+        </View>
       </View>
 
       <PersonForm
@@ -91,12 +97,18 @@ export default function PersonDetail() {
             <Text className="mt-2 text-sm text-surface-400">{t('person.interestsEmpty')}</Text>
           )}
 
-          <Button
-            label={t('person.chooseInterests')}
-            variant="secondary"
-            className="mt-3"
-            onPress={() => setPickerOpen(true)}
-          />
+          <View className="mt-3 gap-2">
+            <Button
+              label={t('person.chooseInterests')}
+              variant="secondary"
+              onPress={() => setPickerOpen(true)}
+            />
+            <Button
+              label={t('analyze.analyze')}
+              variant="ghost"
+              onPress={() => router.push(`/analyze/${personId}`)}
+            />
+          </View>
         </View>
       </PersonForm>
 

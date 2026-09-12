@@ -60,8 +60,16 @@ class RecommendationController extends Controller
     {
         $data = $request->validate(['granted' => ['required', 'boolean']]);
 
-        $request->user()->update(['ai_consent_at' => $data['granted'] ? now() : null]);
+        $request->user()->update([
+            'ai_consent_at' => $data['granted'] ? now() : null,
+            // Marcăm că am întrebat, indiferent de răspuns: un refuz nu se
+            // reia la fiecare căutare.
+            'ai_consent_asked_at' => now(),
+        ]);
 
-        return response()->json(['data' => ['ai_consent' => $data['granted']]]);
+        return response()->json(['data' => [
+            'ai_consent'       => $data['granted'],
+            'ai_consent_asked' => true,
+        ]]);
     }
 }
