@@ -130,6 +130,31 @@ it('limiteaza numarul de cereri de la acelasi IP', function () {
     expect(GiftRequest::count())->toBe(5);
 });
 
+it('livreaza previzualizarea sociala in limba paginii', function (string $locale, string $image) {
+    // Linkul se distribuie in grupuri RO si RU; previzualizarea trebuie sa fie
+    // in limba respectiva, altfel conversia la distributie scade (docs/14 § 4).
+    $this->withHeader('Accept-Language', $locale)
+        ->get('/')
+        ->assertSee('property="og:image" content="'.config('app.url').$image.'"', escape: false)
+        ->assertSee('twitter:card', escape: false);
+})->with([
+    ['ro', '/og/ro.png'],
+    ['ru', '/og/ru.png'],
+    ['en', '/og/en.png'],
+]);
+
+it('are favicon si icon pentru ecranul de start', function () {
+    $this->get('/')
+        ->assertSee('href="/favicon.svg"', escape: false)
+        ->assertSee('rel="apple-touch-icon"', escape: false);
+});
+
+it('are fisierele de imagine generate', function () {
+    foreach (['og/ro.png', 'og/ru.png', 'og/en.png', 'favicon.svg', 'favicon-32.png', 'favicon-180.png'] as $file) {
+        expect(file_exists(public_path($file)))->toBeTrue("lipseste public/$file");
+    }
+});
+
 it('nu indexeaza landing-ul cat suntem in Faza 0', function () {
     $this->get('/')->assertSee('name="robots" content="noindex"', escape: false);
 });

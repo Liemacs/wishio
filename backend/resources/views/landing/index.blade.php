@@ -44,7 +44,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('landing.request') }}" class="space-y-5 px-6 py-6">
+        <form method="POST" action="{{ route('landing.request') }}" data-track-form class="space-y-5 px-6 py-6">
             @csrf
             <input type="hidden" name="src" value="{{ request('src') }}">
 

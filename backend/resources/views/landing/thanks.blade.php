@@ -1,4 +1,4 @@
-<x-layouts.landing :title="__('landing.thanks.title')">
+<x-layouts.landing :title="__('landing.thanks.title')" event="request_submitted">
 
     <section class="mx-auto max-w-lg pt-16 pb-24 text-center">
         <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary-50 text-2xl">

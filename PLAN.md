@@ -31,7 +31,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Resolver de onomastici** — 49 sărbători × 2 calendare, 658 aliasuri (`docs/15`) |
 | ✅ | **Taxonomia de interese** — 15 grupuri, 80 interese, 1.164 cuvinte-cheie RO/RU/EN (`docs/16`) |
 | ✅ | **Landing Faza 0** — RO/RU/EN, formular cu consimțământ versionat, unealtă concierge (`docs/17`) |
-| ✅ | 46 de teste verzi pe MySQL |
+| ✅ | 51 de teste verzi pe MySQL |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -58,7 +58,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | **P0.3** ✅ | ~~Contact Magaziner~~ — **acceptat**. Acum: trimite specificația din `docs/12` și formalizează înțelegerea | 2 h | Ai specificația API confirmată în scris |
 | **P0.4** 🟠 | Verifică nume + domeniu (`.md`/`.com`/`.app`) + App Store + marcă AGEPI | 2 h | Numele e confirmat sau schimbat |
 | **P0.5** 🟠 | Deschide **Apple Developer** (99 USD/an) și **Google Play** (25 USD) — activarea durează | 1 h | Conturile sunt în curs de activare |
-| **P0.6** ✅ | ~~Landing page RO/RU/EN + formular~~ — **construit și testat** (`docs/17`). Rămâne: cheie PostHog, hosting, `wishio.md`, favicon | 3 h | E live pe wishio.md |
+| **P0.6** ✅ | ~~Landing RO/RU/EN + formular + analytics~~ — **construit și testat** (`docs/17`): previzualizare socială pe limbi, favicon, evenimente PostHog. Rămâne: cheia PostHog, hosting, `wishio.md` | 2 h | E live pe wishio.md |
 | **P0.7** 🔴 | **Distribuție:** grupuri Facebook MD, Telegram, colegi, cunoscuți | 3 h | 150+ vizitatori |
 | **P0.8** 🔴 | **Concierge: 20 de recomandări manuale.** Caută de mână pe Magaziner/Darwin/Bomba/Ultra. Trimite 5 carduri în limba cerută. Întreabă „ai cumpăra?”. **Notează tot** — e corpusul pentru prompt | 10 zile, ~1 h/zi | 20 livrate, feedback notat |
 | **P0.9** 🔴 | **Discuții cu 5 magazine + 2 restaurante.** Întrebarea: „ai plăti 2.000 MDL/lună pentru 500 de clickuri de la oameni cu buget declarat?” | 6 h | 7 răspunsuri, cu cifre |

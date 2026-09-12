@@ -92,15 +92,43 @@ Testul a fost greu de scris pentru că `Symfony\Request::create()` **injectează
 
 ---
 
-## 7. Ce mai trebuie făcut înainte de lansare
+## 7. Previzualizare socială, favicon, analytics
+
+### Imaginile Open Graph — una pe limbă
+
+```bash
+php artisan wishio:og-images     # public/og/{ro,ru,en}.png, 1200×630
+```
+
+Când postezi linkul într-un grup de Facebook sau pe Telegram, previzualizarea este primul lucru pe care îl văd oamenii. Fără ea linkul arată rupt și conversia scade — contează direct pentru P0.7. Pagina servește automat imaginea în limba curentă, deci un link postat într-un grup rusofon arată în rusă.
+
+> **Capcană prinsă la generare:** `wordwrap()` din PHP numără **octeți, nu caractere**. Chirilicul are 2 octeți pe literă, așa că titlul rusesc se rupea în patru rânduri și intra peste subtitlu. Împachetarea e acum multibyte-safe, iar subtitlul se poziționează sub titlu, nu la o coordonată fixă.
+
+### Favicon
+
+`public/favicon.svg` + PNG-uri derivate (32, 180, 512). Construit doar din forme simple — Imagick nu randează corect `<path>` cu contur, iar prima versiune ieșea ca două dreptunghiuri albe în loc de o cutie de cadou.
+
+### Analytics
+
+Snippetul PostHog se încarcă **doar dacă există cheia**; pagina funcționează identic fără ea. Evenimente, conform `docs/07 § 3`:
+
+| Eveniment | Când | Ce măsoară |
+|---|---|---|
+| `landing_viewed` | la încărcare | **G0**, cu `source` din `?src=` |
+| `language_selected` | la comutator | distribuția RO/RU/EN (`docs/07 § 5`) |
+| `form_started` | la prima tastare | câți încep față de câți trimit |
+| `request_submitted` | pe pagina de mulțumire | conversia finală |
+
+`autocapture` este oprit deliberat: colectăm doar ce am definit, nu tot ce se întâmplă pe pagină.
+
+## 8. Ce mai trebuie făcut înainte de lansare
 
 | # | Ce | Efort |
 |---|---|---|
-| 1 | **Cheie PostHog** în `.env` (`POSTHOG_KEY`) și snippetul de tracking | 30 min |
+| 1 | `POSTHOG_KEY` în `.env` | 10 min |
 | 2 | Hosting + `wishio.md` + TLS | 2 h |
-| 3 | Recitește copy-ul RO și RU cu voce tare — sunt traduceri scrise direct, nu din engleză, dar merită verificate | 30 min |
-| 4 | Icon și favicon | 30 min |
-| 5 | Un test pe telefon real, în toate trei limbile | 20 min |
-| 6 | Parametrul `?src=` pe fiecare link distribuit, ca să știi ce canal a funcționat | 0 |
+| 3 | Recitește copy-ul RO și RU cu voce tare | 30 min |
+| 4 | Un test pe telefon real, în toate trei limbile | 20 min |
+| 5 | `?src=` pe fiecare link distribuit | 0 |
 
-Punctul 6 e gratuit și îți spune exact ce a mers: `wishio.md/?src=fb_mame`, `?src=telegram`, `?src=reddit`. Se salvează automat în `source`.
+Punctul 5 e gratuit și îți spune exact ce canal a mers: `wishio.md/?src=fb_mame`, `?src=telegram`, `?src=reddit`. Se salvează în `source` **și** ajunge în `landing_viewed`. Răspunde la B7 fără niciun efort.
