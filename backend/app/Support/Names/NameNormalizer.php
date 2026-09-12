@@ -128,6 +128,25 @@ class NameNormalizer
         return array_keys($this->candidateWeights($contactName));
     }
 
+    /**
+     * Primul token — prenumele propriu-zis.
+     *
+     * Diferit de candidates()[0], care poate fi numele compus intreg
+     * ("alex ciobanu"). Pentru name-day matching avem nevoie de "alex".
+     */
+    public function firstName(string $contactName): ?string
+    {
+        $normalized = $this->normalize(str_replace('-', ' ', $contactName));
+
+        foreach (explode(' ', $normalized) as $token) {
+            if (mb_strlen($token) >= 2 && ! in_array($token, self::NOT_A_NAME, true)) {
+                return $token;
+            }
+        }
+
+        return null;
+    }
+
     public function looksLikeName(string $contactName): bool
     {
         return $this->candidates($contactName) !== [];

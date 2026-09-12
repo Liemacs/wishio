@@ -32,7 +32,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Taxonomia de interese** — 15 grupuri, 80 interese, 1.164 cuvinte-cheie RO/RU/EN (`docs/16`) |
 | ✅ | **Landing Faza 0** — RO/RU/EN, formular cu consimțământ versionat, unealtă concierge (`docs/17`) |
 | ✅ | **Domeniul People** — ierarhia de încredere, override-uri definitive, note criptate |
-| ✅ | 62 de teste verzi pe MySQL |
+| ✅ | **API v1** — persoane, interese, autorizare pe proprietar |
+| ✅ | 78 de teste verzi pe MySQL |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -95,7 +96,7 @@ Cifrele îți spun unde să insiști.
 | S1.5 | i18n mobile: i18next + expo-localization, comutator de limbă, `ro/ru/en.json` | ecran de test comută corect, plural RU corect |
 | S1.6 | **Componente de compunere** în `src/components/ui/` peste stack-ul din `docs/05 § 1.1`: Button, Card, OccasionCard, PersonRow, ProductCard, EmptyState, Section, Sheet | fiecare randează în RO/RU/EN, cu animație și haptic |
 | S1.7 | expo-router + structura `app/`; TanStack Query + Zustand + client API | navigare între 2 ecrane, un fetch reușit |
-| S1.8 | Auth: Sanctum + Apple + Google + email OTP | te loghezi din app și primești token |
+| S1.8 🟠 | Auth: **Sanctum instalat**; rămân Apple, Google, email OTP | te loghezi din app și primești token |
 | S1.9 | CI GitHub Actions: Pint, PHPStan, `php artisan test`, `tsc --noEmit` | build verde pe PR |
 | S1.10 | OpenAPI 3.1 + generare tipuri TS | tipurile se generează din spec |
 
@@ -116,7 +117,7 @@ Cifrele îți spun unde să insiști.
 | ID | Pas |
 |---|---|
 | S3.1 ✅ | ~~Migrări `people`, `person_field_sources`, `person_interests`, `person_avoids`~~ |
-| S3.2 | CRUD Person: nume, dată, relație, gen, buget, note (criptate la rest) |
+| S3.2 ✅ | ~~CRUD Person prin API~~ — `/api/v1/people`, cu politică de acces și 16 teste |
 | S3.3 ✅ | ~~**Ierarhia de trust + override-uri**~~ — `FieldSource` + `WritePersonField`, 11 teste |
 | S3.4 | Ecrane: listă persoane (grupate pe proximitate), detaliu persoană, adăugare manuală |
 | S3.5 | Selector de interese din taxonomie, în limba userului |
