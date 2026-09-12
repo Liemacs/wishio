@@ -87,15 +87,27 @@ Ierarhia se construiește din **greutate + mărime + interlinie ca set**, nu din
 
 ---
 
-## 6. Ce rămâne de făcut
+## 6. Gesturi — referința: selectorul de oră
+
+Primul element tras cu degetul e rigla de ore din setările de notificări, `src/features/notifications/HourRuler.tsx`. Orice control nou tras cu degetul pornește de la ea.
+
+| Principiu | Cum e făcut |
+|---|---|
+| Urmărire 1:1 | `translationX` intră direct în poziție, pe firul UI, fără nicio animație între deget și riglă |
+| Predarea vitezei | arcul de fixare pornește cu `velocity` luată din gest, deci nu există salt la eliberare |
+| Proiecția impulsului | ținta = poziția + v/1000 · d/(1−d), cu d = 0,998 (decelerarea derulării iOS), apoi cea mai apropiată valoare permisă |
+| Rezistență elastică | formula de rubber band a iOS la capete, cu coeficientul 0,55 |
+| Întreruptibilitate | atingerea oprește rigla din mers: `cancelAnimation` la `onBegin`, nu la activarea gestului |
+| Conflict cu derularea | `activeOffsetX` + `failOffsetY`: un gest vertical rămâne al paginii |
+| Haptică | un singur tic la fiecare valoare trecută, nu continuu |
+| Accesibilitate | un singur element `adjustable`, cu acțiuni de creștere și scădere; butoanele vizuale sunt ascunse de VoiceOver |
+| Mișcare redusă | fără arc și fără scalare; rămân opacitatea și haptica |
+| Margini | capetele riglei se estompează: conținutul continuă dincolo de ce se vede |
+
+## 7. Ce rămâne de făcut
 
 | | |
 |---|---|
-| Gesturi 1:1 cu urmărirea degetului | nu avem încă niciun element tras cu degetul |
-| Predarea vitezei la finalul gestului | idem |
-| Proiecția impulsului pentru fixare | la sheet-uri cu mai multe poziții |
-| Rezistență elastică la margini | listele folosesc comportamentul implicit, care e deja corect |
 | Materiale translucide (`expo-blur`) | antetele sunt opace; blur-ul e instalat, nefolosit |
-| Efecte de margine la scroll | în locul separatorului de 1px |
-
-Primele trei devin relevante când apare primul element tras cu degetul — cel mai probabil selectorul de buget sau un sheet cu poziții multiple.
+| Efecte de margine la scroll pe liste lungi | rigla le are; listele încă folosesc separatorul |
+| Sheet-uri cu mai multe poziții | când apar, refolosesc proiecția și predarea vitezei de mai sus |

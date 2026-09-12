@@ -1,5 +1,5 @@
-import { Children, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
@@ -8,7 +8,9 @@ import * as Haptics from 'expo-haptics';
 import * as WebBrowser from 'expo-web-browser';
 
 import { errorMessage, webUrl } from '../../src/api/client';
+import { BackButton } from '../../src/components/ui/BackButton';
 import { Screen } from '../../src/components/ui/Screen';
+import { Group, Row, Section } from '../../src/components/ui/SettingsList';
 import { entrance, spring, useReducedMotion } from '../../src/design/motion';
 import { TYPE } from '../../src/design/typography';
 import { useChangeLocale, useExportData } from '../../src/features/account/queries';
@@ -55,11 +57,7 @@ export default function AccountScreen() {
 
   return (
     <Screen edges={{ top: true, bottom: false }}>
-      <View className="px-5 py-3">
-        <Pressable onPress={() => router.back()} hitSlop={8} className="self-start py-1 pr-2 active:opacity-60">
-          <Text className="text-base text-primary-600">‹ {t('common.back')}</Text>
-        </Pressable>
-      </View>
+      <BackButton />
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 60 }}>
         <MotiView {...entrance(reduced, 0)}>
@@ -101,102 +99,6 @@ export default function AccountScreen() {
         </Section>
       </ScrollView>
     </Screen>
-  );
-}
-
-function Section({
-  title,
-  footer,
-  index,
-  reduced,
-  children,
-}: {
-  title?: string;
-  footer?: string;
-  index: number;
-  reduced: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <MotiView {...entrance(reduced, index)}>
-      <View className="mt-8">
-        {title ? (
-          <Text className="mb-2 px-4 text-surface-400" style={{ ...TYPE.caption, textTransform: 'uppercase' }}>
-            {title}
-          </Text>
-        ) : null}
-
-        {children}
-
-        {footer ? (
-          <Text className="mt-2 px-4 text-surface-500" style={TYPE.footnote}>
-            {footer}
-          </Text>
-        ) : null}
-      </View>
-    </MotiView>
-  );
-}
-
-/** Rânduri grupate, cu separator decalat între ele — idiomul listelor de setări. */
-function Group({ children }: { children: React.ReactNode }) {
-  const rows = Children.toArray(children);
-
-  return (
-    <View className="overflow-hidden rounded-card bg-white">
-      {rows.map((row, i) => (
-        <View key={i}>
-          {i > 0 ? <View style={styles.separator} /> : null}
-          {row}
-        </View>
-      ))}
-    </View>
-  );
-}
-
-const TONE = {
-  default: 'text-surface-900',
-  accent: 'text-primary-600',
-  danger: 'text-danger',
-} as const;
-
-function Row({
-  label,
-  onPress,
-  tone = 'default',
-  accessory,
-  busy = false,
-}: {
-  label: string;
-  onPress: () => void;
-  tone?: keyof typeof TONE;
-  accessory?: 'chevron' | 'external';
-  busy?: boolean;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      disabled={busy}
-      accessibilityRole={accessory === 'external' ? 'link' : 'button'}
-      accessibilityState={{ busy }}
-      /*
-       * Evidențierea apare la apăsare, nu la eliberare. E o schimbare de
-       * culoare, nu de poziție, deci rămâne și cu mișcare redusă.
-       */
-      className="min-h-12 flex-row items-center gap-3 px-4 py-3 active:bg-surface-100"
-    >
-      <Text className={`flex-1 ${TONE[tone]}`} style={TYPE.body}>
-        {label}
-      </Text>
-
-      {busy ? (
-        <ActivityIndicator size="small" color="#a1a1aa" />
-      ) : accessory === 'chevron' ? (
-        <Text className="text-surface-300" style={TYPE.heading}>›</Text>
-      ) : accessory === 'external' ? (
-        <Text className="text-surface-300" style={TYPE.callout}>↗</Text>
-      ) : null}
-    </Pressable>
   );
 }
 
@@ -281,11 +183,6 @@ function LanguagePicker({
 }
 
 const styles = StyleSheet.create({
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    marginLeft: 16,
-    backgroundColor: '#e4e4e7',
-  },
   indicator: {
     position: 'absolute',
     top: PAD,

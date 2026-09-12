@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getCalendars } from 'expo-localization';
 
 import { api, getToken, setToken } from '../api/client';
 import type { Locale, Profile } from '../api/types';
@@ -26,6 +27,36 @@ function adoptProfile(profile: Profile) {
   }
 }
 
+/**
+ * Ora aleasă pentru notificări e ora de pe ceasul utilizatorului, deci contul
+ * trebuie să cunoască fusul telefonului. Fără asta, cine nu e în fusul
+ * Chișinăului ar primi reminderele la altă oră decât cea aleasă.
+ *
+ * Întoarce profilul actualizat, sau null dacă nu era nimic de schimbat.
+ */
+async function syncTimezone(profile: Profile): Promise<Profile | null> {
+  let timezone: string | null = null;
+
+  try {
+    timezone = getCalendars()[0]?.timeZone ?? null;
+  } catch {
+    return null;
+  }
+
+  if (!timezone || timezone === profile.timezone) {
+    return null;
+  }
+
+  try {
+    const { data } = await api.patch<{ data: Profile }>('/auth/me', { timezone });
+
+    return data.data;
+  } catch {
+    // Nu blocăm sesiunea pentru asta: reîncercăm la următoarea pornire.
+    return null;
+  }
+}
+
 export const useAuthStore = create<AuthState>((set, get) => ({
   profile: null,
   status: 'loading',
@@ -40,6 +71,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const { data } = await api.get<{ data: Profile }>('/auth/me');
       adoptProfile(data.data);
       set({ profile: data.data, status: 'authenticated' });
+    syncTimezone(data.data).then((profile) => profile && set({ profile }));
     } catch {
       // Token expirat sau invalidat pe server.
       await setToken(null);
@@ -52,6 +84,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     await setToken(data.token);
     adoptProfile(data.data);
     set({ profile: data.data, status: 'authenticated' });
+    syncTimezone(data.data).then((profile) => profile && set({ profile }));
   },
 
   register: async (name, email, password) => {
@@ -63,6 +96,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     });
     await setToken(data.token);
     set({ profile: data.data, status: 'authenticated' });
+    syncTimezone(data.data).then((profile) => profile && set({ profile }));
   },
 
   logout: async () => {

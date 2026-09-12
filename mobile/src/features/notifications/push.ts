@@ -12,33 +12,72 @@ import { api } from '../../api/client';
  * nu la pornire. Vezi docs/02 § R3: cerută prea devreme, rata de acceptare
  * scade mult, iar reminderul e mecanismul de retenție al produsului.
  */
-export type PushStatus = 'granted' | 'denied' | 'unsupported';
+export type PushStatus = 'granted' | 'denied' | 'unsupported' | 'unregistered';
 
+/**
+ * Cere permisiunea și înregistrează telefonul. Nu aruncă niciodată.
+ *
+ * Înainte, o eroare la obținerea tokenului bloca onboarding-ul pe un spinner:
+ * în Expo Go, fără proiect EAS, tokenul nu se poate obține deloc.
+ */
 export async function requestPushPermission(): Promise<PushStatus> {
   if (!Device.isDevice) {
     return 'unsupported';   // simulatoarele nu primesc push
   }
 
-  const existing = await Notifications.getPermissionsAsync();
-  const status =
-    existing.status === 'granted'
-      ? existing
-      : await Notifications.requestPermissionsAsync();
+  try {
+    const existing = await Notifications.getPermissionsAsync();
+    const status =
+      existing.status === 'granted'
+        ? existing
+        : await Notifications.requestPermissionsAsync();
 
-  if (status.status !== 'granted') {
-    return 'denied';
+    if (status.status !== 'granted') {
+      return 'denied';
+    }
+
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('occasions', {
+        name: 'Occasions',
+        importance: Notifications.AndroidImportance.DEFAULT,
+      });
+    }
+  } catch {
+    return 'unsupported';
   }
 
-  if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('occasions', {
-      name: 'Occasions',
-      importance: Notifications.AndroidImportance.DEFAULT,
-    });
+  try {
+    await registerDevice();
+  } catch {
+    // Permisiunea există, dar telefonul nu s-a putut înregistra: Expo Go fără
+    // proiect EAS, lipsă de rețea sau server oprit. Se poate reîncerca din
+    // setările de notificări.
+    return 'unregistered';
   }
-
-  await registerDevice();
 
   return 'granted';
+}
+
+export type PushPermission = 'granted' | 'denied' | 'undetermined' | 'unsupported';
+
+/** Starea permisiunii din sistem, fără să-l întrebe pe utilizator. */
+export async function getPushPermission(): Promise<PushPermission> {
+  if (!Device.isDevice) {
+    return 'unsupported';
+  }
+
+  try {
+    const { status, canAskAgain } = await Notifications.getPermissionsAsync();
+
+    if (status === 'granted') {
+      return 'granted';
+    }
+
+    // După un refuz, iOS nu mai afișează dialogul: rămân doar setările telefonului.
+    return status === 'denied' || !canAskAgain ? 'denied' : 'undetermined';
+  } catch {
+    return 'unsupported';
+  }
 }
 
 async function registerDevice(): Promise<void> {

@@ -64,28 +64,3 @@ export function useRemoveWish() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: KEY }),
   });
 }
-
-export type Settings = {
-  reminder_days: number[];
-  preferred_hour: number;
-  push_enabled: boolean;
-  email_digest: boolean;
-  has_device: boolean;
-};
-
-export function useSettings() {
-  return useQuery({
-    queryKey: ['settings'],
-    queryFn: async () => (await api.get<{ data: Settings }>('/settings')).data.data,
-  });
-}
-
-export function useUpdateSettings() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (input: Partial<Settings>) =>
-      (await api.patch<{ data: Settings }>('/settings', input)).data.data,
-    onSuccess: (settings) => queryClient.setQueryData(['settings'], settings),
-  });
-}

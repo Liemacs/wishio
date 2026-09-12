@@ -10,10 +10,7 @@ import * as Haptics from 'expo-haptics';
 import { errorMessage } from '../src/api/client';
 import { Button } from '../src/components/ui/Button';
 import { Screen } from '../src/components/ui/Screen';
-import {
-  useAddWish, useMyProfile, useRemoveWish, useSettings,
-  useUpdateMyProfile, useUpdateSettings, type WishKind,
-} from '../src/features/profile/queries';
+import { useAddWish, useMyProfile, useRemoveWish, useUpdateMyProfile, type WishKind } from '../src/features/profile/queries';
 
 const KINDS: WishKind[] = ['product', 'place', 'experience'];
 const VISIBILITY_FIELDS = ['birth_date', 'interests', 'wishlist'] as const;
@@ -26,8 +23,6 @@ export default function MyProfileScreen() {
   const updateProfile = useUpdateMyProfile();
   const addWish = useAddWish();
   const removeWish = useRemoveWish();
-  const { data: settings } = useSettings();
-  const updateSettings = useUpdateSettings();
 
   const [wishText, setWishText] = useState('');
   const [wishKind, setWishKind] = useState<WishKind>('product');
@@ -204,48 +199,19 @@ export default function MyProfileScreen() {
           </View>
         </Section>
 
-        {/* ── Setări ─────────────────────────────────────────────────────── */}
-        {settings ? (
-          <Section title={t('profile.settingsTitle')}>
-            <Text className="mb-2 text-sm text-surface-500">{t('profile.reminderDays')}</Text>
-            <View className="flex-row flex-wrap gap-2">
-              {[14, 7, 3, 1].map((day) => {
-                const active = settings.reminder_days.includes(day);
-
-                return (
-                  <Pressable
-                    key={day}
-                    onPress={() => {
-                      Haptics.selectionAsync();
-                      updateSettings.mutate({
-                        reminder_days: active
-                          ? settings.reminder_days.filter((d) => d !== day)
-                          : [...settings.reminder_days, day].sort((a, b) => b - a),
-                      });
-                    }}
-                    className={`rounded-full px-3.5 py-2 ${active ? 'bg-primary-600' : 'bg-surface-200'}`}
-                  >
-                    <Text className={`text-sm ${active ? 'font-medium text-white' : 'text-surface-700'}`}>
-                      {t('profile.days', { count: day })}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-          </Section>
-        ) : null}
-
-        {/* ── Cont: limbă, datele tale, documente legale, ștergere (M7) ──── */}
-        <Pressable
+        {/* ── Notificări (M6) și Cont (M7) ──────────────────────────────── */}
+        <ProfileLink
+          className="mt-8"
+          label={t('profile.notifications')}
+          hint={t('notifications.profileHint')}
+          onPress={() => router.push('/notifications')}
+        />
+        <ProfileLink
+          className="mt-3"
+          label={t('account.title')}
+          hint={t('profile.accountHint')}
           onPress={() => router.push('/account')}
-          className="mt-8 flex-row items-center gap-3 rounded-button bg-white px-4 py-3.5 active:opacity-70"
-        >
-          <View className="flex-1">
-            <Text className="text-base text-surface-800">{t('account.title')}</Text>
-            <Text className="mt-0.5 text-xs text-surface-400">{t('profile.accountHint')}</Text>
-          </View>
-          <Text className="text-lg text-surface-300">›</Text>
-        </Pressable>
+        />
       </ScrollView>
     </Screen>
   );
@@ -258,5 +224,30 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
       {hint ? <Text className="mt-1 text-sm leading-relaxed text-surface-500">{hint}</Text> : null}
       <View className="mt-3">{children}</View>
     </View>
+  );
+}
+
+function ProfileLink({
+  label,
+  hint,
+  onPress,
+  className = '',
+}: {
+  label: string;
+  hint: string;
+  onPress: () => void;
+  className?: string;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      className={`flex-row items-center gap-3 rounded-button bg-white px-4 py-3.5 active:opacity-70 ${className}`}
+    >
+      <View className="flex-1">
+        <Text className="text-base text-surface-800">{label}</Text>
+        <Text className="mt-0.5 text-xs text-surface-400">{hint}</Text>
+      </View>
+      <Text className="text-lg text-surface-300">›</Text>
+    </Pressable>
   );
 }

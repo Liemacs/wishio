@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 import * as Haptics from 'expo-haptics';
 
 import { errorMessage, fieldErrors } from '../../src/api/client';
+import { BackButton } from '../../src/components/ui/BackButton';
 import { Button } from '../../src/components/ui/Button';
 import { Field } from '../../src/components/ui/Field';
 import { Screen } from '../../src/components/ui/Screen';
@@ -29,7 +29,6 @@ const WHAT_IS_DELETED = ['whatPeople', 'whatGifts', 'whatLink', 'whatWishlist', 
  */
 export default function DeleteAccountScreen() {
   const { t } = useTranslation();
-  const router = useRouter();
   const reduced = useReducedMotion();
   const email = useAuthStore((s) => s.profile?.email ?? '');
   const endSession = useAuthStore((s) => s.endSession);
@@ -76,11 +75,7 @@ export default function DeleteAccountScreen() {
 
   return (
     <Screen>
-      <View className="px-5 py-3">
-        <Pressable onPress={() => router.back()} hitSlop={8} className="self-start py-1 pr-2 active:opacity-60">
-          <Text className="text-base text-primary-600">‹ {t('common.back')}</Text>
-        </Pressable>
-      </View>
+      <BackButton />
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
         <ScrollView
