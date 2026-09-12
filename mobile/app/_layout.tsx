@@ -7,9 +7,40 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { I18nextProvider } from 'react-i18next';
 
+import * as Notifications from 'expo-notifications';
+
 import i18n from '../src/i18n';
 import { queryClient } from '../src/lib/queryClient';
+import { routeFromNotification } from '../src/features/notifications/push';
 import { useAuthStore } from '../src/stores/auth';
+
+// Notificarea se vede și când aplicația e deschisă: altfel utilizatorul
+// primește reminderul exact în momentul în care nu îl observă.
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
+/** Apăsarea unei notificări duce la persoana respectivă, nu la ecranul principal. */
+function useNotificationRouting() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+      const path = routeFromNotification(response);
+
+      if (path) {
+        router.push(path as never);
+      }
+    });
+
+    return () => subscription.remove();
+  }, [router]);
+}
 
 /** Trimite utilizatorul spre login sau spre aplicație, după starea sesiunii. */
 function AuthGate() {
@@ -19,6 +50,8 @@ function AuthGate() {
   const router = useRouter();
 
   useEffect(() => { restore(); }, [restore]);
+
+  useNotificationRouting();
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -33,7 +66,7 @@ function AuthGate() {
     if (status === 'guest' && !onLogin) {
       router.replace('/login');
     } else if (status === 'authenticated' && (onLogin || atRoot) && !inOnboarding) {
-      router.replace('/people');
+      router.replace('/home');
     }
   }, [status, segments, router]);
 

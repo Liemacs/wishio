@@ -11,7 +11,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Implicit nu trimitem nimic. Expo se activează explicit prin
+        // WISHIO_PUSH_DRIVER=expo, ca dezvoltarea locală și testele să nu
+        // trimită accidental notificări pe telefoane reale.
+        $this->app->bind(\App\Support\Push\PushSender::class, fn () => match (config('wishio.push.driver')) {
+            'expo'  => new \App\Support\Push\ExpoPushSender(),
+            default => new \App\Support\Push\NullPushSender(),
+        });
     }
 
     /**

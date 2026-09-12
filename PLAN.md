@@ -35,7 +35,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **API v1** — persoane, interese, autorizare pe proprietar |
 | ✅ | **Ecrane mobile** — login, listă persoane, detaliu, adăugare, selector de interese |
 | ✅ | **Import contacte + ocazii** — onomastici deduse, confirmare, re-sync fără duplicate |
-| ✅ | 105 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Remindere** — planificare, trimitere, preferințe, ecran principal |
+| ✅ | 131 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -145,11 +146,11 @@ Cifrele îți spun unde să insiști.
 | ID | Pas |
 |---|---|
 | S5.1 ✅ | ~~`occasions`~~ — tabel + model + sincronizare; rămân ocaziile personalizate și sărbătorile |
-| S5.2 | `ScheduleOccasionReminders` — per fus orar, quiet hours, anti-spam (max 4/ocazie, 2 push/zi) |
-| S5.3 | Push prin expo-notifications, în locale-ul fixat la programare |
-| S5.4 | Promptul de push **după** aha moment, nu la pornire |
+| S5.2 ✅ | ~~Planificator~~ — orizont de 35 de zile, per fus orar, quiet hours, anti-spam |
+| S5.3 ✅ | ~~Push prin Expo~~ — driver comutabil, limba fixată la planificare, rutare la apăsare |
+| S5.4 ✅ | ~~Promptul de push după aha moment~~ |
 | S5.5 | Email digest săptămânal, în 3 limbi |
-| S5.6 | Home: „la cine trebuie să mă gândesc azi?” |
+| S5.6 ✅ | ~~Home: „la cine te gândești azi?”~~ |
 | S5.7 | Widget iOS/Android cu următoarea ocazie (retenție fără push) |
 
 **Gata când:** un push programat ajunge pe device fizic, în RU, la ora corectă, fără să încalce quiet hours.

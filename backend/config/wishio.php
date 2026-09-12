@@ -60,6 +60,11 @@ return [
         'min_confidence_to_push' => 0.75,
     ],
 
+    'push' => [
+        // 'null' (implicit) sau 'expo'
+        'driver' => env('WISHIO_PUSH_DRIVER', 'null'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | AI

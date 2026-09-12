@@ -26,9 +26,17 @@
   },
   "home": {
     "greeting": "Bună, {{name}}",
-    "whoToday": "La cine trebuie să te gândești azi?",
+    "todayTitle": "La cine te gândești azi?",
     "upcoming": "Ocazii apropiate",
-    "empty": "Nicio ocazie apropiată. Adaugă persoane ca să începem."
+    "today": "astăzi",
+    "tomorrow": "mâine",
+    "inDays_one": "peste {{count}} zi",
+    "inDays_few": "peste {{count}} zile",
+    "inDays_other": "peste {{count}} de zile",
+    "emptyTitle": "Nicio ocazie apropiată",
+    "emptyText": "Adaugă persoane ca să vezi ce urmează.",
+    "allPeople": "Toate persoanele",
+    "needsConfirm": "de confirmat"
   },
   "errors": {
     "network": "Nu am putut contacta serverul. Verifică conexiunea.",
@@ -128,5 +136,13 @@
     "foundNameDays_other": "{{count}} de onomastici",
     "foundNothing": "N-am găsit nicio dată în agendă. Le poți adăuga manual — durează câteva secunde de persoană.",
     "start": "Începem"
+  },
+  "push": {
+    "title": "Să te anunțăm din timp?",
+    "body": "Îți trimitem o notificare cu câteva zile înainte de fiecare ocazie. Poți schimba oricând cu câte zile.",
+    "allow": "Da, anunță-mă",
+    "skip": "Nu acum",
+    "deniedTitle": "Fără notificări",
+    "deniedBody": "E în regulă. Ocaziile apropiate apar oricum pe ecranul principal."
   }
 }

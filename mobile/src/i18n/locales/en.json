@@ -25,9 +25,16 @@
   },
   "home": {
     "greeting": "Hi, {{name}}",
-    "whoToday": "Who should you think about today?",
+    "todayTitle": "Who should you think about today?",
     "upcoming": "Upcoming occasions",
-    "empty": "No upcoming occasions. Add people to get started."
+    "today": "today",
+    "tomorrow": "tomorrow",
+    "inDays_one": "in {{count}} day",
+    "inDays_other": "in {{count}} days",
+    "emptyTitle": "Nothing coming up",
+    "emptyText": "Add people to see what's ahead.",
+    "allPeople": "All people",
+    "needsConfirm": "to confirm"
   },
   "errors": {
     "network": "Could not reach the server. Check your connection.",
@@ -122,5 +129,13 @@
     "foundNameDays_other": "{{count}} name days",
     "foundNothing": "No dates found in your contacts. You can add them manually — it takes a few seconds per person.",
     "start": "Get started"
+  },
+  "push": {
+    "title": "Should we remind you in advance?",
+    "body": "We'll send a notification a few days before each occasion. You can change how many days at any time.",
+    "allow": "Yes, remind me",
+    "skip": "Not now",
+    "deniedTitle": "No notifications",
+    "deniedBody": "That's fine. Upcoming occasions still show on the home screen."
   }
 }

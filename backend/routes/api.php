@@ -6,6 +6,7 @@ use App\Http\Api\V1\Controllers\OccasionController;
 use App\Http\Api\V1\Controllers\InterestController;
 use App\Http\Api\V1\Controllers\PersonController;
 use App\Http\Api\V1\Controllers\PersonInterestController;
+use App\Http\Api\V1\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -45,6 +46,11 @@ Route::prefix('v1')->group(function () {
         // Import din agenda telefonului: doar contactele alese explicit, si
         // doar nume + zi de nastere (docs/00 § D-017).
         Route::post('/contacts/import', [ContactImportController::class, 'store']);
+
+        Route::get('/settings', [SettingsController::class, 'show']);
+        Route::patch('/settings', [SettingsController::class, 'update']);
+        Route::post('/devices', [SettingsController::class, 'storeDevice']);
+        Route::delete('/devices', [SettingsController::class, 'destroyDevice']);
 
         Route::get('/occasions', [OccasionController::class, 'index']);
         Route::patch('/occasions/{occasion}', [OccasionController::class, 'update']);

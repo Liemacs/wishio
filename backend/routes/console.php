@@ -6,3 +6,15 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+use App\Domain\Reminders\Jobs\ScheduleRemindersForAllUsers;
+use App\Domain\Reminders\Jobs\SendDueNotifications;
+use Illuminate\Support\Facades\Schedule;
+
+// Planificarea merge o dată pe zi, pe un orizont de câteva săptămâni:
+// o rulare ratată e recuperată de următoarea.
+Schedule::job(new ScheduleRemindersForAllUsers())->dailyAt('02:00');
+
+// Trimiterea rulează des, ca ora preferată a fiecărui utilizator să fie
+// respectată indiferent de fusul orar.
+Schedule::job(new SendDueNotifications())->everyFiveMinutes()->withoutOverlapping();
