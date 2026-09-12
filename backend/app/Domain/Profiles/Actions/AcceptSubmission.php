@@ -11,17 +11,14 @@ use App\Domain\Profiles\Models\ProfileSubmission;
 use App\Support\Names\NameNormalizer;
 
 /**
- * Transformă o completare de pe pagina publică într-o persoană reală.
+ * Aduce datele unei completări într-o persoană: în `$into`, sau într-o persoană
+ * nouă, apărută din link. Pe cine anume decid `ReceiveSubmission` și, când
+ * numele seamănă cu contacte existente, proprietarul (`ResolveSubmissionIdentity`).
  *
  * Datele intră ca `subject_provided` — al doilea nivel de încredere, sub doar
  * confirmarea directă a persoanei în aplicație. Sunt mai bune decât orice
  * import din agendă, fiindcă vin de la sursă, cu consimțământ explicit
- * (docs/04 § 3).
- *
- * O completare nu atinge niciodată un contact care exista deja. Potrivirea
- * după prenume lipea „Ana Popescu” de „Ana Rusu” din agendă și îi suprascria
- * numele și ziua (docs/00 § D-021). Legarea de un contact existent va cere
- * confirmarea proprietarului (PLAN.md S9.8).
+ * (docs/04 § 3). Editările manuale ale proprietarului câștigă în continuare.
  */
 class AcceptSubmission
 {
@@ -31,18 +28,19 @@ class AcceptSubmission
         private readonly NameNormalizer $normalizer,
     ) {}
 
-    public function __invoke(ProfileSubmission $submission): Person
+    public function __invoke(ProfileSubmission $submission, ?Person $into = null): Person
     {
-        $user = $submission->profile->user;
+        $person = $into ?? $submission->profile->user->people()->create([
+            'display_name'          => $submission->display_name,
+            'given_name_normalized' => $this->normalizer->firstName($submission->display_name),
+            'from_public_link'      => true,
+        ]);
 
-        $person = $this->earlierPersonOfSameSubmitter($submission)
-            ?? $user->people()->create([
-                'display_name'          => $submission->display_name,
-                'given_name_normalized' => $this->normalizer->firstName($submission->display_name),
-                'from_public_link'      => true,
-            ]);
-
-        ($this->writeField)($person, 'display_name', $submission->display_name, FieldSource::SubjectProvided);
+        // Un contact existent rămâne sub numele sub care îl știe proprietarul
+        // („Ana, sora lui Ion”): primește ziua și interesele, nu și eticheta.
+        if ($person->from_public_link) {
+            ($this->writeField)($person, 'display_name', $submission->display_name, FieldSource::SubjectProvided);
+        }
 
         if ($submission->birth_date) {
             ($this->writeField)($person, 'birth_date', $submission->birth_date, FieldSource::SubjectProvided);
@@ -65,32 +63,5 @@ class AcceptSubmission
         $submission->update(['person_id' => $person->id, 'accepted_at' => now()]);
 
         return $person->fresh();
-    }
-
-    /**
-     * Persoana creată de o completare anterioară a aceluiași om — același link,
-     * același nume complet —, ca o a doua completare să actualizeze, nu să dubleze.
-     *
-     * Doar persoane apărute din link. Un contact din agendă sau adăugat de
-     * proprietar nu e niciodată candidat, oricât ar semăna numele.
-     */
-    private function earlierPersonOfSameSubmitter(ProfileSubmission $submission): ?Person
-    {
-        $name = $this->normalizer->normalize($submission->display_name);
-
-        // Un nume fără nicio literă nu identifică pe nimeni.
-        if ($name === '') {
-            return null;
-        }
-
-        return ProfileSubmission::query()
-            ->where('public_profile_id', $submission->public_profile_id)
-            ->whereKeyNot($submission->id)
-            ->whereHas('person', fn ($query) => $query->where('from_public_link', true)->whereNull('archived_at'))
-            ->with('person')
-            ->latest('id')
-            ->get()
-            ->first(fn (ProfileSubmission $earlier) => $this->normalizer->normalize($earlier->display_name) === $name)
-            ?->person;
     }
 }

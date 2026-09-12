@@ -293,5 +293,23 @@
     "digestTitle": "Email",
     "digestLabel": "Rezumatul săptămânal",
     "digestFooter": "Luni dimineață, ocaziile săptămânii, pe {{email}}."
+  },
+  "submissions": {
+    "cardTitle": "{{name}} ți-a completat linkul",
+    "cardBody": "Spune-ne cine este",
+    "title": "Cine este {{name}}?",
+    "body": "Numele seamănă cu cineva din lista ta. Alege cine este, ca datele să ajungă la persoana potrivită.",
+    "sentTitle": "Ce a trimis",
+    "birthday": "Ziua: {{date}}",
+    "noBirthday": "Fără zi de naștere",
+    "interests": "Interese: {{list}}",
+    "whoTitle": "Este…",
+    "candidateBirthday": "în lista ta: {{date}}",
+    "candidateNoBirthday": "în lista ta: fără zi",
+    "newPerson": "Altcineva",
+    "newDetail": "{{name}} apare separat în lista ta",
+    "keepsName": "{{name}} primește ziua și interesele din completare. Numele rămâne cel din lista ta.",
+    "confirm": "Confirmă",
+    "gone": "Completarea nu mai așteaptă un răspuns."
   }
 }

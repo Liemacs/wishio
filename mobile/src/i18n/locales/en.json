@@ -281,5 +281,23 @@
     "digestTitle": "Email",
     "digestLabel": "Weekly summary",
     "digestFooter": "Monday mornings, the week's occasions at {{email}}."
+  },
+  "submissions": {
+    "cardTitle": "{{name}} filled in your link",
+    "cardBody": "Tell us who this is",
+    "title": "Who is {{name}}?",
+    "body": "The name looks like someone on your list. Choose who it is, so the details reach the right person.",
+    "sentTitle": "What they sent",
+    "birthday": "Birthday: {{date}}",
+    "noBirthday": "No birthday",
+    "interests": "Interests: {{list}}",
+    "whoTitle": "This is…",
+    "candidateBirthday": "on your list: {{date}}",
+    "candidateNoBirthday": "on your list: no birthday",
+    "newPerson": "Someone else",
+    "newDetail": "{{name}} appears separately on your list",
+    "keepsName": "{{name}} gets the birthday and interests from this submission. The name stays as it is on your list.",
+    "confirm": "Confirm",
+    "gone": "This submission is no longer waiting for an answer."
   }
 }

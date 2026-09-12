@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\People\Models\Interest;
 use App\Domain\People\Models\InterestGroup;
-use App\Domain\Profiles\Actions\AcceptSubmission;
+use App\Domain\Profiles\Actions\ReceiveSubmission;
 use App\Domain\Profiles\Actions\WithdrawSubmission;
 use App\Domain\Profiles\Models\ProfileSubmission;
 use App\Domain\Profiles\Models\PublicProfile;
@@ -75,8 +75,9 @@ class PublicProfileController extends Controller
         ]);
 
         // Datele ajung imediat la destinatar: dacă ar aștepta o aprobare,
-        // jumătate din completări s-ar pierde în coadă.
-        app(AcceptSubmission::class)($submission);
+        // jumătate din completări s-ar pierde în coadă. Singura excepție e un
+        // nume care seamănă cu contacte existente: acolo decide proprietarul.
+        app(ReceiveSubmission::class)($submission);
 
         return redirect()->route('profile.thanks', [
             'slug'  => $slug,

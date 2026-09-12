@@ -294,7 +294,7 @@ function legacyAttachedSubmission(PublicProfile $profile, Person $contact): Prof
 }
 
 it('nu lipeste completarea de un contact din agenda cu acelasi prenume', function () {
-    // Pana acum, „Ana Popescu” suprascria numele si ziua lui „Ana Rusu” (docs/00 § D-021).
+    // Pana la S9.7, „Ana Popescu” suprascria numele si ziua lui „Ana Rusu” (docs/00 § D-021).
     $contact = importedContact($this->owner, 'Ana Rusu', '1990-01-10');
 
     $this->post("/@{$this->profile->slug}", submit($this->profile->slug, [
@@ -303,18 +303,22 @@ it('nu lipeste completarea de un contact din agenda cu acelasi prenume', functio
 
     $contact->refresh();
 
-    expect(Person::count())->toBe(2)
+    // Numele seamana: completarea asteapta alegerea proprietarului (S9.8).
+    expect(Person::count())->toBe(1)
         ->and($contact->display_name)->toBe('Ana Rusu')
         ->and($contact->birth_date->format('Y-m-d'))->toBe('1990-01-10')
         ->and($contact->occasions()->where('type', 'birthday')->sole()->month)->toBe(1)
-        ->and(ProfileSubmission::sole()->person_id)->not->toBe($contact->id);
+        ->and(ProfileSubmission::sole()->person_id)->toBeNull();
 });
 
-it('pastreaza separat doi oameni cu acelasi prenume', function () {
+it('nu uneste automat doi oameni cu acelasi prenume', function () {
     $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Popescu', 'birthday' => '05.05.1995']));
     $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Rusu', 'birthday' => '10.01.1990']));
 
-    expect(Person::orderBy('id')->pluck('display_name')->all())->toBe(['Ana Popescu', 'Ana Rusu']);
+    // A doua „Ana” asteapta alegerea proprietarului; prima ramane neatinsa.
+    expect(Person::pluck('display_name')->all())->toBe(['Ana Popescu'])
+        ->and(Person::sole()->birth_date->format('Y-m-d'))->toBe('1995-05-05')
+        ->and(ProfileSubmission::pending()->sole()->display_name)->toBe('Ana Rusu');
 });
 
 it('recunoaste acelasi om si cu alte majuscule sau diacritice', function () {

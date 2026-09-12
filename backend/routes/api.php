@@ -12,6 +12,7 @@ use App\Http\Api\V1\Controllers\PersonInterestController;
 use App\Http\Api\V1\Controllers\ProductController;
 use App\Http\Api\V1\Controllers\RecommendationController;
 use App\Http\Api\V1\Controllers\SettingsController;
+use App\Http\Api\V1\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -74,6 +75,10 @@ Route::prefix('v1')->group(function () {
         Route::patch('/profile', [MyProfileController::class, 'update']);
         Route::post('/wishlist', [MyProfileController::class, 'storeWishlistItem']);
         Route::delete('/wishlist/{item}', [MyProfileController::class, 'destroyWishlistItem']);
+
+        // „Cine este?” — completarile care asteapta alegerea proprietarului (S9.8)
+        Route::get('/submissions/pending', [SubmissionController::class, 'pending']);
+        Route::post('/submissions/{submission}/resolve', [SubmissionController::class, 'resolve']);
 
         Route::get('/settings', [SettingsController::class, 'show']);
         Route::patch('/settings', [SettingsController::class, 'update']);

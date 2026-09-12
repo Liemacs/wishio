@@ -7,7 +7,7 @@
 
 ## 1. Inventarul de ecrane — MVP
 
-**31 de ecrane.** Numărul contează: la ~0,5–1,5 zile pe ecran (design + implementare + 3 limbi + stări), asta e aritmetica reală din spatele celor 12 săptămâni.
+**32 de ecrane.** Numărul contează: la ~0,5–1,5 zile pe ecran (design + implementare + 3 limbi + stări), asta e aritmetica reală din spatele celor 12 săptămâni.
 
 ### Onboarding (9)
 
@@ -34,7 +34,7 @@
 | H2 | Detaliu ocazie | ce e, când, ce poți face: cadou / experiență / mesaj |
 | H3 | Calendar ocazii | vizualizare lunară, toate tipurile |
 
-### Persoane (6)
+### Persoane (7)
 
 | # | Ecran | Rol |
 |---|---|---|
@@ -44,6 +44,7 @@
 | P4 | Selector interese | din taxonomie, în limba userului, cu căutare |
 | P5 | **Onboarding AI persoană** | o frază liberă → interese extrase, confirmate de user |
 | P6 | Note și „de evitat" | privat, criptat; semnale negative |
+| P7 | **Cine este?** | o completare din link al cărei nume seamănă cu contacte existente → proprietarul alege contactul sau „altcineva” (S9.8) |
 
 ### Recomandări (5)
 

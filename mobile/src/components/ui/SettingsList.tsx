@@ -146,6 +146,7 @@ export function CheckRow({
   onPress,
   disabled = false,
   locked = false,
+  single = false,
 }: {
   label: string;
   detail?: string;
@@ -153,12 +154,14 @@ export function CheckRow({
   onPress?: () => void;
   disabled?: boolean;
   locked?: boolean;
+  /** O singură alegere din grup: pentru cititorul de ecran e buton radio, nu bifă. */
+  single?: boolean;
 }) {
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled || locked}
-      accessibilityRole="checkbox"
+      accessibilityRole={single ? 'radio' : 'checkbox'}
       accessibilityState={{ checked, disabled: disabled || locked }}
       className={`min-h-12 flex-row items-center gap-3 px-4 py-3 ${locked ? '' : 'active:bg-surface-100'} ${disabled ? 'opacity-40' : ''}`}
     >

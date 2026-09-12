@@ -9,6 +9,7 @@ import { Button } from '../src/components/ui/Button';
 import { EmptyState } from '../src/components/ui/EmptyState';
 import { Screen } from '../src/components/ui/Screen';
 import { useOccasions, type Occasion } from '../src/features/contacts/queries';
+import { usePendingSubmissions } from '../src/features/submissions/queries';
 import { useAuthStore } from '../src/stores/auth';
 import { TYPE } from '../src/design/typography';
 
@@ -34,6 +35,7 @@ export default function Home() {
   const router = useRouter();
   const profile = useAuthStore((s) => s.profile);
   const { data: occasions, isLoading, refetch } = useOccasions();
+  const { data: pending } = usePendingSubmissions();
 
   const upcoming = useMemo(
     () => (occasions ?? []).filter((o) => !o.rejected && !o.is_muted).slice(0, 12),
@@ -94,6 +96,30 @@ export default function Home() {
             <Text className="text-base">👤</Text>
           </Pressable>
         </View>
+
+        {/* „Cine este?” — o completare care nu ajunge nicăieri până nu răspunde proprietarul (S9.8). */}
+        {pending && pending.length > 0 ? (
+          <View className="mt-3 gap-2 px-5">
+            {pending.map((submission) => (
+              <Pressable
+                key={submission.id}
+                onPress={() => router.push(`/submissions/${submission.id}`)}
+                className="flex-row items-center gap-3 rounded-card bg-white px-4 py-3.5 active:opacity-70"
+              >
+                <Text className="text-xl">✉️</Text>
+                <View className="flex-1">
+                  <Text className="text-base font-semibold text-surface-900" numberOfLines={1}>
+                    {t('submissions.cardTitle', { name: submission.display_name })}
+                  </Text>
+                  <Text className="mt-0.5 text-sm text-surface-500" numberOfLines={1}>
+                    {t('submissions.cardBody')}
+                  </Text>
+                </View>
+                <Text className="text-lg text-surface-300">›</Text>
+              </Pressable>
+            ))}
+          </View>
+        ) : null}
 
         {!next ? (
           <EmptyState emoji="🎁" title={t('home.emptyTitle')} description={t('home.emptyText')}>
