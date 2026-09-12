@@ -9,6 +9,7 @@ Artisan::command('inspire', function () {
 
 use App\Domain\Reminders\Jobs\ScheduleRemindersForAllUsers;
 use App\Domain\Reminders\Jobs\SendDueNotifications;
+use App\Domain\Reminders\Jobs\SendWeeklyDigests;
 use Illuminate\Support\Facades\Schedule;
 
 // Planificarea merge o dată pe zi, pe un orizont de câteva săptămâni:
@@ -18,3 +19,7 @@ Schedule::job(new ScheduleRemindersForAllUsers())->dailyAt('02:00');
 // Trimiterea rulează des, ca ora preferată a fiecărui utilizator să fie
 // respectată indiferent de fusul orar.
 Schedule::job(new SendDueNotifications())->everyFiveMinutes()->withoutOverlapping();
+
+// Din oră în oră: fiecare utilizator îl primește luni la 9 dimineața, în
+// fusul lui. O rulare zilnică ar trimite emailuri la miezul nopții.
+Schedule::job(new SendWeeklyDigests())->hourly()->withoutOverlapping();

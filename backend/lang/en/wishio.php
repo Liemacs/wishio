@@ -8,6 +8,18 @@ return [
         'holiday'     => 'Holiday',
         'custom'      => 'Custom occasion',
     ],
+    'digest' => [
+        'subject'     => '{1} One occasion coming up|[2,*] :count occasions coming up',
+        'greeting'    => 'Hi :name',
+        'intro'       => "Here's what's coming in the next 30 days.",
+        'today'       => 'today',
+        'tomorrow'    => 'tomorrow',
+        'in_days'     => '{1} in one day|[2,*] in :count days',
+        'cta'         => 'Open Wishio',
+        'unsubscribe' => 'Unsubscribe from these emails',
+        'footer'      => "You're receiving this because you enabled the weekly digest in Wishio.",
+    ],
+
     'holiday' => [
         'today'    => "Today is :holiday 🎉",
         'tomorrow' => 'Tomorrow is :holiday',

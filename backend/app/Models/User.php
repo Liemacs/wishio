@@ -74,4 +74,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Domain\People\Models\Person::class);
     }
+
+    public function settings(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(\App\Domain\Reminders\Models\UserSettings::class);
+    }
 }

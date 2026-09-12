@@ -37,7 +37,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Import contacte + ocazii** — onomastici deduse, confirmare, re-sync fără duplicate |
 | ✅ | **Remindere** — planificare, trimitere, preferințe, ecran principal |
 | ✅ | **Sărbători** — 9 pentru MD, Paștele ortodox calculat, public per sărbătoare |
-| ✅ | 147 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Digest săptămânal** — email în RO/RU/EN, cu dezabonare semnată |
+| ✅ | 164 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -150,7 +151,7 @@ Cifrele îți spun unde să insiști.
 | S5.2 ✅ | ~~Planificator~~ — orizont de 35 de zile, per fus orar, quiet hours, anti-spam |
 | S5.3 ✅ | ~~Push prin Expo~~ — driver comutabil, limba fixată la planificare, rutare la apăsare |
 | S5.4 ✅ | ~~Promptul de push după aha moment~~ |
-| S5.5 | Email digest săptămânal, în 3 limbi |
+| S5.5 ✅ | ~~Digest săptămânal~~ — luni 9 dimineața în fusul fiecăruia, 3 limbi, dezabonare într-un click |
 | S5.6 ✅ | ~~Home: „la cine te gândești azi?”~~ |
 | S5.7 | Widget iOS/Android cu următoarea ocazie (retenție fără push) |
 

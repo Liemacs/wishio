@@ -27,3 +27,21 @@ Route::get('/lang/{locale}', function (string $locale) {
 
     return back();
 })->name('locale.switch');
+
+/*
+|--------------------------------------------------------------------------
+| Dezabonare de la rezumatul săptămânal
+|--------------------------------------------------------------------------
+| Link semnat: funcționează dintr-un singur click, fără autentificare.
+| Fără el, „dezabonează-mă” ar însemna „intră în cont și caută setarea”.
+*/
+Route::get('/digest/unsubscribe/{user}', function (\App\Models\User $user) {
+    \App\Domain\Reminders\Models\UserSettings::updateOrCreate(
+        ['user_id' => $user->id],
+        ['email_digest' => false]
+    );
+
+    app()->setLocale($user->locale);
+
+    return view('mail.unsubscribed');
+})->name('digest.unsubscribe')->middleware('signed');

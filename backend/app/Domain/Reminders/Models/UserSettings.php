@@ -33,6 +33,7 @@ class UserSettings extends Model
         'preferred_hour' => 'integer',
         'quiet_from'     => 'integer',
         'quiet_to'       => 'integer',
+        'last_digest_sent_at' => 'datetime',
     ];
 
     public function user(): BelongsTo

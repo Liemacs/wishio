@@ -8,6 +8,18 @@ return [
         'holiday'     => 'Sărbătoare',
         'custom'      => 'Ocazie personalizată',
     ],
+    'digest' => [
+        'subject'     => '{1} O ocazie în perioada următoare|[2,19] :count ocazii în perioada următoare|[20,*] :count de ocazii în perioada următoare',
+        'greeting'    => 'Bună, :name',
+        'intro'       => 'Iată ce urmează în următoarele 30 de zile.',
+        'today'       => 'astăzi',
+        'tomorrow'    => 'mâine',
+        'in_days'     => '{1} peste o zi|[2,19] peste :count zile|[20,*] peste :count de zile',
+        'cta'         => 'Deschide Wishio',
+        'unsubscribe' => 'Nu mai vreau acest email',
+        'footer'      => 'Primești acest email pentru că ai activat rezumatul săptămânal în Wishio.',
+    ],
+
     'holiday' => [
         'today'    => 'Astăzi e :holiday 🎉',
         'tomorrow' => 'Mâine e :holiday',
