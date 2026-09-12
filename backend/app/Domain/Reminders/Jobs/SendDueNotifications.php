@@ -5,6 +5,7 @@ namespace App\Domain\Reminders\Jobs;
 use App\Domain\Reminders\Actions\BuildReminderContent;
 use App\Domain\Reminders\Models\DeviceToken;
 use App\Domain\Reminders\Models\QueuedNotification;
+use App\Domain\Reminders\Models\UserSettings;
 use App\Support\Push\PushMessage;
 use App\Support\Push\PushSender;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,10 +42,23 @@ class SendDueNotifications implements ShouldQueue
             ->get()
             ->groupBy('user_id');
 
+        // Replanificarea șterge notificările viitoare ale cui oprește pushul;
+        // aici le prindem pe cele care ajunseseră deja la scadență.
+        $pushDisabled = UserSettings::whereIn('user_id', $due->pluck('user_id')->unique())
+            ->where('push_enabled', false)
+            ->pluck('user_id')
+            ->flip();
+
         $messages = [];
         $tokenToNotification = [];
 
         foreach ($due as $notification) {
+            if ($pushDisabled->has($notification->user_id)) {
+                $notification->update(['sent_at' => now(), 'failure' => 'push_disabled']);
+
+                continue;
+            }
+
             // Ocazia poate fi între timp ștearsă, oprită sau respinsă.
             if (! $notification->occasion?->mayNotify()) {
                 $notification->update(['sent_at' => now(), 'failure' => 'occasion_no_longer_notifiable']);

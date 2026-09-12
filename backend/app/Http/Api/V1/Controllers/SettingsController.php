@@ -2,6 +2,7 @@
 
 namespace App\Http\Api\V1\Controllers;
 
+use App\Domain\Reminders\Jobs\RescheduleRemindersForUser;
 use App\Domain\Reminders\Models\DeviceToken;
 use App\Domain\Reminders\Models\UserSettings;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,9 @@ use Illuminate\Validation\Rule;
 
 class SettingsController extends Controller
 {
+    /** Preferințele de care depinde momentul unei notificări push. */
+    private const SCHEDULING = ['reminder_days', 'preferred_hour', 'quiet_from', 'quiet_to', 'push_enabled'];
+
     public function show(Request $request): JsonResponse
     {
         return response()->json(['data' => $this->payload($request)]);
@@ -19,8 +23,11 @@ class SettingsController extends Controller
     public function update(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'reminder_days'   => ['sometimes', 'array', 'max:4'],
-            'reminder_days.*' => ['integer', 'between:0,60'],
+            // Doar treptele din scara docs/09 § 3; ziua ocaziei se adaugă mereu.
+            // Împreună cu ea nu depășesc limita pe ocazie: altfel cea mai
+            // îndepărtată treaptă ar fi tăiată fără ca utilizatorul să afle.
+            'reminder_days'   => ['sometimes', 'array', 'max:'.(config('wishio.reminders.max_per_occasion') - 1)],
+            'reminder_days.*' => ['integer', 'distinct', Rule::in([1, 3, 7, 14])],
             'preferred_hour'  => ['sometimes', 'integer', 'between:0,23'],
             'quiet_from'      => ['sometimes', 'integer', 'between:0,23'],
             'quiet_to'        => ['sometimes', 'integer', 'between:0,23'],
@@ -28,7 +35,14 @@ class SettingsController extends Controller
             'email_digest'    => ['sometimes', 'boolean'],
         ]);
 
-        UserSettings::updateOrCreate(['user_id' => $request->user()->id], $data);
+        $settings = UserSettings::updateOrCreate(['user_id' => $request->user()->id], $data);
+
+        // Schimbarea se aplică și notificărilor deja planificate.
+        $touched = array_intersect(array_keys($data), self::SCHEDULING) !== [];
+
+        if ($touched && ($settings->wasRecentlyCreated || $settings->wasChanged(self::SCHEDULING))) {
+            RescheduleRemindersForUser::dispatch($request->user()->id);
+        }
 
         return response()->json(['data' => $this->payload($request)]);
     }

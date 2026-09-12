@@ -2,6 +2,7 @@
 
 namespace App\Http\Api\V1\Controllers;
 
+use App\Domain\Reminders\Jobs\RescheduleRemindersForUser;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -85,12 +86,20 @@ class AuthController extends Controller
             'locale'            => ['sometimes', Rule::in(config('wishio.locales.supported'))],
             'name_day_calendar' => ['sometimes', Rule::in(['orthodox_new', 'orthodox_old', 'catholic'])],
             'birth_date'        => ['sometimes', 'nullable', 'date', 'before:tomorrow'],
-            'timezone'          => ['sometimes', 'string', 'max:48'],
+            'timezone'          => ['sometimes', 'string', 'timezone:all'],
         ]);
 
-        $request->user()->update($data);
+        $user = $request->user();
+        $user->update($data);
 
-        return response()->json(['data' => $this->profile($request->user()->fresh())]);
+        // Ora preferată e ora de pe ceasul utilizatorului: la schimbarea
+        // fusului, notificările planificate ar pleca la ora greșită. Un fus
+        // inexistent e respins mai sus, altfel ar strica planificarea.
+        if ($user->wasChanged('timezone')) {
+            RescheduleRemindersForUser::dispatch($user->id);
+        }
+
+        return response()->json(['data' => $this->profile($user->fresh())]);
     }
 
     private function tokenResponse(User $user, int $status = 200): JsonResponse
