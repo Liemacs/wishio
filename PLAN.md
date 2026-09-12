@@ -10,7 +10,7 @@ Stack: React Native + Expo + NativeWind v5 · Laravel 12 · MySQL 8.4 / MariaDB 
 Fiecare pas are un **ID** (`P0.3`, `S4.2`), un livrabil verificabil și un criteriu de „gata”.
 Mergem secvențial. Un pas nu se consideră terminat fără criteriul lui.
 
-**Estimări la ~20 h/săptămână.** La 10 h/săpt. dublează; la 35 h/săpt. taie ~35%.
+**Ritmul confirmat: 15 h/săptămână** (`docs/00 § D-010`). Sprinturile de mai jos sunt numerotate ca săptămâni de lucru; la 15 h/săpt., **MVP-ul durează ~16 săptămâni calendaristice**, nu 12. Numerotarea S1–S12 rămâne ca unitate de conținut, nu de calendar.
 
 Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 
@@ -71,7 +71,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 
 ---
 
-# MVP — 12 săptămâni
+# MVP — 12 sprinturi (~16 săptămâni la 15 h/săpt.)
 
 ## S1 · Fundație (săptămâna 1)
 
@@ -82,7 +82,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | S1.3 | **Schema de evenimente analytics** (PostHog) — `docs/07 § 3`, **înainte de orice feature** | un eveniment de test ajunge în PostHog |
 | S1.4 | i18n backend: middleware `Accept-Language` → `users.locale` → RO; `lang/{ro,ru,en}` | `/api/v1/ping` răspunde localizat în toate trei |
 | S1.5 | i18n mobile: i18next + expo-localization, comutator de limbă, `ro/ru/en.json` | ecran de test comută corect, plural RU corect |
-| S1.6 | **Design system propriu** în `src/components/ui/` pe NativeWind: Button, Card, Input, Sheet, Avatar, Badge, ListItem, EmptyState | fiecare componentă randează în RO/RU/EN și în ambele teme |
+| S1.6 | **Componente de compunere** în `src/components/ui/` peste stack-ul din `docs/05 § 1.1`: Button, Card, OccasionCard, PersonRow, ProductCard, EmptyState, Section, Sheet | fiecare randează în RO/RU/EN, cu animație și haptic |
 | S1.7 | expo-router + structura `app/`; TanStack Query + Zustand + client API | navigare între 2 ecrane, un fetch reușit |
 | S1.8 | Auth: Sanctum + Apple + Google + email OTP | te loghezi din app și primești token |
 | S1.9 | CI GitHub Actions: Pint, PHPStan, `php artisan test`, `tsc --noEmit` | build verde pe PR |

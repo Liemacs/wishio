@@ -76,6 +76,7 @@ curl -s -H "Accept-Language: ru" http://localhost:8000/api/v1/ping
 | [docs/11-costuri-gtm.md](docs/11-costuri-gtm.md) | Costuri, economia unitară, monetizare, primii 1.000 de utilizatori |
 | [docs/12-integrare-magaziner.md](docs/12-integrare-magaziner.md) | Ce să ceri și ce să agreezi cu Magaziner — gata de trimis |
 | [docs/13-recomandari.md](docs/13-recomandari.md) | **Recomandarea mea pentru fiecare punct deschis** |
+| [docs/14-faza-0.md](docs/14-faza-0.md) | **Faza 0 în detaliu** — trei variante și planul zi cu zi |
 | [PLAN.md](PLAN.md) | **Planul complet, pas cu pas** |
 | [CLAUDE.md](CLAUDE.md) | Reguli de dezvoltare |
 

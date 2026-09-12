@@ -4,6 +4,8 @@
 
 ## Faza 0 — Validare fără aplicație (2 săptămâni)
 
+> **Planul detaliat, cu variante și zi cu zi: `docs/14-faza-0.md`.** Mai jos e rezumatul.
+
 **Scopul:** să afli dacă cineva vrea „help me choose” **înainte** să scrii 6 luni de cod.
 Planul inițial sărea direct în 7 sprinturi. Aceasta este cea mai ieftină asigurare disponibilă.
 

@@ -11,7 +11,7 @@
 | Strat | Alegere | Note |
 |---|---|---|
 | Mobile | **React Native + Expo (SDK 54+) + TypeScript** | Contacts, push, deep links, widget-uri, un codebase iOS+Android. EAS Build elimină pipeline-ul nativ. |
-| UI | **NativeWind v5 + Tailwind v4**, design system propriu în `src/components/ui/` | gluestack-ui nu are încă linie stabilă pentru SDK 57 — vezi `docs/00 § D-006`. Componentele sunt copy-paste în repo, ca la gluestack/shadcn: control total, migrare incrementală ulterioară. |
+| UI | **NativeWind v5 + Tailwind v4** + stack de biblioteci (§ 1.1) | gluestack-ui nu are încă linie stabilă pentru SDK 57 — `docs/00 § D-006`. `src/components/ui/` **compune** biblioteci mature peste token-urile Wishio; nu reimplementează. |
 | Navigație | **expo-router** | rutare pe fișiere, deep links gratuit (esențial pentru `@slug` → app) |
 | State | **Zustand** (UI) + **TanStack Query** (server state) | cache, retry, offline, invalidare |
 | i18n mobile | **i18next + expo-localization** | RO sursă, fallback RO, plural RU corect |
@@ -28,6 +28,33 @@
 | Erori | **Sentry** | mobile + backend, cu scrubbing PII |
 | Infra | Docker + Nginx, VPS în UE (Hetzner) | date în UE simplifică Legea 195/2024 |
 | CI/CD | GitHub Actions + EAS | lint, teste, build, deploy |
+
+### 1.1 Stack de UI și animație
+
+Regula, din `docs/00 § D-011`: **nu reimplementăm manual ce o bibliotecă matură rezolvă mai bine.** Toate verificate pe build cu Reanimated 4 / React 19.2 / Expo SDK 57.
+
+| Bibliotecă | Unde se folosește concret |
+|---|---|
+| **Reanimated 4** | animații pe UI thread — nu se blochează la scroll |
+| **Moti** | intrări de ecran, apariția cardurilor, tranziții de stare. API declarativ: `from` / `animate` |
+| **@gorhom/bottom-sheet** | selectorul de buget (R1), selectorul de interese (P4), acțiunile pe ocazie (H2) |
+| **@shopify/flash-list** | lista de persoane (P1), rezultatele (R4), catalogul — obligatoriu peste ~50 de elemente |
+| **lottie-react-native** | stări goale și momentul de sărbătoare din ziua ocaziei |
+| **expo-haptics** | la fiecare acțiune importantă. **Cel mai mare câștig de calitate percepută per efort depus** |
+| **expo-blur** | header-e care se estompează la scroll, overlay-uri |
+| **expo-linear-gradient** | carduri de ocazie colorate după tip |
+| **expo-image** | toate imaginile din catalog — tranziție la încărcare, cache pe disc |
+| **expo-symbols** | iconografie nativă iOS |
+
+**Principii de animație** (ca să pară profesionist, nu agitat):
+- durate **150–400 ms**; peste 500 ms se simte lent
+- **spring** pentru interacțiune (apăsare, sheet), **timing** pentru apariții
+- **stagger de 50–80 ms** pe liste — dă senzația de calitate cu efort minim
+- animează `opacity` și `transform`; niciodată `width`, `height`, `top`
+- **haptic la fiecare acțiune care contează**, niciodată la scroll
+- respectă `prefers-reduced-motion` — accesibilitate, și e verificată la App Review
+
+**Ce rămâne de scris de mână:** doar compunerea — `Button`, `Card`, `OccasionCard`, `PersonRow`, `ProductCard`, `EmptyState`, `Section`. Sunt subțiri: stil + token-uri + bibliotecă.
 
 ### De ce NativeWind + design system propriu
 - **Token-uri CSS-first** (Tailwind v4): paleta și formele se definesc o dată, în `global.css`, și sunt disponibile în toată aplicația.

@@ -169,3 +169,42 @@ Numele produsului este **Wishio**. Domeniul principal: **wishio.md**.
 - `wishio.ro` costă ~10 €/an. Răscumpărarea lui peste doi ani, după ce produsul are tracțiune, costă de 50–100 de ori mai mult. Înregistrează-l odată cu `.md`.
 - `wishio.app` fiind folosit activ de altcineva: **verifică numele „Wishio" în App Store și Google Play** înainte de submit, și verifică marca la AGEPI (MD) și EUIPO (dacă mergi în RO). Riscul e mic, dar se verifică în 20 de minute.
 - `.com` nu e necesar acum. Dacă vreodată produsul crește, se negociază atunci.
+
+---
+
+## D-010 · Ritm de lucru — 15 ore/săptămână
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+**Consecință directă: MVP-ul este de ~16 săptămâni, nu 12.** `PLAN.md` recalibrat.
+
+Recomandare de organizare: două seri fixe + o jumătate de zi în weekend, puse în calendar ca întâlniri. Ritmul susținut bate sprinturile urmate de pauze — un produs cu remindere se construiește din multe piese mici, nu din eroism.
+
+## D-011 · Design — solo + Claude, pe biblioteci
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Fără designer extern. Calitatea vizuală vine din **biblioteci mature, folosite corect**, nu din componente scrise de la zero.
+
+**Regula:** nu reimplementăm manual nimic ce o bibliotecă matură rezolvă mai bine — bottom sheets, liste performante, animații, tranziții, feedback tactil. `src/components/ui/` conține doar **compunerea** lor peste token-urile Wishio, nu reimplementări.
+
+Stack-ul ales și verificat: `docs/05 § 1.1`.
+
+## D-012 · Stack de UI și animație — instalat și verificat pe build
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Toate verificate cu Reanimated 4.5.1 / React 19.2.3 / RN 0.86.3 / Expo SDK 57, build-ul trece.
+
+| Bibliotecă | Versiune | Rol |
+|---|---|---|
+| `react-native-reanimated` | 4.5.1 | motorul de animație, pe UI thread |
+| `moti` | 0.30 | animații declarative peste Reanimated — `from` / `animate` |
+| `@gorhom/bottom-sheet` | 5.2 | standardul pentru sheet-uri; suportă Reanimated 4 |
+| `@shopify/flash-list` | 2.3 | liste performante (persoane, produse, ocazii) |
+| `lottie-react-native` | 7.3 | animații de stare goală și momente de sărbătoare |
+| `expo-haptics` | 57 | feedback tactil — cel mai ieftin câștig de calitate percepută |
+| `expo-blur`, `expo-linear-gradient` | 57 | profunzime vizuală |
+| `expo-image` | 57 | imagini cu tranziții și cache — esențial pentru catalog |
+| `expo-symbols` | 57 | SF Symbols pe iOS |
+
+**Verificat pe build:** Moti, Reanimated, LinearGradient și Haptics, folosite împreună în `app/index.tsx`.
+
+**Opțional, când e nevoie:** `@shopify/react-native-skia` pentru grafică avansată. Nu se instalează preventiv — adaugă greutate semnificativă.
