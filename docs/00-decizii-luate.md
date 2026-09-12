@@ -208,3 +208,46 @@ Toate verificate cu Reanimated 4.5.1 / React 19.2.3 / RN 0.86.3 / Expo SDK 57, b
 **Verificat pe build:** Moti, Reanimated, LinearGradient și Haptics, folosite împreună în `app/index.tsx`.
 
 **Opțional, când e nevoie:** `@shopify/react-native-skia` pentru grafică avansată. Nu se instalează preventiv — adaugă greutate semnificativă.
+
+---
+
+## D-013 · Faza 0 se amână; construim produsul
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Validarea concierge din `docs/14` nu se execută acum. Landing-ul rămâne construit și funcțional local, gata de pornit când va fi cazul.
+
+**Consecințe, asumate:**
+- Porțile G0–G2 nu se măsoară înainte de a construi. Riscul rămâne cel din `docs/02`: se poate construi ceva ce nu are cerere.
+- **Corpusul pentru prompturi (C8) nu există.** La S7, criteriile AI se vor scrie din intuiție, nu din 20 de conversații reale. Se compensează prin setul de evaluare și prin calibrare după lansare.
+- Criteriile de abandon se mută **după lansarea MVP-ului**, nu înainte de a construi.
+
+**De reținut:** landing-ul poate fi pornit oricând, în paralel cu dezvoltarea. Dacă la un moment dat apare o săptămână liberă, cele 20 de conversații rămân cel mai ieftin mod de a valida — și singurul mod de a obține corpusul.
+
+## D-014 · Găzduire — local deocamdată
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Dezvoltare locală: MariaDB prin XAMPP, `php artisan serve`, Expo Go. VPS-ul și `wishio.md` vin mai târziu. `docker/compose.yaml` și planul din `docs/10` rămân valabile pentru momentul acela.
+
+PostHog nu se configurează acum — analytics-ul e deja scris ca opțional (`docs/17 § 7`), pagina funcționează identic fără cheie.
+
+## D-015 · Zilele de naștere — din contacte dacă există, altfel manual
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Importul citește ziua de naștere din agendă acolo unde există; unde nu, utilizatorul o adaugă manual. Măsurătoarea B1 (câte contacte au efectiv ziua completată) nu se mai face în avans.
+
+**Consecință de design, importantă:** ecranul O8 („am găsit N ocazii") **nu poate presupune un rezultat**. Se adaptează la ce a găsit efectiv:
+
+| Ce a găsit | Ce arată |
+|---|---|
+| multe zile de naștere | „Am găsit 18 zile de naștere" |
+| puține, dar multe onomastici | „Am găsit 4 zile de naștere și 112 onomastici" |
+| nimic | duce direct la adăugare manuală rapidă, fără să pară un eșec |
+
+Ecranul adaptiv e oricum soluția mai bună decât a ghici în avans distribuția. Vezi `docs/09 § O8`.
+
+## D-016 · Catalogul Magaziner — implementare amânată
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+API-ul nu există încă. `CatalogAdapter` rămâne abstract; se implementează `MagazinerCatalog` când apare. Până atunci, dezvoltarea merge pe `ManualCatalog` cu un set mic de produse, suficient pentru a construi și testa motorul de recomandări.
+
+Nimic din S3–S5 (persoane, contacte, ocazii, remindere) nu depinde de catalog, deci amânarea nu blochează drumul critic.

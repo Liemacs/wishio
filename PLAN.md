@@ -46,7 +46,11 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 
 ---
 
-# FAZA 0 — Validare (săptămânile 1–2, fără aplicație)
+# FAZA 0 — Validare (AMÂNATĂ — vezi `docs/00 § D-013`)
+
+> Landing-ul e construit și funcțional. Execuția validării s-a amânat; pașii de mai jos rămân valabili pentru momentul în care se reia.
+
+## Pașii originali
 
 > Scopul: să afli dacă cineva vrea „ajută-mă să aleg” **înainte** de 3 luni de cod.
 > Ieftin, rapid, și poate salva jumătate de an. Detalii în `docs/03-scop.md`.
