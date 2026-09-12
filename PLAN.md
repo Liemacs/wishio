@@ -44,7 +44,10 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Ecranele de recomandare** — buget, consimțământ AI, rezultate, magazin |
 | ✅ | **Pagini publice `@slug`** — bucla virală, cu consimțământ și ștergere fără cont |
 | ✅ | **Ecranul de profil** — link de partajat, listă de dorințe, vizibilitate, setări |
-| ✅ | 238 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | **Ecranul Cont (M7)** — limbă salvată în cont, export de date, documente legale, ștergerea contului din aplicație |
+| ✅ | **Setările de notificări (M6)** — trepte, oră pe riglă trasă cu degetul, liniște, digest; replanificare la orice schimbare |
+| ✅ | **Completările din link (S9.7)** — nu mai ating contactele existente; retragerea scoate doar datele trimise |
+| ✅ | 288 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -200,6 +203,8 @@ Cifrele îți spun unde să insiști.
 | S9.4 ✅ | ~~Formular + consimțământ versionat + rate limit + ștergere fără cont~~ |
 | S9.5 ✅ | ~~Prompt de instalare + eveniment `profile_submission`~~ |
 | S9.6 ✅ | ~~Deep link `@slug` → aplicație~~ — config + fișiere de asociere; cer un build semnat ca să funcționeze |
+| S9.7 ✅ | ~~**Completările din link nu mai strică contacte existente**~~ (`docs/00 § D-021`) — legare doar de persoana apărută dintr-o completare anterioară a aceluiași om (același link, același nume complet); retragerea nu mai șterge un contact existent, dar îi scoate datele trimise și ocazia de naștere |
+| S9.8 🟠 | **„Cine este?” înainte de completare** — dacă numele din completare seamănă cu contacte existente, aplicația întreabă proprietarul: e unul dintre ei (alege, dacă sunt mai mulți cu același nume) sau o persoană nouă. Contactul existent primește datele abia după confirmare, ca `subject_provided`; editările manuale câștigă în continuare (D-019). Candidații sunt doar contactele proprietarului. RO/RU/EN. Gata când: cu două contacte „Ana”, o completare „Ana Popescu” nu atinge niciunul până la alegere, iar după alegere nu rămâne un duplicat |
 
 ## S10 · Istoric cadouri & idei (săptămâna 10)
 

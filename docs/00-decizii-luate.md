@@ -307,3 +307,21 @@ Contactul e al lui, iar vederea lui asupra contactului e a lui. Un sistem care �
 Inertia ar fi însemnat un al doilea strat de build, un al doilea sistem de rutare și un bundle JS pentru pagini care nu au nevoie de el. Blade le servește server-rendered, indexabile și fără JavaScript obligatoriu.
 
 **Se reconsideră** dacă merchant dashboard-ul (v2) cere interactivitate reală — acolo Inertia își merită costul.
+
+## D-021 · Numele nu leagă date între utilizatori
+**Data:** 2026-09-12 · **Stare:** confirmată · *aplică D-004*
+
+**Propunerea:** dacă un contact al meu are același nume ca un contact al altui utilizator, aplicația îmi completează ziua de naștere, poza și restul — după ce confirm că e aceeași persoană, sau aleg dintre mai mulți cu același nume.
+
+**Nu se face.** Schimbă cheia de potrivire, numele în loc de număr, dar nu și fluxul interzis de D-004: datele Anei, introduse de Maxim, ajung la Ion fără ca Ana să știe.
+
+- **Confirmarea lui Ion nu e consimțământul Anei.** Legea 195/2024 cere un temei ca datele Anei să-i fie dezvăluite lui Ion. Consimțământul îl poate da doar ea, iar interesul legitim nu trece testul de echilibrare (`docs/02 § R2`). Wishio ar mai trebui s-o și informeze pe Ana că îi prelucrează date primite de la altcineva — și nu are cum s-o contacteze.
+- **E mai rău decât cu numărul, pentru că numele nu sunt unice.** Ca Ion să aleagă dintre omonimi, aplicația trebuie să-i arate ceva despre fiecare — ziua, poza, vârsta —, adică date despre străini. Oricine ar adăuga un contact „Maria Popescu” ar vedea zilele de naștere ale tuturor Mariilor Popescu din agendele altora. Asta e căutare de persoane, interzisă de regula 9 și de `docs/04 § 2`.
+- **Poza de contact nu părăsește telefonul** (regula 4), deci nu are de unde veni.
+- **App Store 5.1.2** respinge exact compilarea de date despre terți din alte surse decât persoana însăși.
+
+**Ce păstrăm din idee:** confirmarea „cine este?” și alegerea dintre omonimi, aplicate completărilor din linkul public. Acolo datele vin de la persoana însăși, cu consimțământ versionat, iar candidații sunt doar contactele proprietarului (`PLAN.md` S9.8).
+
+**Descoperit cu ocazia asta:** `AcceptSubmission` lipește azi completarea de primul contact cu același prenume, fără confirmare. „Ana Popescu” poate suprascrie numele și ziua lui „Ana Rusu” importată din agendă, iar retragerea completării șterge definitiv acel contact, cu ocaziile lui, dacă proprietarul nu l-a editat manual (`PLAN.md` S9.7).
+
+**Rezolvat în S9.7:** o completare se leagă doar de persoana apărută dintr-o completare anterioară a aceluiași om — același link, același nume complet. Retragerea nu mai șterge un contact care exista înainte; îi scoate datele trimise de persoană, ca agenda să le poată reface.
