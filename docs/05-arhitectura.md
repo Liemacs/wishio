@@ -1,7 +1,8 @@
 # 05 — Arhitectură tehnică
 
-> Stack confirmat de fondator: **React Native + gluestack-ui**, **Laravel**, **MySQL**.
-> Documentul de mai jos justifică alegerile, marchează unde ele au consecințe reale și ce compensăm.
+> Stack confirmat: **React Native + Expo**, **Laravel**, **MySQL/MariaDB**.
+> Documentul justifică alegerile, marchează unde au consecințe reale și ce compensăm.
+> Layerul de UI: vezi `docs/00 § D-006`. Baza de date în dev: vezi § 2 și `docs/00 § D-007`.
 
 ---
 
@@ -10,12 +11,12 @@
 | Strat | Alegere | Note |
 |---|---|---|
 | Mobile | **React Native + Expo (SDK 54+) + TypeScript** | Contacts, push, deep links, widget-uri, un codebase iOS+Android. EAS Build elimină pipeline-ul nativ. |
-| UI | **gluestack-ui v2 + NativeWind v4** | Componente copy-paste (model shadcn) → codul e în repo, control total. Universal: aceleași componente merg și pe web. |
+| UI | **NativeWind v5 + Tailwind v4**, design system propriu în `src/components/ui/` | gluestack-ui nu are încă linie stabilă pentru SDK 57 — vezi `docs/00 § D-006`. Componentele sunt copy-paste în repo, ca la gluestack/shadcn: control total, migrare incrementală ulterioară. |
 | Navigație | **expo-router** | rutare pe fișiere, deep links gratuit (esențial pentru `@slug` → app) |
 | State | **Zustand** (UI) + **TanStack Query** (server state) | cache, retry, offline, invalidare |
 | i18n mobile | **i18next + expo-localization** | RO sursă, fallback RO, plural RU corect |
 | Backend | **Laravel 12 / PHP 8.3** | competența ta = viteză maximă. Nu experimenta aici. |
-| DB | **MySQL 8.4 LTS** | vezi §2 pentru consecințe și compensări |
+| DB | **MySQL 8.4 LTS** în producție · **MariaDB 10.4** (XAMPP) în dev | vezi §2 — colația se alege portabil, ca să meargă pe ambele |
 | Cache / cozi | **Redis + Laravel Horizon** | remindere, sync catalog, generare recomandări |
 | Căutare | MVP: SQL. v1.1: **Meilisearch** | vezi §3 |
 | API | **REST + OpenAPI 3.1** | tipuri TS generate pentru mobile |
@@ -28,41 +29,62 @@
 | Infra | Docker + Nginx, VPS în UE (Hetzner) | date în UE simplifică Legea 195/2024 |
 | CI/CD | GitHub Actions + EAS | lint, teste, build, deploy |
 
-### De ce gluestack-ui este o alegere bună aici
-- **Copy-paste, nu dependență opacă** — componentele ajung în `mobile/components/ui/`, le modifici fără fork.
-- **NativeWind** = Tailwind în React Native: un singur limbaj de stilizare pentru mobile și pentru web-ul Inertia.
-- **Universal** — aceleași componente pot alimenta mai târziu o versiune web a aplicației.
-- **Accesibilitate** implicită (bazat pe primitive accesibile), ceea ce contează la App Review.
+### De ce NativeWind + design system propriu
+- **Token-uri CSS-first** (Tailwind v4): paleta și formele se definesc o dată, în `global.css`, și sunt disponibile în toată aplicația.
+- **Componentele stau în repo** (`src/components/ui/`) — exact modelul gluestack/shadcn. Le modifici fără fork, fără să lupți cu o bibliotecă.
+- **Universal** — aceleași clase alimentează și web-ul Inertia.
+- **Zero dependențe alpha în runtime.**
 
 **Capcane de știut din prima zi:**
-- gluestack-ui v2 cere NativeWind v4 și configurare Babel/Metro corectă — se face o dată, la scaffold, nu mai târziu.
-- Temele se definesc prin token-uri în `tailwind.config.js` + config gluestack. **Definește paleta și tipografia înainte de al doilea ecran**, altfel rescrii tot.
+- NativeWind v5 este preview; fixează versiunea exactă în `package.json` și nu o actualiza fără să rulezi build-ul.
+- `@legendapp/motion` (și orice pachet cu peer `nativewind >=4.0.0`) **nu se instalează** peste un prerelease — npm nu potrivește prerelease-uri la range-uri simple.
+- Token-urile se definesc în `@theme` în `global.css`, **nu** în `tailwind.config.js` (care nu mai există în Tailwind v4).
 - Textele **RU sunt cu 10–15% mai lungi decât RO** — toate componentele se testează în RU, nu în EN.
 
 ---
 
-## 2. MySQL — consecințe și compensări
+## 2. Baza de date — consecințe și compensări
 
-MySQL e alegerea ta și este perfect viabilă. Dar are trei consecințe reale față de PostgreSQL, pe care le compensăm explicit:
+Stack-ul e MySQL. În dezvoltare rulează **MariaDB 10.4.28 prin XAMPP**, ceea ce e util de știut explicit, pentru că nu sunt interschimbabile.
 
-| Consecință | Compensare |
-|---|---|
-| **Fără `pgvector`.** MySQL 8.4 nu are tip vector nativ (MySQL 9.x are, dar ecosistemul Laravel e subțire). | Ranking-ul MVP nu are nevoie de embeddings — vezi §3. Căutarea semantică vine la v1.1 prin **Meilisearch**, care e oricum mai bun pentru RO/RU/EN. |
-| **Full-text mai slab**, mai ales pentru limba rusă (fără stemming). | Idem — Meilisearch la v1.1. Pentru MVP, căutarea e pe categorii și filtre, nu pe text liber. |
-| **JSON mai puțin puternic decât JSONB** (fără indexare GIN directă). | Traducerile se țin în coloane `JSON`, iar pentru cele filtrate des se adaugă **coloane generate + index**: `title_ro VARCHAR(255) AS (translations->>'$.ro') STORED, INDEX(title_ro)`. |
+### Alegerea colației — verificată empiric, nu presupusă
 
-**Un avantaj real al MySQL pentru acest proiect:** collation `utf8mb4_0900_ai_ci` este *accent-insensitive și case-insensitive nativ*. Asta rezolvă gratuit potrivirea numelor românești cu diacritice (`Ștefan` = `stefan`) — exact ce cere name-day resolver-ul.
+Potrivirea numelor românești cu diacritice este **critică** pentru name-day resolver (`Ștefan` trebuie să potrivească `stefan`). Testat direct pe MariaDB 10.4:
 
-### Convenții MySQL obligatorii
-```sql
-CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci   -- implicit pe toată baza
--- excepție: coloanele de hash și slug → utf8mb4_bin (comparație exactă)
+| Colație | `'Ștefan' = 'stefan'` | Verdict |
+|---|---|---|
+| `utf8mb4_unicode_ci` | ✅ 1 | **aleasă** — portabilă MariaDB + MySQL 8 |
+| `utf8mb4_general_ci` | ✅ 1 | funcționează, dar colație legacy, sortare mai slabă |
+| `utf8mb4_romanian_ci` | ❌ 0 | **capcană** — colația „românească" tratează diacriticele ca litere distincte și ar rupe exact funcția pentru care ai vrea-o |
+| `utf8mb4_0900_ai_ci` | — | **nu există în MariaDB**; e doar MySQL 8 |
+
 ```
-- `contact_hash` → `CHAR(64)` + index unic compus cu `user_id`
+DB_COLLATION=utf8mb4_unicode_ci
+```
+Configurabil prin env, ca să poți urca la `utf8mb4_0900_ai_ci` dacă producția e MySQL 8 pur.
+
+### Diferențe MariaDB 10.4 vs MySQL 8.4 care ne afectează
+
+| Aspect | MariaDB 10.4 | MySQL 8.4 | Ce facem |
+|---|---|---|---|
+| Tip `JSON` | alias peste `LONGTEXT` + CHECK | tip nativ, validat, indexabil | traducerile merg pe ambele; pentru câmpurile filtrate des folosim **coloane generate + index**, care există în ambele |
+| `utf8mb4_0900_*` | absent | prezent | colație portabilă (mai sus) |
+| Suport | **EOL din iunie 2024** | LTS până în 2032 | vezi mai jos |
+| Vectori | 11.7+ | 9.x | irelevant — nu folosim vectori la MVP (§3) |
+
+### Recomandare
+
+MariaDB 10.4 este **bună ca să începi azi** și migrările Laravel rulează pe ea fără modificări. Dar este **end-of-life din iunie 2024** — fără patch-uri de securitate. Pentru un produs care prelucrează date personale sub Legea 195/2024, nu o duce în producție.
+
+**Plan:** dezvoltă pe XAMPP dacă îți e comod; rulează **MySQL 8.4** în CI și în producție (`docker/compose.yaml` îl pornește deja). Colația portabilă face ca ambele să se comporte la fel pentru cazurile noastre.
+
+### Convenții obligatorii
+- `contact_hash` → `CHAR(64)`, colație `utf8mb4_bin` (comparație exactă), index unic compus cu `user_id`
+- slug-urile → `utf8mb4_bin`
 - sume de bani → `DECIMAL(12,2)`, **niciodată** `FLOAT`
 - toate datele stocate UTC; conversia la fusul userului se face în aplicație
-- `innodb_default_row_format=DYNAMIC`; atenție la limita de 3072 bytes pe index cu utf8mb4 → prefixe pe coloane text lungi
-- migrări: `$table->json('translations')` + coloane generate unde ai nevoie de index
+- atenție la limita de 3072 bytes pe index cu utf8mb4 → prefixe pe coloane text lungi
+- traduceri: `$table->json('translations')` + coloane generate unde ai nevoie de index
 
 ---
 
@@ -219,10 +241,10 @@ wishio/
 │   ├── lang/{ro,ru,en}/
 │   ├── resources/js/         Inertia + Vue (web public)
 │   └── tests/
-├── mobile/                   Expo + RN + gluestack-ui
+├── mobile/                   Expo + RN + NativeWind
 │   ├── app/                  expo-router
 │   ├── src/
-│   │   ├── components/ui/    componente gluestack (copy-paste)
+│   │   ├── components/ui/    design system propriu (copy-paste, pe NativeWind)
 │   │   ├── features/         people, occasions, recommendations, profile
 │   │   ├── i18n/             ro.json ru.json en.json
 │   │   ├── api/              client generat din OpenAPI
@@ -261,5 +283,5 @@ Fă asta **înainte** de primul build nativ, nu după.
 Vezi `docs/08-decizii-deschise.md`. Blocante pentru arhitectură:
 - provider AI + regiunea de procesare
 - unde stă baza de date (UE recomandat)
-- MySQL 8.4 LTS (recomandat) vs. 9.x
+- MySQL 8.4 în producție (recomandat) — vezi § 2
 - rezolvarea problemei de cale de la §9

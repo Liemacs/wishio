@@ -1,7 +1,7 @@
 # PLAN.md — Planul complet de execuție
 
 **Wishio** — asistent de ocazii și cadouri. RO (bază) · RU · EN
-Stack: React Native + Expo + gluestack-ui · Laravel 12 · MySQL 8.4 · Redis
+Stack: React Native + Expo + NativeWind v5 · Laravel 12 · MySQL 8.4 / MariaDB · Redis
 
 ---
 
@@ -22,11 +22,12 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 |---|---|
 | ✅ | Documentație completă de produs, strategie, domeniu, arhitectură, privacy, metrici (`docs/01`–`08`) |
 | ✅ | Monorepo inițializat, git + remote `github.com/Liemacs/wishio` |
-| ✅ | Laravel 12 scaffoldat, configurat pentru MySQL cu `utf8mb4_0900_ai_ci` |
+| ✅ | Laravel 12 scaffoldat, MySQL/MariaDB cu `utf8mb4_unicode_ci` (verificat: `Ștefan` = `stefan`) |
 | ✅ | Structură pe domenii `app/Domain/*`, `config/wishio.php`, `.env` |
-| ✅ | Expo + TypeScript scaffoldat (SDK 57 / RN 0.86 / React 19) |
+| ✅ | Expo SDK 57 + NativeWind v5 + Tailwind v4, token-uri Wishio, **build web verificat** |
 | ✅ | `docker/compose.yaml` (MySQL 8.4 + Redis + Mailpit), `Makefile`, `.gitignore` |
-| 🔄 | Dependențe mobile în curs de instalare |
+| ✅ | i18n RO/RU/EN cap-coadă: `/api/v1/ping` localizat, plural rusesc în 3 forme verificat |
+| ✅ | Migrări rulate pe MariaDB (XAMPP), bază `wishio` creată |
 | ⬜ | Tot restul |
 
 ### Blocante de mediu — de rezolvat înainte de S1
@@ -35,7 +36,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 |---|---|---|
 | **E1** 🔴 | **Spațiu în calea proiectului** (`/Volumes/T7 1/`). Rupe build-urile native RN (Gradle, CocoaPods). | `ln -s "/Volumes/T7 1/Wishio" ~/wishio` și lucrează prin `~/wishio`. Sau mută proiectul pe discul intern. |
 | **E2** 🟠 | Cache npm cu fișiere root-owned | `sudo chown -R $(id -u):$(id -g) ~/.npm` |
-| **E3** 🟠 | Docker și MySQL nu sunt instalate | OrbStack sau Docker Desktop → `make up`. Sau `brew install mysql@8.4 redis mailpit` |
+| **E3** 🟠 | Redis nu e instalat (MariaDB merge prin XAMPP) | `brew install redis` sau OrbStack/Docker → `make up`. Necesar la S5 (cozi). |
 | **E4** 🟠 | PHP activ este 8.2; recomandat 8.3 | `brew link --overwrite php@8.3` (php@8.3 e deja instalat) |
 
 ---
@@ -81,7 +82,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | S1.3 | **Schema de evenimente analytics** (PostHog) — `docs/07 § 3`, **înainte de orice feature** | un eveniment de test ajunge în PostHog |
 | S1.4 | i18n backend: middleware `Accept-Language` → `users.locale` → RO; `lang/{ro,ru,en}` | `/api/v1/ping` răspunde localizat în toate trei |
 | S1.5 | i18n mobile: i18next + expo-localization, comutator de limbă, `ro/ru/en.json` | ecran de test comută corect, plural RU corect |
-| S1.6 | gluestack-ui + NativeWind: init, `tailwind.config.js`, **paleta și tipografia** | un `Button` și un `Card` randează în ambele teme |
+| S1.6 | **Design system propriu** în `src/components/ui/` pe NativeWind: Button, Card, Input, Sheet, Avatar, Badge, ListItem, EmptyState | fiecare componentă randează în RO/RU/EN și în ambele teme |
 | S1.7 | expo-router + structura `app/`; TanStack Query + Zustand + client API | navigare între 2 ecrane, un fetch reușit |
 | S1.8 | Auth: Sanctum + Apple + Google + email OTP | te loghezi din app și primești token |
 | S1.9 | CI GitHub Actions: Pint, PHPStan, `php artisan test`, `tsc --noEmit` | build verde pe PR |

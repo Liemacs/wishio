@@ -65,8 +65,8 @@ Produsul urmărește zile de naștere, **onomastici**, sărbători cu cadouri ș
 
 ---
 
-## D-006 · Layer de stilizare — DESCHISĂ ⚠️
-**Data:** 2026-09-12 · **Stare:** blochează S1.6
+## D-006 · Layer de stilizare — NativeWind v5, fără gluestack
+**Data:** 2026-09-12 · **Stare:** confirmată
 
 **Constatare din testare reală** (nu din documentație):
 
@@ -90,4 +90,38 @@ Produsul urmărește zile de naștere, **onomastici**, sărbători cu cadouri ș
 *Plus:* gluestack funcționează azi, set complet de componente.
 *Minus:* SDK mai vechi, reinstalare completă, iar issue-urile raportate pe SDK 54 + gluestack (Reanimated, overlay) trebuie verificate.
 
-**De decis înainte de S1.6.** Vezi `docs/05-arhitectura.md § 1`.
+**Decizia: A.** Rămânem pe Expo SDK 57 + NativeWind v5 preview + Tailwind v4.
+
+**De ce:** build-ul e dovedit pe stack-ul real; nu introducem dependențe alpha în runtime; SDK-ul modern
+ne scutește de o migrare peste 6 luni. Componentele de bază (Button, Card, Input, Sheet, Avatar, Badge,
+ListItem, EmptyState) se scriu manual pe NativeWind — sunt copy-paste și în gluestack, deci nu pierdem
+nimic conceptual, doar ~1–2 zile de muncă.
+
+**Consecință:** `mobile/src/components/ui/` devine design system-ul propriu, construit pe token-urile din
+`global.css`. gluestack-ui se poate adopta mai târziu, când v5 iese din alpha — componentele noastre au
+aceeași formă (copy-paste peste NativeWind), deci migrarea ar fi incrementală, nu o rescriere.
+
+**Revizuim această decizie dacă:** NativeWind v5 rămâne în preview peste ~6 luni, sau gluestack v5 devine
+stabil înainte de S9. Vezi `docs/05-arhitectura.md § 1`.
+
+---
+
+## D-007 · Baza de date — MariaDB în dev, MySQL 8.4 în producție
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+Dezvoltarea rulează pe **MariaDB 10.4.28** (XAMPP, deja instalat). Producția și CI rulează **MySQL 8.4 LTS**.
+
+**Colația: `utf8mb4_unicode_ci`**, aleasă după test empiric pe serverul real:
+
+| Colație | `'Ștefan' = 'stefan'` |
+|---|---|
+| `utf8mb4_unicode_ci` | ✅ |
+| `utf8mb4_general_ci` | ✅ (legacy) |
+| `utf8mb4_romanian_ci` | ❌ — tratează diacriticele ca litere distincte |
+| `utf8mb4_0900_ai_ci` | nu există în MariaDB |
+
+Potrivirea insensibilă la diacritice este condiția de funcționare a name-day resolver-ului, deci colația nu e un detaliu. `utf8mb4_romanian_ci` ar fi fost alegerea „evidentă" și greșită.
+
+**Avertisment:** MariaDB 10.4 este **EOL din iunie 2024**. Acceptabil în dev, inacceptabil în producție pentru un produs care prelucrează date personale sub Legea 195/2024. `docker/compose.yaml` pornește MySQL 8.4 pentru CI și staging.
+
+**Verificat:** migrările Laravel 12 rulează pe MariaDB 10.4 fără modificări; `/api/v1/ping` răspunde localizat în RO/RU/EN cu fallback corect la RO.

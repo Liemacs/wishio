@@ -17,9 +17,9 @@ Pasul următor: `PLAN.md § FAZA 0`.
 
 | | |
 |---|---|
-| Mobile | React Native + Expo (SDK 57) + TypeScript + **gluestack-ui** (NativeWind) + expo-router |
+| Mobile | React Native + Expo (SDK 57) + TypeScript + **NativeWind v5** (Tailwind v4) + expo-router |
 | Backend | **Laravel 12** / PHP 8.3 |
-| Bază de date | **MySQL 8.4** (`utf8mb4_0900_ai_ci` — accent-insensitive, critic pentru diacritice RO) |
+| Bază de date | **MySQL 8.4** în producție, **MariaDB 10.4** (XAMPP) în dev · colație `utf8mb4_unicode_ci` — accent-insensitive, critică pentru diacritice RO |
 | Cozi / cache | Redis + Laravel Horizon |
 | Web public | Laravel + Inertia + Vue 3 (landing, pagini `@slug`, merchant dashboard) |
 | Observabilitate | PostHog + Sentry |
@@ -34,7 +34,7 @@ wishio/
 │   ├── app/Support/       Ai/ Localization/ PhoneNumbers/
 │   ├── config/wishio.php  configurația produsului
 │   └── lang/{ro,ru,en}/
-├── mobile/       Expo + React Native + gluestack-ui
+├── mobile/       Expo + React Native + NativeWind
 ├── docker/       MySQL 8.4 + Redis + Mailpit
 └── docs/         documentația de produs și arhitectură
 ```
@@ -44,11 +44,18 @@ wishio/
 > ⚠️ **Înainte de orice build nativ**, rezolvă `PLAN.md § E1` — spațiul din calea proiectului rupe Gradle și CocoaPods.
 
 ```bash
-make up        # MySQL + Redis + Mailpit (cere Docker sau OrbStack)
-make setup     # composer install, key:generate, migrate --seed, npm install
+make setup     # composer install, key:generate, migrate, npm install
 make api       # API pe http://localhost:8000
-make queue     # worker de cozi
 make mobile    # Expo
+```
+
+Baza de date rulează deja prin XAMPP (MariaDB). Pentru MySQL 8.4 + Redis + Mailpit în containere:
+`make up` (cere Docker sau OrbStack).
+
+Verificare rapidă că i18n merge cap-coadă:
+
+```bash
+curl -s -H "Accept-Language: ru" http://localhost:8000/api/v1/ping
 ```
 
 `make help` listează toate comenzile.
