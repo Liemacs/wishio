@@ -268,3 +268,21 @@ Cea mai onestă variantă este să nu-l colectăm deloc cât timp nu ne trebuie.
 - Re-sincronizarea se face pe `device_contact_id`, identificatorul local al contactului — nu părăsește dispozitivul ca date personale și nu spune nimic despre persoană.
 - Textul permisiunii poate spune adevărul simplu: *„citim doar numele și ziua de naștere"*. Nu mai avem nevoie de formulări despre numere care „nu ajung la noi în clar".
 - Când vom implementa claim-ul, decizia se redeschide, cu o evaluare de impact scrisă (`docs/06`).
+
+
+---
+
+## D-018 · Sărbătorile nu aparțin unei persoane
+**Data:** 2026-09-12 · **Stare:** confirmată
+
+8 Martie nu e „a Anei” — e o dată cu un **public**. Modelul reflectă asta: o ocazie de tip sărbătoare are `person_id = null` și un `holiday_id`.
+
+**Consecința de UX, care e chiar motivul deciziei:** o sărbătoare produce **o singură notificare**, nu una per persoană. *„Ziua Femeii e peste 3 zile — 12 persoane pe lista ta"* în loc de douăsprezece notificări separate, care ar fi zgomot garantat și ar încălca regula anti-spam din prima zi.
+
+**Publicul se calculează la afișare, nu se stochează.** Lista de contacte se schimbă; una înghețată ar deveni greșită fără să observe nimeni. Regulile sunt simple — femei, bărbați, copii, partener — și sunt un filtru de comoditate, nu o restricție: utilizatorul vede lista și poate cumpăra pentru oricine.
+
+Pentru „copii" ne bazăm pe **relație înaintea vârstei**: vârsta lipsește foarte des, relația nu.
+
+**Paștele se calculează, nu se stochează.** E mobil, iar o dată greșită ar muta cea mai mare sărbătoare din an. Algoritmul lui Meeus pentru calendarul iulian, plus decalajul de 13 zile — verificat pe 2024 (5 mai), 2025 (20 aprilie), 2026 (12 aprilie), 2027 (2 mai).
+
+⚠️ Datele celorlalte sărbători se verifică cu un calendar oficial înainte de lansare, la fel ca onomasticile (`docs/15 § 4`).

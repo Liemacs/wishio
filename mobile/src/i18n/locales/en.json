@@ -34,7 +34,10 @@
     "emptyTitle": "Nothing coming up",
     "emptyText": "Add people to see what's ahead.",
     "allPeople": "All people",
-    "needsConfirm": "to confirm"
+    "needsConfirm": "to confirm",
+    "peopleOnList_one": "{{count}} person on your list",
+    "peopleOnList_other": "{{count}} people on your list",
+    "noOneMatches": "No one on your list"
   },
   "errors": {
     "network": "Could not reach the server. Check your connection.",

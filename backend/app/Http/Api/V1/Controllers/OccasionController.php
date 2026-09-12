@@ -19,7 +19,7 @@ class OccasionController extends Controller
             ->where('user_id', $request->user()->id)
             ->when($request->boolean('unconfirmed'), fn ($q) => $q
                 ->whereNull('confirmed_at')->whereNull('rejected_at'))
-            ->with(['person', 'nameDay'])
+            ->with(['person', 'nameDay', 'holiday'])
             ->get()
             ->sortBy(fn (Occasion $o) => $o->daysUntil())
             ->values();
@@ -70,6 +70,6 @@ class OccasionController extends Controller
 
         $occasion->update($changes);
 
-        return OccasionResource::make($occasion->fresh(['person', 'nameDay']));
+        return OccasionResource::make($occasion->fresh(['person', 'nameDay', 'holiday']));
     }
 }

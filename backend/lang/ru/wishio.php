@@ -8,6 +8,13 @@ return [
         'holiday'     => 'Праздник',
         'custom'      => 'Особый повод',
     ],
+    'holiday' => [
+        'today'    => 'Сегодня :holiday 🎉',
+        'tomorrow' => 'Завтра :holiday',
+        'soon'     => '{1} :holiday через день|[2,4] :holiday через :count дня|[5,*] :holiday через :count дней',
+        'people'   => '{0} |{1} Один человек в вашем списке|[2,4] :count человека в вашем списке|[5,*] :count человек в вашем списке',
+    ],
+
     'push' => [
         'today'    => 'У :name сегодня :occasion 🎂',
         'tomorrow' => 'У :name завтра :occasion',

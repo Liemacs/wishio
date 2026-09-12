@@ -8,6 +8,13 @@ return [
         'holiday'     => 'Sărbătoare',
         'custom'      => 'Ocazie personalizată',
     ],
+    'holiday' => [
+        'today'    => 'Astăzi e :holiday 🎉',
+        'tomorrow' => 'Mâine e :holiday',
+        'soon'     => '{1} :holiday e peste o zi|[2,19] :holiday e peste :count zile|[20,*] :holiday e peste :count de zile',
+        'people'   => '{0} |{1} O persoană pe lista ta|[2,19] :count persoane pe lista ta|[20,*] :count de persoane pe lista ta',
+    ],
+
     'push' => [
         // Construcții neutre la gen: „își serbează” merge și pentru Alex, și
         // pentru Ana. Genitivul românesc („a lui / a Anei”) ar fi cerut să

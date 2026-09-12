@@ -41,6 +41,21 @@ export default function Home() {
 
   const [next, ...rest] = upcoming;
 
+  // O sărbătoare nu aparține nimănui: titlul e sărbătoarea, iar subtitlul
+  // spune pentru câți oameni din listă are sens.
+  const isHoliday = (occasion: Occasion) => occasion.type === 'holiday';
+
+  const titleOf = (occasion: Occasion) =>
+    isHoliday(occasion) ? occasion.label : (occasion.person?.display_name ?? '');
+
+  const subtitleOf = (occasion: Occasion) => {
+    if (!isHoliday(occasion)) return occasion.label;
+
+    const count = occasion.audience?.length ?? 0;
+
+    return count > 0 ? t('home.peopleOnList', { count }) : t('home.noOneMatches');
+  };
+
   const when = (occasion: Occasion) =>
     occasion.days_until === 0
       ? t('home.today')
@@ -91,7 +106,7 @@ export default function Home() {
                 >
                   <View className="flex-row items-center gap-2">
                     <View className={`h-2 w-2 rounded-full ${DOT[next.type] ?? DOT.custom}`} />
-                    <Text className="text-sm text-surface-500">{next.label}</Text>
+                    <Text className="text-sm text-surface-500">{subtitleOf(next)}</Text>
                     {!next.confirmed && next.source === 'derived' ? (
                       <Text className="text-[10px] uppercase text-surface-400">
                         · {t('home.needsConfirm')}
@@ -99,9 +114,7 @@ export default function Home() {
                     ) : null}
                   </View>
 
-                  <Text className="mt-1 text-3xl font-bold text-surface-900">
-                    {next.person?.display_name}
-                  </Text>
+                  <Text className="mt-1 text-3xl font-bold text-surface-900">{titleOf(next)}</Text>
                   <Text className="mt-1 text-lg text-surface-500">{when(next)}</Text>
 
                   <Button label={t('reminder.findGift')} className="mt-5" onPress={() => {}} />
@@ -130,10 +143,10 @@ export default function Home() {
                         <View className={`h-2 w-2 rounded-full ${DOT[occasion.type] ?? DOT.custom}`} />
                         <View className="flex-1">
                           <Text className="text-base font-semibold text-surface-900" numberOfLines={1}>
-                            {occasion.person?.display_name}
+                            {titleOf(occasion)}
                           </Text>
-                          <Text className="mt-0.5 text-sm text-surface-500">
-                            {occasion.label} · {when(occasion)}
+                          <Text className="mt-0.5 text-sm text-surface-500" numberOfLines={1}>
+                            {subtitleOf(occasion)} · {when(occasion)}
                           </Text>
                         </View>
                       </Pressable>

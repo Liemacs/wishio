@@ -27,7 +27,9 @@ export type Occasion = {
   is_muted: boolean;
   may_notify: boolean;
   saint_name?: string | null;
-  person?: { id: number; display_name: string };
+  person?: { id: number; display_name: string } | null;
+  /** Doar pentru sărbători: cine din contacte se potrivește. */
+  audience?: { id: number; display_name: string }[];
 };
 
 export function useImportContacts() {

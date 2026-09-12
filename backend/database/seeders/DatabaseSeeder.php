@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             NameDaySeeder::class,
             InterestSeeder::class,
+            HolidaySeeder::class,
         ]);
 
         // User::factory(10)->create();

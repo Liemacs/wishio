@@ -57,6 +57,28 @@ class Person extends Model
         return $this->hasMany(\App\Domain\Occasions\Models\Occasion::class);
     }
 
+    /**
+     * Persoanele cărora li se potrivește publicul unei sărbători.
+     *
+     * E un filtru de comoditate, nu o regulă: utilizatorul vede oricum lista
+     * și poate cumpăra pentru oricine. Pentru „copii” ne bazăm pe relație
+     * înaintea vârstei, fiindcă vârsta lipsește foarte des.
+     */
+    public function scopeForAudience(\Illuminate\Database\Eloquent\Builder $query, string $audience): void
+    {
+        match ($audience) {
+            'women'    => $query->where('gender', 'f'),
+            'men'      => $query->where('gender', 'm'),
+            'partner'  => $query->where('relationship', 'partner'),
+            'children' => $query->where(fn ($q) => $q
+                ->where('relationship', 'child')
+                ->orWhere(fn ($age) => $age
+                    ->where('birth_year_known', true)
+                    ->where('birth_date', '>', now()->subYears(14)))),
+            default    => null,
+        };
+    }
+
     /** Sursa înregistrată pentru un câmp, dacă există. */
     public function sourceFor(string $field): ?PersonFieldSource
     {

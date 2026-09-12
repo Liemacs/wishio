@@ -16,6 +16,10 @@ class BuildReminderContent
     /** @return array{title: string, body: string, cta: string} */
     public function __invoke(Occasion $occasion, int $daysBefore, string $locale): array
     {
+        if ($occasion->isHoliday()) {
+            return $this->holiday($occasion, $daysBefore, $locale);
+        }
+
         $name     = $occasion->person->display_name;
         $occasionLabel = mb_strtolower(__("wishio.occasions.{$occasion->type}", [], $locale));
 
@@ -35,6 +39,30 @@ class BuildReminderContent
                 ? $occasion->nameDay->saintName($locale)
                 : '',
             'cta' => __('wishio.push.cta', [], $locale),
+        ];
+    }
+
+    /**
+     * O sărbătoare produce O SINGURĂ notificare, nu una per persoană.
+     * „8 Martie e peste 3 zile, ai 12 persoane pe listă” — nu douăsprezece
+     * notificări separate, care ar fi zgomot garantat.
+     */
+    private function holiday(Occasion $occasion, int $daysBefore, string $locale): array
+    {
+        $replace = ['holiday' => $occasion->holiday->label($locale), 'count' => $daysBefore];
+
+        $title = match (true) {
+            $daysBefore === 0 => __('wishio.holiday.today', $replace, $locale),
+            $daysBefore === 1 => __('wishio.holiday.tomorrow', $replace, $locale),
+            default           => trans_choice('wishio.holiday.soon', $daysBefore, $replace, $locale),
+        };
+
+        $people = $occasion->audience()->count();
+
+        return [
+            'title' => $title,
+            'body'  => trim(trans_choice('wishio.holiday.people', $people, ['count' => $people], $locale)),
+            'cta'   => __('wishio.push.cta', [], $locale),
         ];
     }
 }

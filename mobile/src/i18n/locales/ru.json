@@ -38,7 +38,12 @@
     "emptyTitle": "Ближайших событий нет",
     "emptyText": "Добавьте людей, чтобы видеть, что впереди.",
     "allPeople": "Все люди",
-    "needsConfirm": "подтвердить"
+    "needsConfirm": "подтвердить",
+    "peopleOnList_one": "{{count}} человек в списке",
+    "peopleOnList_few": "{{count}} человека в списке",
+    "peopleOnList_many": "{{count}} человек в списке",
+    "peopleOnList_other": "{{count}} человека в списке",
+    "noOneMatches": "Никого из списка"
   },
   "errors": {
     "network": "Не удалось связаться с сервером. Проверьте соединение.",

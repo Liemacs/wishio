@@ -36,7 +36,11 @@
     "emptyTitle": "Nicio ocazie apropiată",
     "emptyText": "Adaugă persoane ca să vezi ce urmează.",
     "allPeople": "Toate persoanele",
-    "needsConfirm": "de confirmat"
+    "needsConfirm": "de confirmat",
+    "peopleOnList_one": "{{count}} persoană pe lista ta",
+    "peopleOnList_few": "{{count}} persoane pe lista ta",
+    "peopleOnList_other": "{{count}} de persoane pe lista ta",
+    "noOneMatches": "Nimeni din lista ta"
   },
   "errors": {
     "network": "Nu am putut contacta serverul. Verifică conexiunea.",

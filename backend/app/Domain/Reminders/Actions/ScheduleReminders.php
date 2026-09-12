@@ -41,7 +41,7 @@ class ScheduleReminders
 
         $occasions = Occasion::query()
             ->where('user_id', $user->id)
-            ->with(['person', 'nameDay'])
+            ->with(['person', 'nameDay', 'holiday'])
             ->get()
             ->filter(fn (Occasion $occasion) => $occasion->mayNotify());
 
@@ -102,20 +102,21 @@ class ScheduleReminders
         return UserSettings::firstOrCreate(['user_id' => $user->id]);
     }
 
-    /** Următoarea apariție a ocaziei, în fusul utilizatorului. */
+    /**
+     * Următoarea apariție, în fusul utilizatorului.
+     *
+     * Delegăm ocaziei: pentru sărbătorile mobile (Paștele) data nu se poate
+     * deduce din lună și zi.
+     */
     private function nextOccurrence(Occasion $occasion, CarbonImmutable $now, string $timezone): ?CarbonImmutable
     {
         $local = $now->setTimezone($timezone);
 
         try {
-            $occurrence = CarbonImmutable::create($local->year, $occasion->month, $occasion->day, 0, 0, 0, $timezone);
+            return $occasion->nextOccurrence($local)->setTimezone($timezone)->startOfDay();
         } catch (\Throwable) {
             return null;   // 31 februarie și alte date imposibile
         }
-
-        return $occurrence->endOfDay()->lessThan($local)
-            ? $occurrence->addYear()
-            : $occurrence;
     }
 
     /**

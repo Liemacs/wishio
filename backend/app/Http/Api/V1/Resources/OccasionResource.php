@@ -14,7 +14,9 @@ class OccasionResource extends JsonResource
         return [
             'id'          => $this->id,
             'type'        => $this->type,
-            'label'       => $this->title ?? __("wishio.occasions.{$this->type}"),
+            'label'       => $this->holiday?->label()
+                ?? $this->title
+                ?? __("wishio.occasions.{$this->type}"),
             'month'       => $this->month,
             'day'         => $this->day,
             'year'        => $this->year,
@@ -27,6 +29,12 @@ class OccasionResource extends JsonResource
             'may_notify'  => $this->mayNotify(),
 
             'saint_name'  => $this->whenLoaded('nameDay', fn () => $this->nameDay?->saintName()),
+
+            // Publicul unei sărbători se calculează la afișare: lista de
+            // contacte se schimbă, iar una înghețată ar deveni greșită.
+            'audience' => $this->when($this->isHoliday(), fn () => $this->audience()
+                ->map(fn ($person) => ['id' => $person->id, 'display_name' => $person->display_name])
+                ->values()),
 
             'person'      => $this->whenLoaded('person', fn () => [
                 'id'           => $this->person->id,
