@@ -10,7 +10,7 @@ Asistent de ocazii și cadouri pentru Republica Moldova — zile de naștere, **
 
 ## Stare
 
-**Faza 0 — validare.** Infrastructura e pregătită. Primele două componente de produs — **resolver-ul de onomastici** (`docs/15`) și **taxonomia de interese** (`docs/16`) — sunt implementate și testate.
+**Faza 0 — validare.** Infrastructura e pregătită. **Landing-ul de validare este gata** (`docs/17`), la fel și primele două componente de produs: **resolver-ul de onomastici** (`docs/15`) și **taxonomia de interese** (`docs/16`). 46 de teste verzi.
 Pasul următor: `PLAN.md § FAZA 0`.
 
 ## Stack
@@ -79,6 +79,7 @@ curl -s -H "Accept-Language: ru" http://localhost:8000/api/v1/ping
 | [docs/14-faza-0.md](docs/14-faza-0.md) | **Faza 0 în detaliu** — trei variante și planul zi cu zi |
 | [docs/15-onomastici.md](docs/15-onomastici.md) | Onomasticile: cum funcționează, și ⚠️ ce trebuie verificat înainte de lansare |
 | [docs/16-taxonomia-intereselor.md](docs/16-taxonomia-intereselor.md) | Taxonomia de interese — contractul dintre AI și catalog |
+| [docs/17-landing-faza-0.md](docs/17-landing-faza-0.md) | Landing-ul de validare: formular, flux concierge, privacy |
 | [PLAN.md](PLAN.md) | **Planul complet, pas cu pas** |
 | [CLAUDE.md](CLAUDE.md) | Reguli de dezvoltare |
 

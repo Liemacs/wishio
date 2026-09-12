@@ -1,11 +1,32 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
+/* Aceleasi token-uri ca in mobile/global.css — brand consistent pe ambele suprafete. */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-primary-50:  #fff1f2;
+    --color-primary-100: #ffe4e6;
+    --color-primary-200: #fecdd3;
+    --color-primary-300: #fda4af;
+    --color-primary-400: #fb7185;
+    --color-primary-500: #f43f5e;
+    --color-primary-600: #e11d48;
+    --color-primary-700: #be123c;
+    --color-primary-800: #9f1239;
+    --color-primary-900: #881337;
+
+    --color-surface-50:  #fafafa;
+    --color-surface-100: #f4f4f5;
+    --color-surface-200: #e4e4e7;
+    --color-surface-300: #d4d4d8;
+    --color-surface-400: #a1a1aa;
+    --color-surface-500: #71717a;
+    --color-surface-600: #52525b;
+    --color-surface-700: #3f3f46;
+    --color-surface-800: #27272a;
+    --color-surface-900: #18181b;
+
+    --color-success: #16a34a;
+    --color-danger:  #dc2626;
+
+    --radius-card:   20px;
+    --radius-button: 14px;
 }
