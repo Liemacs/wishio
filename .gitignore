@@ -1,5 +1,7 @@
 # --- OS / editor
 .DS_Store
+# Discul extern creează `._nume` lângă fiecare fișier scris din macOS.
+._*
 .idea/
 .vscode/
 *.swp
