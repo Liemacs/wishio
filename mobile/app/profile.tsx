@@ -14,19 +14,13 @@ import {
   useAddWish, useMyProfile, useRemoveWish, useSettings,
   useUpdateMyProfile, useUpdateSettings, type WishKind,
 } from '../src/features/profile/queries';
-import { SUPPORTED_LOCALES, type Locale } from '../src/i18n';
-import { useAuthStore } from '../src/stores/auth';
-import { useLocaleStore } from '../src/stores/locale';
 
-const LOCALE_NAMES: Record<Locale, string> = { ro: 'Română', ru: 'Русский', en: 'English' };
 const KINDS: WishKind[] = ['product', 'place', 'experience'];
 const VISIBILITY_FIELDS = ['birth_date', 'interests', 'wishlist'] as const;
 
 export default function MyProfileScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { locale, setLocale } = useLocaleStore();
-  const { profile: account, logout } = useAuthStore();
 
   const { data: profile, isLoading } = useMyProfile();
   const updateProfile = useUpdateMyProfile();
@@ -211,56 +205,47 @@ export default function MyProfileScreen() {
         </Section>
 
         {/* ── Setări ─────────────────────────────────────────────────────── */}
-        <Section title={t('profile.settingsTitle')}>
-          <Text className="mb-2 text-sm text-surface-500">{t('profile.language')}</Text>
-          <View className="flex-row gap-2">
-            {SUPPORTED_LOCALES.map((code) => (
-              <Pressable
-                key={code}
-                onPress={() => setLocale(code)}
-                className={`rounded-full px-4 py-2 ${code === locale ? 'bg-primary-600' : 'bg-surface-200'}`}
-              >
-                <Text className={`text-sm font-medium ${code === locale ? 'text-white' : 'text-surface-700'}`}>
-                  {LOCALE_NAMES[code]}
-                </Text>
-              </Pressable>
-            ))}
+        {settings ? (
+          <Section title={t('profile.settingsTitle')}>
+            <Text className="mb-2 text-sm text-surface-500">{t('profile.reminderDays')}</Text>
+            <View className="flex-row flex-wrap gap-2">
+              {[14, 7, 3, 1].map((day) => {
+                const active = settings.reminder_days.includes(day);
+
+                return (
+                  <Pressable
+                    key={day}
+                    onPress={() => {
+                      Haptics.selectionAsync();
+                      updateSettings.mutate({
+                        reminder_days: active
+                          ? settings.reminder_days.filter((d) => d !== day)
+                          : [...settings.reminder_days, day].sort((a, b) => b - a),
+                      });
+                    }}
+                    className={`rounded-full px-3.5 py-2 ${active ? 'bg-primary-600' : 'bg-surface-200'}`}
+                  >
+                    <Text className={`text-sm ${active ? 'font-medium text-white' : 'text-surface-700'}`}>
+                      {t('profile.days', { count: day })}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </Section>
+        ) : null}
+
+        {/* ── Cont: limbă, datele tale, documente legale, ștergere (M7) ──── */}
+        <Pressable
+          onPress={() => router.push('/account')}
+          className="mt-8 flex-row items-center gap-3 rounded-button bg-white px-4 py-3.5 active:opacity-70"
+        >
+          <View className="flex-1">
+            <Text className="text-base text-surface-800">{t('account.title')}</Text>
+            <Text className="mt-0.5 text-xs text-surface-400">{t('profile.accountHint')}</Text>
           </View>
-
-          {settings ? (
-            <>
-              <Text className="mb-2 mt-5 text-sm text-surface-500">{t('profile.reminderDays')}</Text>
-              <View className="flex-row flex-wrap gap-2">
-                {[14, 7, 3, 1].map((day) => {
-                  const active = settings.reminder_days.includes(day);
-
-                  return (
-                    <Pressable
-                      key={day}
-                      onPress={() => {
-                        Haptics.selectionAsync();
-                        updateSettings.mutate({
-                          reminder_days: active
-                            ? settings.reminder_days.filter((d) => d !== day)
-                            : [...settings.reminder_days, day].sort((a, b) => b - a),
-                        });
-                      }}
-                      className={`rounded-full px-3.5 py-2 ${active ? 'bg-primary-600' : 'bg-surface-200'}`}
-                    >
-                      <Text className={`text-sm ${active ? 'font-medium text-white' : 'text-surface-700'}`}>
-                        {t('profile.days', { count: day })}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </>
-          ) : null}
-        </Section>
-
-        <Button label={t('auth.logout')} variant="ghost" className="mt-8" onPress={logout} />
-
-        <Text className="mt-4 text-center text-xs text-surface-300">{account?.email}</Text>
+          <Text className="text-lg text-surface-300">›</Text>
+        </Pressable>
       </ScrollView>
     </Screen>
   );

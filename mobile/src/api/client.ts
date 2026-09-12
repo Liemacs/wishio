@@ -19,11 +19,21 @@ function resolveBaseUrl(): string {
   return host ? `http://${host}:8000/api/v1` : 'http://127.0.0.1:8000/api/v1';
 }
 
+const BASE_URL = resolveBaseUrl();
+
 export const api = axios.create({
-  baseURL: resolveBaseUrl(),
+  baseURL: BASE_URL,
   timeout: 15000,
   headers: { Accept: 'application/json' },
 });
+
+/**
+ * Adresa unei pagini web a produsului — documentele legale, de exemplu.
+ * Derivată din adresa API-ului, ca în dezvoltare să ducă la serverul local.
+ */
+export function webUrl(path: string): string {
+  return BASE_URL.replace(/\/api\/v1\/?$/, '') + path;
+}
 
 export const getToken = readToken;
 export const setToken = writeToken;
@@ -52,4 +62,17 @@ export function errorMessage(error: unknown): string {
   }
 
   return i18n.t('errors.unknown');
+}
+
+/** Erorile de validare (422), câmp cu câmp, ca fiecare să apară sub câmpul lui. */
+export function fieldErrors(error: unknown): Record<string, string> {
+  if (axios.isAxiosError(error) && error.response?.status === 422) {
+    const data = error.response.data as { errors?: Record<string, string[]> } | undefined;
+
+    return Object.fromEntries(
+      Object.entries(data?.errors ?? {}).map(([field, messages]) => [field, messages[0]]),
+    );
+  }
+
+  return {};
 }

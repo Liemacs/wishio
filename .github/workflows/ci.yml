@@ -91,3 +91,7 @@ jobs:
       - name: Verificare de tipuri
         working-directory: mobile
         run: npx tsc --noEmit
+
+      - name: Paritatea traducerilor
+        working-directory: mobile
+        run: npm run i18n:check

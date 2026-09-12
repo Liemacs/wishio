@@ -14,6 +14,9 @@ import en from './locales/en.json';
 export const SUPPORTED_LOCALES = ['ro', 'ru', 'en'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
+/** Numele fiecărei limbi, scris în limba ei: așa o recunoaște cine o vorbește. */
+export const LOCALE_NAMES: Record<Locale, string> = { ro: 'Română', ru: 'Русский', en: 'English' };
+
 export const DEFAULT_LOCALE: Locale = 'ro';
 
 export function detectLocale(): Locale {

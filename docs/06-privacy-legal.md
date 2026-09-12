@@ -151,8 +151,8 @@ Prima cerere de recomandare
 ## 7. Checklist înainte de primul submit
 
 - [ ] Privacy Policy + ToS, în RO / RU / EN, publicate la URL stabil
-- [ ] Ecran de ștergere cont în aplicație, funcțional
-- [ ] Export de date funcțional
+- [ ] Ecran de ștergere cont în aplicație, funcțional — **implementat (M7)**, verificat cap-coadă pe API; rămâne verificarea pe telefon
+- [ ] Export de date funcțional — **implementat (M7)**, prin foaia de partajare a sistemului; rămâne verificarea pe telefon
 - [ ] Privacy Nutrition Label (Apple) + Data Safety (Google) completate corect
 - [ ] Aplicația testată **fără** permisiune de Contacts și **fără** push — complet utilizabilă
 - [ ] Consimțământ AI implementat și testat pe ruta „refuz”

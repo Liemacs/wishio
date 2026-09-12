@@ -8,12 +8,11 @@ import { errorMessage } from '../src/api/client';
 import { Button } from '../src/components/ui/Button';
 import { Field } from '../src/components/ui/Field';
 import { Screen } from '../src/components/ui/Screen';
-import { SUPPORTED_LOCALES, type Locale } from '../src/i18n';
+import { LOCALE_NAMES, SUPPORTED_LOCALES } from '../src/i18n';
 import { useAuthStore } from '../src/stores/auth';
 import { useLocaleStore } from '../src/stores/locale';
 import { TYPE } from '../src/design/typography';
 
-const LOCALE_NAMES: Record<Locale, string> = { ro: 'Română', ru: 'Русский', en: 'English' };
 
 export default function Login() {
   const { t } = useTranslation();

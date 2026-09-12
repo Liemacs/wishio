@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { api, getToken, setToken } from '../api/client';
 import type { Locale, Profile } from '../api/types';
 import i18n from '../i18n';
+import { queryClient } from '../lib/queryClient';
 import { useLocaleStore } from './locale';
 
 type AuthState = {
@@ -12,6 +13,9 @@ type AuthState = {
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  /** Închide sesiunea local, fără server. După ștergerea contului, tokenul nu mai există acolo. */
+  endSession: () => Promise<void>;
+  setProfile: (profile: Profile) => void;
 };
 
 function adoptProfile(profile: Profile) {
@@ -22,7 +26,7 @@ function adoptProfile(profile: Profile) {
   }
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   profile: null,
   status: 'loading',
 
@@ -67,7 +71,18 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch {
       // Chiar dacă serverul nu răspunde, ieșim local.
     }
+    await get().endSession();
+  },
+
+  endSession: async () => {
     await setToken(null);
     set({ profile: null, status: 'guest' });
+
+    // Datele din cache aparțin contului care a ieșit. Fără golire, următorul
+    // cont de pe același telefon le-ar vedea până la prima reîncărcare —
+    // regula 3 din CLAUDE.md.
+    queryClient.clear();
   },
+
+  setProfile: (profile) => set({ profile }),
 }));

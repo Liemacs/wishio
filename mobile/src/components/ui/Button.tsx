@@ -7,13 +7,15 @@ import { TYPE } from '../../design/typography';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'destructive';
 
 const STYLES: Record<Variant, { container: string; label: string }> = {
   primary:   { container: 'bg-primary-600', label: 'text-white' },
   secondary: { container: 'bg-surface-200', label: 'text-surface-800' },
   ghost:     { container: 'bg-transparent', label: 'text-primary-600' },
   danger:    { container: 'bg-transparent', label: 'text-danger' },
+  /** Doar pentru comiterea unei acțiuni ireversibile, nu pentru a o propune. */
+  destructive: { container: 'bg-danger', label: 'text-white' },
 };
 
 type Props = {
@@ -60,7 +62,7 @@ export function Button({ label, onPress, variant = 'primary', loading, disabled,
       onPress={onPress}
     >
       <View className="flex-row items-center justify-center gap-2">
-        {loading && <ActivityIndicator size="small" color={variant === 'primary' ? '#fff' : '#71717a'} />}
+        {loading && <ActivityIndicator size="small" color={variant === 'primary' || variant === 'destructive' ? '#fff' : '#71717a'} />}
         <Text
           className={`text-center ${STYLES[variant].label}`}
           style={{ ...TYPE.body, fontWeight: '600' }}
