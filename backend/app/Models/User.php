@@ -28,6 +28,7 @@ class User extends Authenticatable
         'timezone',
         'name_day_calendar',
         'birth_date',
+        'ai_consent_at',
     ];
 
     /**
@@ -67,6 +68,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'birth_date' => 'date',
+            'ai_consent_at' => 'datetime',
         ];
     }
 

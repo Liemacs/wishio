@@ -39,7 +39,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Sărbători** — 9 pentru MD, Paștele ortodox calculat, public per sărbătoare |
 | ✅ | **Digest săptămânal** — email în RO/RU/EN, cu dezabonare semnată |
 | ✅ | **Catalog** — produs/oferte, deduplicare, scor de cadou, căutare, clickuri |
-| ✅ | 186 teste verzi pe MySQL · bundle iOS verificat |
+| ✅ | **Motorul de recomandări** — criterii, filtre, scoring, diversificare, anti-repetare |
+| ✅ | 202 teste verzi pe MySQL · bundle iOS verificat |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -173,12 +174,12 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S7.1 | `AiProvider` + implementare + prompturi + JSON Schema |
-| S7.2 🔴 | Validare strictă: doar leaf-uri din taxonomie; orice altceva se aruncă |
-| S7.3 | Pipeline `docs/05 § 3`: criterii → filtre SQL → scoring determinist → diversificare → explicații |
-| S7.4 | Anti-repetare din `gift_history`, excludere `person_avoids` |
-| S7.5 🔴 | **Ecran de consimțământ AI** + rută complet funcțională **fără** AI |
-| S7.6 | Generare asincronă pe cozi, cu stare „căutăm idei...” |
+| S7.1 ✅ | ~~`AiProvider` + contract~~ — `RuleBasedAiProvider` implicit; furnizorul LLM se adaugă fără schimbări în pipeline |
+| S7.2 ✅ | ~~Validare strictă~~ — codurile inexistente se aruncă, nu se aproximează |
+| S7.3 ✅ | ~~Pipeline complet~~ — cu descompunerea scorului salvată, ca rezultatele să fie depanabile |
+| S7.4 ✅ | ~~Anti-repetare + excluderi~~ |
+| S7.5 ✅ | ~~Consimțământ AI + rută fără AI~~ în backend; rămâne ecranul mobil |
+| S7.6 ✅ | ~~Generare asincronă~~ — 202 Accepted, clientul interoghează starea |
 | S8.1 🔴 | **C8 — set de evaluare cu 30 de profiluri**, rulat în CI, în toate trei limbile |
 | S8.2 | Onboarding AI: o frază liberă → interese structurate, confirmate de user |
 | S8.3 | Buget de cost + circuit breaker la depășire |

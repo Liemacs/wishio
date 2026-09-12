@@ -7,6 +7,7 @@ use App\Http\Api\V1\Controllers\InterestController;
 use App\Http\Api\V1\Controllers\PersonController;
 use App\Http\Api\V1\Controllers\PersonInterestController;
 use App\Http\Api\V1\Controllers\ProductController;
+use App\Http\Api\V1\Controllers\RecommendationController;
 use App\Http\Api\V1\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,11 @@ Route::prefix('v1')->group(function () {
         // Import din agenda telefonului: doar contactele alese explicit, si
         // doar nume + zi de nastere (docs/00 § D-017).
         Route::post('/contacts/import', [ContactImportController::class, 'store']);
+
+        // Recomandari
+        Route::post('/people/{person}/recommendations', [RecommendationController::class, 'store']);
+        Route::get('/recommendations/{recommendation}', [RecommendationController::class, 'show']);
+        Route::post('/ai-consent', [RecommendationController::class, 'consent']);
 
         // Catalog
         Route::get('/products', [ProductController::class, 'index']);

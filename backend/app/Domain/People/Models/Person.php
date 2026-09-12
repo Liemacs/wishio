@@ -57,6 +57,11 @@ class Person extends Model
         return $this->hasMany(\App\Domain\Occasions\Models\Occasion::class);
     }
 
+    public function giftHistory(): HasMany
+    {
+        return $this->hasMany(GiftHistory::class);
+    }
+
     /**
      * Persoanele cărora li se potrivește publicul unei sărbători.
      *
