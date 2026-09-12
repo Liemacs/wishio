@@ -41,8 +41,6 @@ wishio/
 
 ## Pornire rapidă
 
-> ⚠️ **Înainte de orice build nativ**, rezolvă `PLAN.md § E1` — spațiul din calea proiectului rupe Gradle și CocoaPods.
-
 ```bash
 make setup     # composer install, key:generate, migrate, npm install
 make api       # API pe http://localhost:8000

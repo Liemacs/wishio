@@ -261,22 +261,25 @@ Fiecare `Domain/*` conține `Actions/`, `Models/`, `DTOs/`, `Jobs/`, `Policies/`
 
 ---
 
-## 9. ⚠️ Problemă de mediu — spațiul din calea proiectului
+## 9. Spațiul din calea proiectului — risc condiționat
 
-Proiectul este la `/Volumes/T7 1/Wishio`. **Spațiul din „T7 1” rupe build-urile native React Native** — Gradle (Android) și CocoaPods (iOS) au probleme documentate cu spații în cale. Expo Go va merge; `expo run:ios`, `expo run:android` și build-urile locale EAS pot eșua cu erori greu de diagnosticat.
+Proiectul stă la `/Volumes/T7 1/Wishio`. Spațiul din „T7 1" **nu afectează** fluxul normal de lucru:
 
-**Soluții, în ordinea preferinței:**
-1. Mută proiectul într-o cale fără spații (ex. `~/Projects/wishio`).
-2. Creează un symlink și lucrează prin el:
-   ```bash
-   ln -s "/Volumes/T7 1/Wishio" ~/wishio
-   ```
-   apoi deschide tot prin `~/wishio`.
-3. Lasă `mobile/` pe discul intern și `backend/` pe extern (rupe monorepo-ul — nerecomandat).
+| Ce faci | Unde rulează build-ul | Afectat de spațiu |
+|---|---|---|
+| `npx expo start` + Expo Go | Metro local, doar JS | ❌ nu — verificat, bundle-ul web s-a construit din această cale |
+| `eas build` (cloud) | pe serverele Expo, Linux | ❌ nu — calea ta e irelevantă |
+| `npx expo prebuild` / `run:android` / `run:ios` | Gradle / CocoaPods, local | ⚠️ **da, aici e riscul** |
+| `eas build --local` | Gradle / Xcode, local | ⚠️ da |
 
-Fă asta **înainte** de primul build nativ, nu după.
+Gradle (Android) și CocoaPods (iOS) au un istoric de probleme cu spații în cale. Cât timp stai pe **managed workflow + EAS cloud builds**, nu atingi niciodată aceste unelte și nu ai de ce să muți proiectul.
 
----
+**Când devine relevant:** dacă la un moment dat ai nevoie de `expo prebuild` (un modul nativ care cere configurare manuală) sau vrei build-uri locale ca să nu aștepți coada EAS.
+
+**Dacă ajungi acolo, în ordinea preferinței:**
+1. Rămâi pe EAS cloud builds — cel mai simplu, și oricum necesar pentru distribuție în store.
+2. Mută proiectul într-o cale fără spații (ex. `~/Projects/wishio`).
+3. Symlink-ul **nu ajută** — verificat: Metro rezolvă calea reală, cu tot cu spațiu.
 
 ## 10. Decizii tehnice rămase
 

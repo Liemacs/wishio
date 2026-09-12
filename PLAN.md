@@ -34,7 +34,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 
 | ID | Problemă | Acțiune |
 |---|---|---|
-| **E1** 🔴 | **Spațiu în calea proiectului** (`/Volumes/T7 1/`). Rupe build-urile native RN (Gradle, CocoaPods). | `ln -s "/Volumes/T7 1/Wishio" ~/wishio` și lucrează prin `~/wishio`. Sau mută proiectul pe discul intern. |
+| **E1** 🟡 | **Spațiu în calea proiectului** (`/Volumes/T7 1/`). **Nu afectează** Expo Go sau EAS cloud builds — verificat, bundle-ul se construiește. Risc doar la build-uri native **locale** (`expo prebuild`, `run:android`, `eas build --local`), unde Gradle/CocoaPods au probleme cu spațiile. | Nimic acum. Dacă ajungi la build-uri native locale, mută proiectul într-o cale fără spații. Symlink-ul nu ajută — Metro rezolvă calea reală. |
 | **E2** 🟠 | Cache npm cu fișiere root-owned | `sudo chown -R $(id -u):$(id -g) ~/.npm` |
 | **E3** 🟠 | Redis nu e instalat (MariaDB merge prin XAMPP) | `brew install redis` sau OrbStack/Docker → `make up`. Necesar la S5 (cozi). |
 | **E4** 🟠 | PHP activ este 8.2; recomandat 8.3 | `brew link --overwrite php@8.3` (php@8.3 e deja instalat) |
@@ -77,7 +77,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 
 | ID | Pas | Gata când |
 |---|---|---|
-| S1.1 | Rezolvă E1–E4 | `make up` pornește, `php -v` arată 8.3, lucrezi prin cale fără spații |
+| S1.1 | Rezolvă E2–E4 (E1 nu blochează) | Redis pornit, `php -v` arată 8.3 |
 | S1.2 | `make setup`; migrările rulează pe MySQL | `php artisan migrate` trece |
 | S1.3 | **Schema de evenimente analytics** (PostHog) — `docs/07 § 3`, **înainte de orice feature** | un eveniment de test ajunge în PostHog |
 | S1.4 | i18n backend: middleware `Accept-Language` → `users.locale` → RO; `lang/{ro,ru,en}` | `/api/v1/ping` răspunde localizat în toate trei |
