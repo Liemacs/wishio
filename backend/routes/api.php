@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Api\V1\Controllers\AccountController;
 use App\Http\Api\V1\Controllers\AuthController;
 use App\Http\Api\V1\Controllers\ContactImportController;
 use App\Http\Api\V1\Controllers\InterestController;
@@ -40,6 +41,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::get('/auth/me', [AuthController::class, 'me']);
         Route::patch('/auth/me', [AuthController::class, 'updateMe']);
+
+        // Drepturile utilizatorului asupra datelor lui (docs/06 § 7).
+        Route::get('/account/export', [AccountController::class, 'export']);
+        Route::delete('/account', [AccountController::class, 'destroy']);
 
         // Taxonomia pentru selectorul de interese, in limba cererii.
         Route::get('/interests', [InterestController::class, 'index']);

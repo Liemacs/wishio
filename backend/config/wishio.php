@@ -68,6 +68,18 @@ return [
     | domeniul trebuie să servească fișierele de asociere. Rămân goale până
     | când există un build semnat — vezi docs/18 § 7.
     */
+    /*
+    |--------------------------------------------------------------------------
+    | Identitatea operatorului de date
+    |--------------------------------------------------------------------------
+    | Legea 195/2024 cere un operator identificabil. Se completeaza cand exista
+    | entitatea juridica (docs/08 § A7).
+    */
+    'legal' => [
+        'operator_name' => env('WISHIO_OPERATOR_NAME'),
+        'contact_email' => env('WISHIO_PRIVACY_EMAIL'),
+    ],
+
     'deep_links' => [
         'ios_app_id'                 => env('WISHIO_IOS_APP_ID'),        // TEAMID.md.wishio.app
         'android_package'            => env('WISHIO_ANDROID_PACKAGE', 'md.wishio.app'),
