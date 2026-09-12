@@ -13,6 +13,23 @@ Asistent de ocazii și cadouri pentru Republica Moldova — zile de naștere, **
 **Faza 0 — validare.** Infrastructura e pregătită. **Landing-ul de validare este gata** (`docs/17`), la fel și primele două componente de produs: **resolver-ul de onomastici** (`docs/15`) și **taxonomia de interese** (`docs/16`). 46 de teste verzi.
 Pasul următor: `PLAN.md § FAZA 0`.
 
+## Web sau aplicație mobilă?
+
+**Amândouă, cu roluri diferite.** Produsul este aplicația mobilă; web-ul este subțire, dar obligatoriu.
+
+| Suprafață | Rol | Când |
+|---|---|---|
+| 📱 **Aplicația mobilă** (React Native + Expo) | **produsul**: persoane, ocazii, remindere, recomandări | MVP, S1–S12 |
+| 🌐 **Landing de validare** | Faza 0 — nu există aplicație încă | ✅ gata |
+| 🌐 **Pagini publice `wishio.md/@slug`** | motorul de creștere: prietenul care primește linkul **nu are aplicația** | MVP, S9 |
+| 🌐 **Merchant dashboard** | magazinele nu-și instalează o aplicație ca să vadă clickuri | v2 |
+
+**De ce mobil pentru produs:** accesul la agendă (tot cold-start-ul depinde de el), push notifications (mecanismul de retenție) și widget-ul. Niciunul nu există pe web.
+
+**De ce web-ul nu e opțional:** dacă prietenul tău trebuie să instaleze o aplicație ca să-ți spună când e ziua lui, bucla virală din [docs/01](docs/01-produs.md) moare.
+
+Un singur backend Laravel servește și API-ul aplicației, și paginile web. Token-urile de design sunt identice (`mobile/global.css` ↔ `backend/resources/css/app.css`), deci ambele arată ca același produs.
+
 ## Stack
 
 | | |
