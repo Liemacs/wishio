@@ -1,4 +1,8 @@
-import * as Contacts from 'expo-contacts';
+// Din SDK 57, funcțiile vechi importate din „expo-contacts” aruncă la rulare;
+// aceleași funcții, neschimbate, stau în „expo-contacts/legacy”. API-ul nou, pe
+// clase, numără lunile de la 1 și citește altfel ziua de naștere pe Android:
+// migrarea cere un test pe ambele platforme, nu doar o schimbare de import.
+import * as Contacts from 'expo-contacts/legacy';
 
 /**
  * Citirea agendei. Cerem DOAR numele și ziua de naștere.
