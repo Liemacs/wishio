@@ -62,6 +62,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Retenție
+    |--------------------------------------------------------------------------
+    | Termenele promise în politica de confidențialitate și în docs/21. Se
+    | aplică singure, în fiecare noapte (routes/console.php). Nu le lungi fără
+    | să schimbi întâi politica.
+    */
+    'retention' => [
+        'clicks_months'             => 24,   // M-08: apoi doar totalul pe lună
+        'notification_queue_months' => 13,   // M-11
+        'inactive_token_months'     => 12,   // M-11
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Deep links
     |--------------------------------------------------------------------------
     | Ca linkul `wishio.md/@slug` să deschidă aplicația când e instalată,

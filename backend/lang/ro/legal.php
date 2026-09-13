@@ -80,6 +80,8 @@ return [
                 'items' => [
                     'Datele contului, cât timp contul există.',
                     'Clickurile spre magazine, 24 de luni, apoi doar agregat.',
+                    'Istoricul reminderelor, 13 luni.',
+                    'Sesiunea din aplicație, până te deconectezi sau până trec 12 luni fără să deschizi aplicația.',
                     'La ștergerea contului, tot ce ține de el se șterge definitiv, nu se dezactivează.',
                     'Copiile de siguranță mai păstrează datele cel mult 3 luni după ștergere, apoi sunt suprascrise.',
                 ],

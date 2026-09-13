@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\PersonalAccessToken;
 use App\Support\Ai\AiProvider;
 use App\Support\Ai\RuleBasedAiProvider;
 use App\Support\Push\ExpoPushSender;
 use App\Support\Push\NullPushSender;
 use App\Support\Push\PushSender;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Tokenurile nefolosite de 12 luni se șterg în fiecare noapte (docs/21, M-11).
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }

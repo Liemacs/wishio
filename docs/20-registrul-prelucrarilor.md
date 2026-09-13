@@ -31,7 +31,7 @@
 | Sursă | utilizatorul |
 | Temei | executarea contractului — art. 6 alin. (1) lit. b |
 | Destinatari | furnizorul de găzduire (împuternicit) |
-| Retenție | cât există contul. Ștergerea contului e imediată și definitivă (`DeleteAccount`); copiile de siguranță mai păstrează datele cel mult 3 luni. Tokenurile de acces nu expiră (`sanctum.expiration = null`): dispar la deconectare sau odată cu contul — `docs/21`, M-11 |
+| Retenție | cât există contul. Ștergerea contului e imediată și definitivă (`DeleteAccount`); copiile de siguranță mai păstrează datele cel mult 3 luni. Tokenurile de acces nu expiră (`sanctum.expiration = null`), dar se șterg după 12 luni în care aplicația nu s-a deschis (`PersonalAccessToken`, M-11), la deconectare sau odată cu contul |
 | În cod | `users`, `personal_access_tokens` · `AuthController`, `AccountController`, `DeleteAccount`, `ExportUserData` |
 
 ### P2 · Persoanele urmărite de utilizator
@@ -63,7 +63,7 @@ Cererea de import mai poartă două numere agregate: câte contacte are agenda �
 | Temei | executarea contractului; permisiunea de notificări a sistemului e condiția tehnică, nu temeiul. Politica publicată trece notificările la „consimțământ” — de aliniat cu juristul |
 | Destinatari | Expo (650 Industries, Inc., SUA), care livrează prin Apple Push Notification service și Firebase Cloud Messaging (SUA); furnizorul SMTP, încă neales |
 | Transferuri | SUA, prin Expo, Apple și Google — mecanismul de transfer se documentează la contractare (§ 2) |
-| Retenție | tokenul: până la deconectare (aplicația îl retrage), până la ștergerea contului sau până când Expo îl declară invalid (`SendDueNotifications` îl șterge). Coada: cât contul — `docs/21`, M-11. Rezumatul se oprește din setări sau din linkul semnat de dezabonare |
+| Retenție | tokenul: până la deconectare (aplicația îl retrage), până la ștergerea contului sau până când Expo îl declară invalid (`SendDueNotifications` îl șterge). Coada: 13 luni de la momentul programat (`QueuedNotification`, M-11). Rezumatul se oprește din setări sau din linkul semnat de dezabonare |
 | În cod | `device_tokens`, `user_settings`, `notifications_queue` · `SendDueNotifications`, `NotifyOwnersOfPendingSubmissions`, `ExpoPushSender`, `SendWeeklyDigests` |
 
 ### P4 · Linkul public și completările
@@ -112,7 +112,7 @@ Cererea de import mai poartă două numere agregate: câte contacte are agenda �
 | Date | utilizatorul, oferta, comerciantul, persoana pentru care căuta (opțional), prețul, contextul (căutare, recomandare, listă de dorințe, idee), momentul |
 | Temei | interesul legitim — art. 6 alin. (1) lit. f |
 | Destinatari | niciunul, la nivel individual. Linkul deschis e linkul fix al ofertei, fără identificatori ai utilizatorului; ce colectează magazinul după aceea ține de politica lui |
-| Retenție | politica promite 24 de luni, apoi doar agregat. **Agregarea nu există încă** — `docs/21`, M-08 |
+| Retenție | 24 de luni; apoi doar un total pe lună, comerciant și ofertă, fără utilizator, persoană sau preț (`AggregateOldClicks`, `click_stats`, M-08) |
 | În cod | `outbound_clicks` · `ProductController::click` |
 
 Căutările de produse nu se stochează: termenul căutat filtrează catalogul și atât.
@@ -148,7 +148,7 @@ Căutările de produse nu se stochează: termenul căutat filtrează catalogul �
 | Loguri Nginx | IP, URL, user agent | 14 zile, de configurat la deploy |
 | Sesiuni web | IP, user agent, limba, tokenul CSRF; la o eroare de validare, câmpurile formularului, până la cererea următoare | 120 de minute; `SESSION_ENCRYPT=true` în producție |
 | Limitarea ratei | chei derivate din IP, în cache | câteva minute |
-| Cozi | `jobs`, `failed_jobs` — joburile eșuate păstrează excepția | `failed_jobs` fără termen — M-11 |
+| Cozi | `jobs`, `failed_jobs` — joburile eșuate păstrează excepția | `failed_jobs`: 7 zile (`queue:prune-failed`, M-11) |
 | Copii de siguranță | toate datele | 7 zilnice, 4 săptămânale, 3 lunare, criptate (`docs/10 § 2`) — **neconfigurate**, depind de VPS |
 | Erori (Sentry) | — | **neinstalat** (S11.7); când se adaugă: scrubbing de PII, fără date despre persoane |
 
@@ -191,3 +191,4 @@ Căutările de produse nu se stochează: termenul căutat filtrează catalogul �
 | Data | Ce s-a schimbat |
 |---|---|
 | 2026-09-13 | Prima versiune, scrisă după cod. Reparate pe loc, înainte de a fi trecute aici: text liber în contextul pentru AI; acordul AI fără cale de retragere; exportul incomplet; tokenul de push rămas activ după deconectare; formularele publice fără link spre politică; `WRITE_CONTACTS` și stocarea externă pe Android; politica fără furnizorul de email, fără conținutul notificărilor și fără copiile de siguranță |
+| 2026-09-13 | Pozele din agendă se afișează doar pe telefon (D-023). Termenele pentru clickuri (M-08), coada de notificări și tokenurile de acces (M-11) se aplică automat, în fiecare noapte |

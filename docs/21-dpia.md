@@ -76,7 +76,7 @@ Probabilitatea și gravitatea: scăzută, medie, ridicată. Riscul rezidual e ce
 | R-06 | O completare ajunge în fișa altei persoane (omonimi) | cei care completează, persoanele adăugate | „Cine este?”: nicio lipire fără decizia proprietarului; retragerea nu șterge contactele existente (S9.7, S9.8) | scăzută | medie | **scăzut** |
 | R-07 | Abuzul linkului public: spam, date false, cineva completează în numele altuia | proprietarul, persoana imitată | limitare pe IP; consimțământ; proprietarul decide; link de ștergere. Fără captcha | medie | scăzută | **scăzut** → M-18 |
 | R-08 | Date despre minori; minori ca utilizatori | copiii | date minime; vârsta doar ca interval; nimic public. Termenii nu stabilesc o vârstă minimă | medie | medie | **mediu** → M-12 |
-| R-09 | Păstrare peste necesar | toți | ștergerea contului e reală. Lacune: persoanele șterse logic, clickurile, cererile din Faza 0, completările fără răspuns, coada de notificări, joburile eșuate, tokenurile fără expirare | ridicată — e starea de azi | scăzută | **mediu** → M-07…M-11 |
+| R-09 | Păstrare peste necesar | toți | ștergerea contului e reală. Lacune: persoanele șterse logic, cererile din Faza 0, completările fără răspuns (clickurile, coada de notificări, joburile eșuate și tokenurile au termen din M-08 și M-11) | ridicată — e starea de azi | scăzută | **mediu** → M-07…M-11 |
 | R-10 | Persoanele adăugate nu sunt informate | persoanele adăugate | politica publică; nu colectăm date de contact, deci nu le putem scrie | ridicată | scăzută | **acceptat**, de validat de jurist |
 | R-11 | Cine nu e utilizator nu are o cale practică de a-și exercita drepturile | persoanele adăugate | linkul de ștergere, pentru cine a completat un link. Lipsesc adresa de contact și procedura | medie | medie | **mediu** → M-13 |
 | R-12 | Analytics pe paginile publice, fără consimțământ | vizitatorii | inactiv: fără cheie, scriptul nu se încarcă | scăzută | scăzută | **scăzut** → M-16 |
@@ -107,10 +107,10 @@ Niciun risc nu rămâne ridicat.
 | # | Măsură | Riscuri | Termen |
 |---|---|---|---|
 | M-07 | Termen pentru persoanele șterse logic. Propunere: ștergere definitivă după 30 de zile (`Prunable` + `model:prune` zilnic); un reimport după termen creează o persoană nouă, fără note. Decizie de produs | R-09 | înainte de lansare |
-| M-08 | Agregarea clickurilor mai vechi de 24 de luni: un tabel lunar pe comerciant și ofertă, apoi ștergerea rândurilor individuale | R-09 | obligatoriu până în septembrie 2028; recomandat înainte de lansare, ca să nu fie uitat |
+| M-08 | ✅ Clickurile mai vechi de 24 de luni devin, în fiecare noapte, un total pe lună, comerciant și ofertă (`click_stats`, fără utilizator, persoană sau preț), iar rândurile individuale se șterg (`AggregateOldClicks`) | R-09 | făcut — `DataRetentionTest` |
 | M-09 | Cererile din Faza 0: un termen (propunere: 6 luni după încheierea Fazei 0) și ștergerea la cerere în `wishio:requests` | R-09 | înainte de a porni Faza 0 public |
 | M-10 | Completările fără răspuns expiră (propunere: 90 de zile), cu ștergerea datelor trimise | R-09 | înainte de lansare |
-| M-11 | Curățare: coada de notificări mai veche de 13 luni; `failed_jobs` după 7 zile (`queue:prune-failed`); expirarea tokenurilor de acces nefolosite | R-09 | înainte de lansare |
+| M-11 | ✅ Curățare în fiecare noapte: coada de notificări mai veche de 13 luni și tokenurile de acces în care aplicația nu s-a deschis de 12 luni (`model:prune`); `failed_jobs` după 7 zile (`queue:prune-failed`) | R-09 | făcut — `DataRetentionTest` |
 | M-12 | Vârsta minimă în Termeni — vârsta consimțământului digital din Legea 195/2024, de confirmat de jurist — și ratingul de vârstă din store | R-08 | înainte de submit |
 | M-13 | O adresă de contact pentru protecția datelor și procedura pentru cererile celor care nu sunt utilizatori: căutare după numele și data nașterii comunicate de solicitant, ștergerea potrivirilor exacte, fără să-i spunem utilizatorului cine a cerut | R-11 | după A7, înainte de lansare |
 | M-14 | Contracte și infrastructură: DPA cu găzduirea în UE, cu Expo (inclusiv mecanismul de transfer) și cu furnizorul de email; TLS; backup criptat; 2FA pe conturile Apple, Google, hosting și domeniu; `LOG_STACK=daily`, `SESSION_ENCRYPT=true`, loguri Nginx la 14 zile | R-03, R-04 | la deploy |

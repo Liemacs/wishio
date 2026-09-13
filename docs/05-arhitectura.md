@@ -302,7 +302,9 @@ interface AiProvider {
 | `GenerateRecommendations` | la cerere | **niciodată sincron** — UI arată „căutăm idei...” |
 | `ResolveNameDays` | la import + nightly | onomastici din prenume |
 | `SendWeeklyDigest` | luni 09:00 local | fallback de retenție |
-| `PurgeStaleData` | zilnic | retenție conform politicii |
+| `model:prune` (`QueuedNotification`, `PersonalAccessToken`) | zilnic 03:00 | istoricul reminderelor după 13 luni, tokenurile nefolosite de 12 luni (`docs/21`, M-11) |
+| `AggregateOldClicks` | zilnic 03:30 | clickurile mai vechi de 24 de luni devin un total pe lună (M-08) |
+| `queue:prune-failed --hours=168` | zilnic | joburile eșuate după 7 zile (M-11) |
 
 **Anti-spam:** max 4 notificări per ocazie, max 2 push/zi per user, deloc în quiet hours, deloc pentru ocazii neconfirmate sub prag de confidence.
 

@@ -80,8 +80,9 @@ Politici echivalente pentru User Data și permisiunea `READ_CONTACTS`: justifica
 | Note despre persoane | userul | server, criptat la rest | interes legitim | idem |
 | Idei și istoric de cadouri | userul | server | interes legitim | idem |
 | Token de push | device, cu permisiunea sistemului | server + Expo | contract | până la deconectare sau până când Expo îl respinge |
+| Token de acces, istoricul reminderelor | aplicația, planificarea | server | contract | tokenul: până la deconectare sau 12 luni fără deschiderea aplicației; istoricul: 13 luni (M-11) |
 | Context trimis spre AI | derivat | **pseudonimizat**: coduri și titluri din catalog, fără text liber | consimțământ explicit, retras din Cont | nestocat de provider — **niciun provider activ azi** |
-| Clickuri spre magazin | comportament | server | interes legitim | 24 luni, apoi agregat — **agregarea nu există încă** (`docs/21`, M-08) |
+| Clickuri spre magazin | comportament | server | interes legitim | 24 luni, apoi doar un total pe lună, comerciant și ofertă (M-08) |
 | Date din linkul public | **persoana însăși** | server | **consimțământ**, versionat | până la retragere, din linkul primit la final |
 | Cereri din Faza 0 | vizitatorul landing-ului | server | consimțământ | **nedefinită** (`docs/21`, M-09) |
 
