@@ -320,7 +320,10 @@
     "newDetail": "{{name}} apare separat în lista ta",
     "keepsName": "{{name}} primește ziua și interesele din completare. Numele rămâne cel din lista ta.",
     "confirm": "Confirmă",
-    "gone": "Completarea nu mai așteaptă un răspuns."
+    "gone": "Completarea nu mai așteaptă un răspuns.",
+    "expires_one": "Dacă nu alegi, completarea se șterge peste o zi.",
+    "expires_few": "Dacă nu alegi, completarea se șterge peste {{count}} zile.",
+    "expires_other": "Dacă nu alegi, completarea se șterge peste {{count}} de zile."
   },
   "gifts": {
     "ideasTitle": "Idei de cadou",

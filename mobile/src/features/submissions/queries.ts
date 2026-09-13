@@ -19,6 +19,8 @@ export type PendingSubmission = {
   interests: { code: string; label: string }[];
   message: string | null;
   submitted_at: string | null;
+  /** Până atunci trebuie ales „cine este?”; apoi completarea se șterge (D-024). */
+  expires_at: string | null;
   candidates: IdentityCandidate[];
 };
 

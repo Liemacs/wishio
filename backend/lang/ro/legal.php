@@ -82,6 +82,8 @@ return [
                     'Clickurile spre magazine, 24 de luni, apoi doar agregat.',
                     'Istoricul reminderelor, 13 luni.',
                     'Sesiunea din aplicație, până te deconectezi sau până trec 12 luni fără să deschizi aplicația.',
+                    'Persoanele pe care le ștergi din listă, încă 30 de zile, ca un reimport din agendă să le poată readuce. Apoi se șterg definitiv, cu tot ce ține de ele.',
+                    'Completările primite prin linkul tău, cât există persoana la care au ajuns. Dacă nu alegi cine le-a trimis, se șterg după 30 de zile.',
                     'La ștergerea contului, tot ce ține de el se șterge definitiv, nu se dezactivează.',
                     'Copiile de siguranță mai păstrează datele cel mult 3 luni după ștergere, apoi sunt suprascrise.',
                 ],

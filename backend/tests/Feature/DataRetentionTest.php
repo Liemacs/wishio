@@ -6,6 +6,8 @@ use App\Domain\Catalog\Models\OutboundClick;
 use App\Domain\Occasions\Models\Occasion;
 use App\Domain\People\Enums\FieldSource;
 use App\Domain\People\Models\Person;
+use App\Domain\Profiles\Models\ProfileSubmission;
+use App\Domain\Profiles\Models\PublicProfile;
 use App\Domain\Reminders\Models\QueuedNotification;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
@@ -15,9 +17,10 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 /*
- * Termenele promise în politică și în docs/21 (M-08, M-11) se aplică singure,
+ * Termenele promise în politică și în docs/21 (M-07, M-08, M-10, M-11) se aplică singure,
  * în fiecare noapte: nimeni nu trebuie să-și amintească să le ruleze.
  */
 
@@ -131,6 +134,95 @@ it('ruleaza curatenia in fiecare noapte, fara interventie', function () {
 
     expect($prune)->not->toBeNull()
         ->and($prune->command)->toContain('QueuedNotification')->toContain('PersonalAccessToken')
+        ->toContain('People\Models\Person')->toContain('Profiles\Models\ProfileSubmission')
+        // Persoanele înaintea completărilor: cele rămase fără persoană pleacă în aceeași rulare.
+        ->and(strpos($prune->command, 'People\Models\Person') < strpos($prune->command, 'ProfileSubmission'))->toBeTrue()
         ->and($events->contains(fn ($event) => $event->description === AggregateOldClicks::class))->toBeTrue()
         ->and($events->contains(fn ($event) => str_contains((string) $event->command, 'queue:prune-failed')))->toBeTrue();
+});
+
+function retentionProfile(User $user): PublicProfile
+{
+    return PublicProfile::create([
+        'user_id'      => $user->id,
+        'slug'         => PublicProfile::generateSlug('Maxim'),
+        'display_name' => 'Maxim',
+        'locale'       => 'ro',
+        'visibility'   => PublicProfile::DEFAULT_VISIBILITY,
+    ]);
+}
+
+function retentionSubmission(PublicProfile $profile, DateTimeInterface $createdAt, array $attributes = []): ProfileSubmission
+{
+    return ProfileSubmission::create(array_merge([
+        'public_profile_id' => $profile->id,
+        'display_name'      => 'Ana Rusu',
+        'consent_version'   => '2026-09-1',
+        'consented_at'      => $createdAt,
+        'delete_token'      => Str::random(48),
+        'created_at'        => $createdAt,
+        'updated_at'        => $createdAt,
+    ], $attributes));
+}
+
+it('sterge definitiv persoanele sterse de peste 30 de zile, cu tot ce tine de ele', function () {
+    $person = fn (string $name) => Person::create(['user_id' => $this->user->id, 'display_name' => $name]);
+
+    $old = $person('Ana Rusu');
+    $occasion = Occasion::create([
+        'user_id' => $this->user->id, 'person_id' => $old->id, 'type' => 'birthday',
+        'month'   => 4, 'day' => 23, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
+    ]);
+    $old->delete();
+    Person::withTrashed()->whereKey($old->id)->update(['deleted_at' => now()->subDays(31)]);
+
+    $recent = $person('Ion Rusu');
+    $recent->delete();
+    Person::withTrashed()->whereKey($recent->id)->update(['deleted_at' => now()->subDays(29)]);
+
+    $kept = $person('Maria Rusu');
+
+    $this->artisan('model:prune', ['--model' => [Person::class]])->assertSuccessful();
+
+    expect(Person::withTrashed()->find($old->id))->toBeNull()
+        ->and(Occasion::find($occasion->id))->toBeNull()
+        // În primele 30 de zile, un reimport din agendă o mai poate readuce.
+        ->and(Person::onlyTrashed()->find($recent->id))->not->toBeNull()
+        ->and(Person::find($kept->id))->not->toBeNull();
+});
+
+it('sterge completarile ramase fara raspuns 30 de zile si pe cele ramase fara persoana', function () {
+    $profile = retentionProfile($this->user);
+
+    $expired = retentionSubmission($profile, now()->subDays(31));
+    $waiting = retentionSubmission($profile, now()->subDays(29));
+
+    $person = Person::create(['user_id' => $this->user->id, 'display_name' => 'Ana Rusu']);
+    $accepted = retentionSubmission($profile, now()->subDays(90), ['person_id' => $person->id, 'accepted_at' => now()->subDays(89)]);
+
+    $gone = Person::create(['user_id' => $this->user->id, 'display_name' => 'Ion Rusu']);
+    retentionSubmission($profile, now()->subDays(60), ['person_id' => $gone->id, 'accepted_at' => now()->subDays(59)]);
+    $gone->delete();
+    Person::withTrashed()->whereKey($gone->id)->update(['deleted_at' => now()->subDays(31)]);
+
+    // Ordinea din planificare: persoanele întâi, ca o completare rămasă fără persoană să plece în aceeași rulare.
+    $this->artisan('model:prune', ['--model' => [Person::class, ProfileSubmission::class]])->assertSuccessful();
+
+    expect(ProfileSubmission::orderBy('id')->pluck('id')->all())->toBe([$waiting->id, $accepted->id]);
+
+    // Cine deschide linkul de ștergere după expirare vede confirmarea, nu o eroare.
+    $this->withHeader('Accept-Language', 'ro')
+        ->get(route('profile.destroy', ['slug' => $profile->slug, 'token' => $expired->delete_token]))
+        ->assertOk()
+        ->assertSee('Datele tale au fost șterse');
+});
+
+it('ii spune aplicatiei pana cand asteapta o completare', function () {
+    $profile = retentionProfile($this->user);
+    $submission = retentionSubmission($profile, now()->subDays(10)->startOfSecond());
+
+    $this->actingAs($this->user)->getJson('/api/v1/submissions/pending')
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $submission->id)
+        ->assertJsonPath('data.0.expires_at', $submission->created_at->copy()->addDays(30)->toIso8601String());
 });

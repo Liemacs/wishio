@@ -75,6 +75,8 @@ return [
                     'Outbound clicks to shops, 24 months, then only in aggregate.',
                     'Reminder history, 13 months.',
                     'Your app session, until you sign out or until 12 months pass without you opening the app.',
+                    'People you delete from your list, for 30 more days, so a contacts re-import can bring them back. Then they are permanently deleted, with everything tied to them.',
+                    "Submissions received through your link, for as long as the person they reached exists. If you don't choose who sent them, they are deleted after 30 days.",
                     'When you delete your account, everything tied to it is permanently deleted, not deactivated.',
                     'Backups keep data for at most 3 more months after deletion, then they are overwritten.',
                 ],

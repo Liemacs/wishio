@@ -46,7 +46,7 @@
 | Temei | interesul legitim al utilizatorului și al operatorului — art. 6 alin. (1) lit. f; testul de echilibrare în `docs/21 § 4` |
 | Informarea persoanelor | nu avem cum să le contactăm, pentru că nu colectăm date de contact — excepția de la art. 14 alin. (5) lit. b, cu politica publică drept măsură; de validat de jurist |
 | Destinatari | găzduirea; furnizorul de notificări (numele persoanei și ocazia, în textul notificării); furnizorul de email (numele și ocaziile, în rezumatul săptămânal); furnizorul de AI, doar context pseudonimizat și doar cu acordul utilizatorului (P5) |
-| Retenție | până când utilizatorul șterge persoana sau contul. **Ștergerea unei persoane e logică (soft delete)**: rândul rămâne, ca un reimport din agendă să o readucă cu tot cu note (`ImportContacts`), și nu are termen — `docs/21`, M-07 |
+| Retenție | până când utilizatorul șterge persoana sau contul. **Ștergerea unei persoane e logică (soft delete)**: rândul rămâne, ca un reimport din agendă să o readucă cu tot cu note (`ImportContacts`), și se șterge definitiv după 30 de zile, cu tot ce ține de ea (`Person::prunable`, M-07, D-024) |
 | În cod | `people`, `person_field_sources`, `person_interests`, `person_avoids`, `occasions`, `gift_history`, `gift_ideas` · `ImportContacts`, `WritePersonField`, `PersonController` |
 
 Cererea de import mai poartă două numere agregate: câte contacte are agenda și câte au zi de naștere. Serverul le validează și nu le păstrează.
@@ -76,7 +76,7 @@ Cererea de import mai poartă două numere agregate: câte contacte are agenda �
 | Date (b) | nume, data nașterii, interese (coduri), un mesaj de cel mult 280 de caractere, limba, versiunea și momentul consimțământului, tokenul de ștergere, HMAC-SHA256 al IP-ului (cu cheia aplicației), momentele acceptării și ale confirmării identității |
 | Temei | (a) executarea contractului; (b) consimțământ — art. 6 alin. (1) lit. a: bifă obligatorie, text versionat (`2026-09-1`), cu link spre politică lângă bifă |
 | Destinatari | (b) utilizatorul căruia îi aparține linkul — acesta e scopul; găzduirea; furnizorul de notificări (numele celui care a completat, în notificarea „cine este?”) |
-| Retenție | (b) până la retragere, din linkul primit la final, fără cont (`WithdrawSubmission`), sau până la ștergerea contului proprietarului. Completările la care proprietarul nu răspunde nu expiră — `docs/21`, M-10 |
+| Retenție | (b) până la retragere, din linkul primit la final, fără cont (`WithdrawSubmission`), sau până la ștergerea contului proprietarului. Completările la care proprietarul nu alege „cine este?” se șterg după 30 de zile, iar cele rămase fără persoană pleacă odată cu ea (`ProfileSubmission::prunable`, M-10, D-024) |
 | Măsuri | `noindex` implicit pe paginile publice; profilul se indexează doar dacă proprietarul alege (`is_indexable`); slug cu sufix aleator; cel mult 10 trimiteri în 10 minute de la același IP; nicio dată de contact pe pagină; completarea nu se lipește de un contact existent fără decizia proprietarului (S9.7, S9.8) |
 | În cod | `public_profiles`, `wishlist_items`, `profile_submissions` · `PublicProfileController`, `MyProfileController`, `SubmissionController`, `ReceiveSubmission`, `WithdrawSubmission` |
 

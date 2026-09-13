@@ -22,6 +22,11 @@ import {
 import { relationshipLabel } from '../../src/features/people/relationship';
 import { formatBirthday } from '../../src/lib/dates';
 
+/** Zilele rămase până la ștergere, rotunjite în sus: ultima zi nu devine „0 zile”. */
+function daysUntil(iso: string): number {
+  return Math.max(1, Math.ceil((Date.parse(iso) - Date.now()) / 86_400_000));
+}
+
 /**
  * „Cine este?” — S9.8.
  *
@@ -130,6 +135,12 @@ export default function ResolveSubmissionScreen() {
             {t('submissions.title', { name: submission.display_name })}
           </Text>
           <Text className="mt-3 text-surface-600" style={TYPE.body}>{t('submissions.body')}</Text>
+          {/* Fără alegere, completarea se șterge singură: proprietarul trebuie să știe cât timp mai are. */}
+          {submission.expires_at ? (
+            <Text className="mt-2 text-surface-500" style={TYPE.footnote}>
+              {t('submissions.expires', { count: daysUntil(submission.expires_at) })}
+            </Text>
+          ) : null}
         </MotiView>
 
         <MotiView {...entrance(reduced, 1)}>

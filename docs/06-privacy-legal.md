@@ -83,10 +83,10 @@ Politici echivalente pentru User Data și permisiunea `READ_CONTACTS`: justifica
 | Token de acces, istoricul reminderelor | aplicația, planificarea | server | contract | tokenul: până la deconectare sau 12 luni fără deschiderea aplicației; istoricul: 13 luni (M-11) |
 | Context trimis spre AI | derivat | **pseudonimizat**: coduri și titluri din catalog, fără text liber | consimțământ explicit, retras din Cont | nestocat de provider — **niciun provider activ azi** |
 | Clickuri spre magazin | comportament | server | interes legitim | 24 luni, apoi doar un total pe lună, comerciant și ofertă (M-08) |
-| Date din linkul public | **persoana însăși** | server | **consimțământ**, versionat | până la retragere, din linkul primit la final |
+| Date din linkul public | **persoana însăși** | server | **consimțământ**, versionat | până la retragere, din linkul primit la final; fără răspuns la „cine este?”, 30 de zile (M-10) |
 | Cereri din Faza 0 | vizitatorul landing-ului | server | consimțământ | **nedefinită** (`docs/21`, M-09) |
 
-**Persoanele șterse** din aplicație rămân în baza de date (soft delete), ca reimportul din agendă să le readucă cu tot cu note (`ImportContacts`). Nu au termen de ștergere definitivă — decizia e în `docs/21`, M-07.
+**Persoanele șterse** din aplicație rămân în baza de date (soft delete), ca reimportul din agendă să le readucă cu tot cu note (`ImportContacts`). După 30 de zile se șterg definitiv, cu tot ce ține de ele (M-07, D-024).
 ---
 
 ## 4. Fluxuri de consimțământ

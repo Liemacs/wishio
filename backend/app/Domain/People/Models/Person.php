@@ -6,6 +6,7 @@ use App\Domain\Occasions\Models\Occasion;
 use App\Domain\People\Enums\FieldSource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Person extends Model
 {
-    use SoftDeletes;
+    use MassPrunable, SoftDeletes;
 
     protected $guarded = [];
 
@@ -69,6 +70,22 @@ class Person extends Model
     public function giftIdeas(): HasMany
     {
         return $this->hasMany(GiftIdea::class);
+    }
+
+    /**
+     * O persoană ștearsă rămâne 30 de zile, ca un reimport din agendă s-o
+     * readucă cu tot cu note (`ImportContacts`), apoi se șterge definitiv
+     * (docs/21, M-07; D-024). Ștergerea în masă trece pe lângă evenimente, dar
+     * nu e nevoie de ele: ocaziile, reminderele, interesele, ideile și istoricul
+     * pleacă în cascadă, prin cheile străine.
+     */
+    public function prunable(): Builder
+    {
+        return static::onlyTrashed()->where(
+            'deleted_at',
+            '<',
+            now()->subDays((int) config('wishio.retention.deleted_people_days')),
+        );
     }
 
     /**

@@ -362,3 +362,20 @@ Inertia ar fi însemnat un al doilea strat de build, un al doilea sistem de ruta
 - Textele care spuneau „nu citim poze” — permisiunea iOS, ecranul explicativ, landing-ul, politica de confidențialitate, descrierile din magazine și nota pentru review — spun acum că poza rămâne pe telefon. Textul permisiunii iOS se schimbă abia cu un build nou.
 - Etichetele de confidențialitate rămân aceleași: Apple și Google numesc colectare doar datele care pleacă de pe dispozitiv (`docs/22`).
 - `people.avatar_path` rămâne nefolosită (`docs/21`, M-19). `ContactImportTest` verifică faptul că serverul nu păstrează nicio poză, chiar dacă un client ar trimite-o.
+
+## D-024 · Persoanele șterse și completările fără răspuns se păstrează 30 de zile
+**Data:** 2026-09-13 · **Stare:** confirmată · *închide `docs/21`, M-07 și M-10*
+
+**Decizia:**
+- O persoană ștearsă din aplicație se mai păstrează 30 de zile, apoi se șterge definitiv, cu tot ce ține de ea.
+- O completare din linkul public la care proprietarul nu alege „cine este?” se șterge după 30 de zile.
+
+**De ce:**
+- În 30 de zile, un reimport din agendă readuce persoana cu tot cu note, deci o ștergere din greșeală se poate repara. După aceea, datele despre cineva scos din listă nu mai servesc la nimic.
+- Pentru completări, DPIA propunea 90 de zile; s-au ales 30. Ca proprietarul să nu piardă o completare fără să știe, ecranul „Cine este?” îi arată câte zile mai are.
+
+**Consecințe:**
+- Un reimport după 30 de zile creează o persoană nouă, fără notele vechi.
+- Completările unei persoane șterse definitiv pleacă în aceeași noapte: datele trimise nu mai au la cine ajunge.
+- Cine deschide linkul de ștergere după ce completarea a expirat vede confirmarea ștergerii, nu o eroare.
+- Politica de confidențialitate spune ambele termene, în RO/RU/EN. Totul rulează prin `model:prune`, în fiecare noapte (`routes/console.php`).

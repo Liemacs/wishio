@@ -108,7 +108,17 @@ class PublicProfileController extends Controller
      */
     public function destroy(string $slug, string $token): View
     {
-        $submission = ProfileSubmission::where('delete_token', $token)->firstOrFail();
+        $submission = ProfileSubmission::where('delete_token', $token)->first();
+
+        // Completarea poate fi deja ștearsă: retrasă mai devreme, expirată fără
+        // răspuns (D-024) sau plecată odată cu persoana. Pentru cine a completat,
+        // rezultatul e același, deci arătăm confirmarea, nu o eroare.
+        if ($submission === null) {
+            return view('profile.deleted', [
+                'profile' => PublicProfile::with('user')->where('slug', $slug)->firstOrFail(),
+            ]);
+        }
+
         $profile = $submission->profile->load('user');
 
         // Ce se șterge și ce rămâne din persoană decide acțiunea, nu controllerul.

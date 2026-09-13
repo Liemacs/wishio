@@ -72,6 +72,8 @@ return [
         'clicks_months'             => 24,   // M-08: apoi doar totalul pe lună
         'notification_queue_months' => 13,   // M-11
         'inactive_token_months'     => 12,   // M-11
+        'deleted_people_days'       => 30,   // M-07, D-024
+        'pending_submission_days'   => 30,   // M-10, D-024
     ],
 
     /*

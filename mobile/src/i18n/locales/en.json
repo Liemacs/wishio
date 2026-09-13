@@ -308,7 +308,9 @@
     "newDetail": "{{name}} appears separately on your list",
     "keepsName": "{{name}} gets the birthday and interests from this submission. The name stays as it is on your list.",
     "confirm": "Confirm",
-    "gone": "This submission is no longer waiting for an answer."
+    "gone": "This submission is no longer waiting for an answer.",
+    "expires_one": "If you don't choose, this submission is deleted in {{count}} day.",
+    "expires_other": "If you don't choose, this submission is deleted in {{count}} days."
   },
   "gifts": {
     "ideasTitle": "Gift ideas",

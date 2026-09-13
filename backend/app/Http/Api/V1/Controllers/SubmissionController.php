@@ -37,6 +37,8 @@ class SubmissionController extends Controller
                         ->values(),
                     'message'      => $submission->message,
                     'submitted_at' => $submission->created_at?->toIso8601String(),
+                    // După termen, completarea se șterge singură (D-024): aplicația arată câte zile mai are.
+                    'expires_at' => $submission->created_at?->copy()->addDays((int) config('wishio.retention.pending_submission_days'))->toIso8601String(),
                     // Doar contactele proprietarului, cu ce știe el deja despre ele.
                     'candidates' => $candidates($submission)->map(fn (Person $person) => [
                         'id'           => $person->id,
