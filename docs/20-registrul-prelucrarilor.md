@@ -57,8 +57,8 @@ Cererea de import mai poartă două numere agregate: câte contacte are agenda �
 |---|---|
 | Scop | anunțarea ocaziilor la timp |
 | Persoane vizate | utilizatorii; indirect, persoanele din P2 și cei care au completat linkul (P4), prin numele din notificare |
-| Date | tokenul Expo de push, platforma, limba, ultima activitate; setările (zile înainte, ora preferată, orele de liniște, push și email pornite sau oprite); coada notificărilor (ocazia, zilele înainte, momentul programat, trimis, eroarea). **Textul notificării nu se stochează**: se compune la trimitere |
-| Ce se trimite | push: un titlu cu numele persoanei și ocazia („Ana are ziua mâine”) sau, la completări, cu numele celui care a completat; date de rutare (tipul și id-ul persoanei sau al completării). Email: numele utilizatorului, numele persoanelor și ocaziile săptămânii |
+| Date | tokenul Expo de push, platforma, limba, ultima activitate; setările (zile înainte, ora preferată, orele de liniște, push și email pornite sau oprite); coada notificărilor (ocazia, zilele înainte, momentul programat, trimis, eroarea, momentul în care omul a apăsat reminderul). **Textul notificării nu se stochează**: se compune la trimitere |
+| Ce se trimite | push: un titlu cu numele persoanei și ocazia („Ana are ziua mâine”) sau, la completări, cu numele celui care a completat; date de rutare (tipul, id-ul reminderului și al persoanei sau al completării). Email: numele utilizatorului, numele persoanelor și ocaziile săptămânii |
 | Sursă | telefonul (tokenul), utilizatorul (setările), P2 (conținutul) |
 | Temei | executarea contractului; permisiunea de notificări a sistemului e condiția tehnică, nu temeiul. Politica publicată trece notificările la „consimțământ” — de aliniat cu juristul |
 | Destinatari | Expo (650 Industries, Inc., SUA), care livrează prin Apple Push Notification service și Firebase Cloud Messaging (SUA); furnizorul SMTP, încă neales |

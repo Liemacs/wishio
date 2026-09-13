@@ -119,3 +119,34 @@ Dacă RU reprezintă 40% din useri dar 15% din clickuri, ai o problemă de conț
 5. D30 retenție pe cohorta lunii trecute
 
 Restul sunt pentru debugging, nu pentru decizii.
+
+---
+
+## 7. Cum se măsoară azi
+
+Aplicația nu are SDK de analytics (`docs/20`, P9). Evenimentele din § 3 rămân schema de lucru pentru momentul în care se adaugă unul — cu DPIA revizuită (`docs/21 § 8`). Până atunci, pâlnia și tabloul săptămânal se calculează din baza de date:
+
+```bash
+cd backend && php artisan wishio:metrics --since=2026-10-01
+```
+
+| Pas din § 2 | Cum se calculează |
+|---|---|
+| Cont creat | conturile create în interval, fără cele `@wishio.md` (demo, review, echipă) |
+| Persoane ≥ 5 (G3) | conturi cu cel puțin 5 persoane neșterse |
+| Ocazii în calendar ≥ 8 | ocazii ale persoanelor, nerespinse; sărbătorile nu intră |
+| Push activat | conturi cu un dispozitiv înregistrat și notificările pornite în aplicație |
+| Primul reminder trimis | conturi cu un reminder push trimis fără eroare |
+| Reminder deschis (G4) | reminderele apăsate, din cele trimise; aplicația raportează apăsarea |
+| Recomandări cerute (G5) | conturi cu cel puțin o căutare de cadou |
+| Click spre magazin (G5) | conturi cu cel puțin un magazin deschis |
+| Cadou marcat ca oferit | conturi cu o intrare în istoric |
+
+Tabloul din § 6, pe ultimele 7 zile:
+- **utilizatori activi** — conturi care au folosit API-ul, după tokenul de acces;
+- **ocazii acționate** — persoanele pentru care s-a cerut sau s-a salvat o idee, s-a deschis un magazin ori s-a marcat un cadou;
+- **clickuri spre magazin**;
+- **instalări din linkuri personale** — nu se pot măsura fără atribuire; în locul lor, completările primite prin linkuri;
+- **retenția D30** — din cohorta creată acum 30–60 de zile, câți au mai folosit aplicația după ziua 30. Cine s-a deconectat între timp nu mai apare, deci cifra e prudentă.
+
+Ce nu se vede fără analytics: instalările fără cont, sursa instalării, ecranele la care oamenii renunță.

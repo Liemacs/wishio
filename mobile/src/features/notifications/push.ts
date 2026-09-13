@@ -117,7 +117,24 @@ export async function unregisterDevice(): Promise<void> {
   }
 }
 
-type NotificationData = { type?: string; person_id?: number; submission_id?: number } | undefined;
+type NotificationData = {
+  type?: string;
+  person_id?: number;
+  submission_id?: number;
+  notification_id?: number;
+} | undefined;
+
+/**
+ * Un reminder apăsat se numără pe server: rata de deschidere e poarta G4 din
+ * docs/07. Nu așteptăm răspunsul și nu arătăm erori — navigarea contează mai mult.
+ */
+export function markReminderOpened(data: unknown): void {
+  const id = (data as NotificationData)?.notification_id;
+
+  if (id) {
+    api.post(`/notifications/${id}/opened`).catch(() => undefined);
+  }
+}
 
 /** O notificare despre completările din link care așteaptă „cine este?”. */
 export function isSubmissionNotification(data: unknown): boolean {

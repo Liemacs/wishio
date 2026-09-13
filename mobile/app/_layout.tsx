@@ -14,7 +14,7 @@ import { VersionGate } from '../src/features/app-config/UpdateRequired';
 import i18n from '../src/i18n';
 import { connectQueryToDevice } from '../src/lib/network';
 import { queryClient } from '../src/lib/queryClient';
-import { isSubmissionNotification, routeFromNotification } from '../src/features/notifications/push';
+import { isSubmissionNotification, markReminderOpened, routeFromNotification } from '../src/features/notifications/push';
 import { useAuthStore } from '../src/stores/auth';
 
 connectQueryToDevice();
@@ -49,6 +49,7 @@ function useNotificationRouting() {
 
     const responded = Notifications.addNotificationResponseReceivedListener((response) => {
       refreshSubmissions(response.notification.request.content.data);
+      markReminderOpened(response.notification.request.content.data);
 
       const path = routeFromNotification(response);
 

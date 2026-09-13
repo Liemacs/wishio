@@ -237,7 +237,7 @@ Cifrele îți spun unde să insiști.
 |---|---|
 | S12.1 | **C13 — materiale store în 3 limbi**: icon, screenshot-uri, descriere — **texte, iconiță, banner și încadrarea capturilor gata** (`docs/23`), verificate cu `npm run store:check`; paginile de ajutor și de ștergere a contului, în 3 limbi. Rămân capturile din telefon |
 | S12.2 ✅ | ~~Cont demo pentru App Review, cu date populate, instrucțiuni în EN~~ — `php artisan wishio:demo`, cu datele relative la ziua rulării; notele pentru reviewer în `docs/23 § 5` |
-| S12.3 | TestFlight / Internal Testing cu 20–30 de oameni reali — cere serverul de producție și aplicația creată în App Store Connect și Play Console (`docs/23 § 6`) |
+| S12.3 | TestFlight / Internal Testing cu 20–30 de oameni reali — **pregătit din repo** (`docs/24`): textele pentru TestFlight și Play în 3 limbi, recrutarea, formularul, calendarul de două săptămâni; pâlnia din `php artisan wishio:metrics`, cu reminderele deschise numărate (G4). Rămân serverul de producție și aplicațiile din App Store Connect și Play Console |
 | S12.4 | Submit — **buffer de 2 săptămâni** pentru respingeri (5.1.2 e probabilă la prima încercare) |
 | S12.5 | Lansare: grupuri FB MD, Telegram, Reddit local, PR |
 | S12.6 ✅ | ~~**Versiune minimă obligatorie** — `/api/v1/app-config` + ecran de actualizare (`docs/10 § 5`)~~ — `WISHIO_MIN_APP_VERSION` comparată cu versiunea din `app.json`; ecranul stă peste navigație și nu se închide; fără răspuns de la server, aplicația merge mai departe |

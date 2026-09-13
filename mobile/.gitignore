@@ -43,3 +43,6 @@ yarn-error.*
 # Capturile din telefon și cele încadrate: se regenerează (docs/23)
 store/screenshots/raw/
 store/screenshots/out/
+
+# Cheia contului de serviciu Google Play (eas submit): nu intră în repo
+google-service-account.json

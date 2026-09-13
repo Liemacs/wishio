@@ -74,9 +74,12 @@ class SendDueNotifications implements ShouldQueue
                     title: $content['title'],
                     body: $content['body'],
                     data: [
-                        'occasion_id' => $notification->occasion_id,
-                        'person_id'   => $notification->occasion->person_id,
-                        'type'        => $notification->occasion->type,
+                        // Aplicația îl trimite înapoi la apăsare: așa se numără
+                        // reminderele deschise (docs/07, G4).
+                        'notification_id' => $notification->id,
+                        'occasion_id'     => $notification->occasion_id,
+                        'person_id'       => $notification->occasion->person_id,
+                        'type'            => $notification->occasion->type,
                     ],
                 );
 

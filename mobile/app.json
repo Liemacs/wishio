@@ -16,7 +16,10 @@
       },
       "associatedDomains": [
         "applinks:wishio.md"
-      ]
+      ],
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "md.wishio.app",

@@ -183,3 +183,35 @@ it('citeste si actualizeaza preferintele de notificare', function () {
         ->assertJsonPath('data.reminder_days', [14, 1])
         ->assertJsonPath('data.preferred_hour', 9);
 });
+
+it('trimite id-ul reminderului, ca deschiderea sa poata fi numarata', function () {
+    $notification = queued($this->user, 1);
+
+    (new SendDueNotifications)->handle($this->sender, app(BuildReminderContent::class));
+
+    expect($this->sender->sent[0]->data['notification_id'])->toBe($notification->id);
+});
+
+it('inregistreaza o singura data deschiderea unui reminder', function () {
+    // Ora primei deschideri arată cât de repede a reacționat omul; a doua nu spune nimic nou.
+    $notification = queued($this->user, 1, [], ['sent_at' => now()]);
+
+    $this->actingAs($this->user)->postJson("/api/v1/notifications/{$notification->id}/opened")->assertStatus(204);
+    $first = $notification->fresh()->opened_at;
+
+    $this->travel(2)->hours();
+    $this->actingAs($this->user)->postJson("/api/v1/notifications/{$notification->id}/opened")->assertStatus(204);
+
+    expect($first)->not->toBeNull()
+        ->and($notification->fresh()->opened_at->equalTo($first))->toBeTrue();
+});
+
+it('nu lasa pe altcineva sa marcheze reminderul altuia', function () {
+    $notification = queued($this->user, 1, [], ['sent_at' => now()]);
+
+    $this->actingAs(User::factory()->create())
+        ->postJson("/api/v1/notifications/{$notification->id}/opened")
+        ->assertNotFound();
+
+    expect($notification->fresh()->opened_at)->toBeNull();
+});

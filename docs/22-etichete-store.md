@@ -27,7 +27,7 @@
 | Identifiers → **User ID** | id-ul contului | App Functionality | da | nu |
 | Identifiers → **Device ID** | tokenul de push | App Functionality | da | nu |
 | Purchases → **Purchase History** | cadourile marcate „oferit” sau „cumpărat”, cu suma | App Functionality | da | nu |
-| Usage Data → **Product Interaction** | ofertele deschise spre magazine | Analytics | da | nu |
+| Usage Data → **Product Interaction** | ofertele deschise spre magazine, reminderele apăsate | Analytics | da | nu |
 | **Other Data Types** | ziua de naștere a utilizatorului | App Functionality | da | nu |
 
 **Nu colectăm:** Health & Fitness, Financial Info, Location, Sensitive Info, Emails or Text Messages, Photos or Videos, Audio Data, Gameplay Content, Customer Support, Browsing History, Search History (căutările nu se stochează), Advertising Data, Other Usage Data, Diagnostics (până la Sentry — § 4).
@@ -63,7 +63,7 @@
 | Personal info → **Other info** | ziua de naștere a utilizatorului; relația, genul și ziua de naștere ale persoanelor adăugate | nu | da | App functionality, Personalization |
 | Contacts → **Contacts** | contactele bifate: nume și zi de naștere | nu | da | App functionality |
 | Financial info → **Purchase history** | cadourile marcate „oferit” sau „cumpărat” | nu | da | App functionality |
-| App activity → **App interactions** | ofertele deschise spre magazine | nu | nu | Analytics |
+| App activity → **App interactions** | ofertele deschise spre magazine, reminderele apăsate | nu | nu | Analytics |
 | App activity → **Other user-generated content** | note, interese, idei, lista de dorințe, mesajele primite prin linkul public | nu | da | App functionality, Personalization |
 | Device or other IDs → **Device or other IDs** | tokenul de push | nu | da | App functionality |
 

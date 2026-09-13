@@ -7,6 +7,7 @@ use App\Http\Api\V1\Controllers\ContactImportController;
 use App\Http\Api\V1\Controllers\GiftController;
 use App\Http\Api\V1\Controllers\InterestController;
 use App\Http\Api\V1\Controllers\MyProfileController;
+use App\Http\Api\V1\Controllers\NotificationController;
 use App\Http\Api\V1\Controllers\OccasionController;
 use App\Http\Api\V1\Controllers\PersonAnalysisController;
 use App\Http\Api\V1\Controllers\PersonController;
@@ -99,6 +100,9 @@ Route::prefix('v1')->group(function () {
         Route::patch('/settings', [SettingsController::class, 'update']);
         Route::post('/devices', [SettingsController::class, 'storeDevice']);
         Route::delete('/devices', [SettingsController::class, 'destroyDevice']);
+
+        // Reminderul apăsat: rata de deschidere e poarta G4 (docs/07).
+        Route::post('/notifications/{notification}/opened', [NotificationController::class, 'opened']);
 
         Route::get('/occasions', [OccasionController::class, 'index']);
         Route::patch('/occasions/{occasion}', [OccasionController::class, 'update']);
