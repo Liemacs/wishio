@@ -70,6 +70,7 @@ cd mobile && node store/render.mjs icons
 | `assets/favicon.png` | 48 × 48 | build-ul web |
 | `store/graphics/play-icon.png` | 512 × 512 | Google Play |
 | `store/graphics/play-feature-<limbă>.png` | 1024 × 500, fără transparență | bannerul din Google Play, cu promisiunea din `docs/01 § 1` |
+| `backend/public/favicon.svg`, `favicon-*.png`, `favicon.ico`, `icon-512.png`, `og/app-<limbă>.png` | diverse | site-ul: favicon, iconița de pe pagina principală, previzualizarea linkului — cu `node store/render.mjs web` |
 
 Scriptul folosește Google Chrome și ImageMagick (`magick`), instalate local. E o primă versiune făcută fără designer (`docs/08`, A2): dacă forma se schimbă, se schimbă doar `bow.svg` și se rulează din nou. Iconițele noi apar în aplicație abia după următorul build EAS.
 

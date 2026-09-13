@@ -58,6 +58,18 @@ class MetricsCommand extends Command
                 : '—'],
         ]);
 
+        $channels = $report->channels(CarbonImmutable::now());
+
+        $this->components->info('Site-ul, pe sursă, în ultimele 7 zile (?src=)');
+
+        if ($channels === []) {
+            $this->line('  Nicio vizită înregistrată.');
+        } else {
+            $this->table(['Sursa', 'Vizite', 'Spre App Store', 'Spre Google Play'], array_map(fn (array $row) => [
+                $row['source'] !== '' ? $row['source'] : '(direct)', $row['views'], $row['ios'], $row['android'],
+            ], $channels));
+        }
+
         return self::SUCCESS;
     }
 

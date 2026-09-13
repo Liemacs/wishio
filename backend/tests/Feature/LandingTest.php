@@ -5,6 +5,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
+// Testele de aici privesc landing-ul din Faza 0; pagina aplicației e în HomeTest.
+beforeEach(fn () => config(['wishio.landing' => 'concierge']));
+
 function validRequest(array $overrides = []): array
 {
     return array_merge([

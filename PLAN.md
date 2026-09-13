@@ -50,8 +50,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului · push care îl anunță |
 | ✅ | **Idei și istoric de cadouri (S10)** — salvare, „Ai cumpărat?”, „am oferit” → istoric, anti-repetare în recomandări |
 | ✅ | **Conformitate (S11)** — DPIA, registrul prelucrărilor, etichetele de confidențialitate, stări de eroare și offline, audit de traduceri; acordul AI se retrage din Cont |
-| ✅ | **Lansare, partea din repo (S12)** — cont demo pentru App Review, textele și grafica din store în 3 limbi, paginile de ajutor și de ștergere a contului, versiunea minimă obligatorie, kitul de beta cu măsurarea pâlniei, deploy-ul pregătit pentru producție |
-| ✅ | 363 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | **Lansare, partea din repo (S12)** — cont demo pentru App Review, textele și grafica din store în 3 limbi, paginile de ajutor și de ștergere a contului, versiunea minimă obligatorie, kitul de beta cu măsurarea pâlniei, deploy-ul pregătit pentru producție, site-ul și textele de lansare |
+| ✅ | 375 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -239,7 +239,7 @@ Cifrele îți spun unde să insiști.
 | S12.2 ✅ | ~~Cont demo pentru App Review, cu date populate, instrucțiuni în EN~~ — `php artisan wishio:demo`, cu datele relative la ziua rulării; notele pentru reviewer în `docs/23 § 5` |
 | S12.3 | TestFlight / Internal Testing cu 20–30 de oameni reali — **pregătit din repo** (`docs/24`): textele pentru TestFlight și Play în 3 limbi, recrutarea, formularul, calendarul de două săptămâni; pâlnia din `php artisan wishio:metrics`, cu reminderele deschise numărate (G4). Rămân serverul de producție și aplicațiile din App Store Connect și Play Console |
 | S12.4 | Submit — **buffer de 2 săptămâni** pentru respingeri (5.1.2 e probabilă la prima încercare) |
-| S12.5 | Lansare: grupuri FB MD, Telegram, Reddit local, PR |
+| S12.5 | Lansare: grupuri FB MD, Telegram, Reddit local, PR — **pregătită din repo** (`docs/26`): pagina principală prezintă aplicația, cu butoane spre magazine și surse numărate fără date personale; după completarea unui link personal, butoanele duc în magazine; textele în 3 limbi și calendarul, cu ținta în jurul Sf. Nicolae. Rămân aprobarea în magazine și postările |
 | S12.6 ✅ | ~~**Versiune minimă obligatorie** — `/api/v1/app-config` + ecran de actualizare (`docs/10 § 5`)~~ — `WISHIO_MIN_APP_VERSION` comparată cu versiunea din `app.json`; ecranul stă peste navigație și nu se închide; fără răspuns de la server, aplicația merge mai departe |
 | S12.7 🔴 | **Producția** — domeniul, un VPS în UE administrat cu Forge sau Ploi (D-022), deploy dintr-un tag după teste — **pregătit din repo** (`docs/25`): `backend/.env.production.example`, `deploy/deploy.sh`, jobul de deploy din CI. Rămân domeniul (necumpărat), serverul și panoul |
 

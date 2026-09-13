@@ -1,4 +1,6 @@
-<x-layouts.landing :title="__('profile.meta.title', ['name' => $profile->display_name])">
+<x-layouts.landing :title="__('profile.meta.title', ['name' => $profile->display_name])"
+                   :description="__('profile.meta.description', ['name' => $profile->display_name])"
+                   :indexable="$profile->is_indexable">
 
     <section class="pt-4 pb-8 text-center sm:pt-10">
         <p class="text-xs font-semibold uppercase tracking-wider text-primary-600">

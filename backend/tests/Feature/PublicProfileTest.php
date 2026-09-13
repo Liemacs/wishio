@@ -400,3 +400,23 @@ it('arata politica de confidentialitate langa formular, inainte de trimitere', f
         ->assertSee('Cum folosim datele', escape: false)
         ->assertSee(route('legal', ['key' => 'terms', 'lang' => 'ro']), escape: false);
 });
+
+it('duce spre magazine dupa completare, cu sursa linkului personal', function () {
+    // Bucla virală se închide aici (docs/09, W3): clickul se numără ca venit dintr-un link personal.
+    config(['wishio.app.store_url.ios' => 'https://apps.apple.com/app/id1234567890']);
+
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug))->assertRedirect();
+    $submission = ProfileSubmission::sole();
+
+    $this->withHeader('Accept-Language', 'ro')
+        ->get(route('profile.thanks', ['slug' => $this->profile->slug, 'token' => $submission->delete_token]))
+        ->assertSee(route('app.download', ['platform' => 'ios', 'src' => 'profile_link']), escape: false);
+});
+
+it('lasa motoarele de cautare sa gaseasca profilul doar daca proprietarul a ales', function () {
+    $this->profile->update(['is_indexable' => true]);
+
+    $this->get("/@{$this->profile->slug}")
+        ->assertOk()
+        ->assertDontSee('name="robots" content="noindex"', escape: false);
+});

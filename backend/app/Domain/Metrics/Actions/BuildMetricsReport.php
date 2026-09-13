@@ -103,6 +103,31 @@ class BuildMetricsReport
         ];
     }
 
+    /**
+     * De unde au venit vizitatorii site-ului în ultimele 7 zile și câți au apăsat
+     * spre un magazin, pe sursa din `?src=`. Doar contoare, fără oameni.
+     *
+     * @return list<array{source: string, views: int, ios: int, android: int}>
+     */
+    public function channels(CarbonImmutable $now): array
+    {
+        return DB::table('channel_stats')
+            ->where('day', '>=', $now->setTimezone('Europe/Chisinau')->subDays(6)->toDateString())
+            ->groupBy('source')
+            ->selectRaw("source, sum(case when event = 'view' then total else 0 end) as views")
+            ->selectRaw("sum(case when event = 'ios' then total else 0 end) as ios")
+            ->selectRaw("sum(case when event = 'android' then total else 0 end) as android")
+            ->orderByDesc('views')
+            ->get()
+            ->map(fn ($row) => [
+                'source'  => $row->source,
+                'views'   => (int) $row->views,
+                'ios'     => (int) $row->ios,
+                'android' => (int) $row->android,
+            ])
+            ->all();
+    }
+
     private function users(): Builder
     {
         return User::query()->where('email', 'not like', '%'.self::INTERNAL_DOMAIN);

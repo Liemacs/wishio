@@ -4,6 +4,7 @@
  *
  *   node store/render.mjs icons         iconițele aplicației, splash, favicon, iconița și bannerul din Play
  *   node store/render.mjs screenshots   capturile din telefon, încadrate cu titlu, pentru App Store și Google Play
+ *   node store/render.mjs web           iconițele site-ului și imaginile Open Graph ale paginii principale
  *
  * Opțiuni: --out=<dosar> scrie în altă parte (pentru previzualizare), iar
  * --raw=<dosar> citește capturile din altă parte.
@@ -42,6 +43,15 @@ const PRESETS = [
 ];
 
 const BOW = fs.readFileSync(path.join(HERE, 'brand', 'bow.svg'), 'utf8');
+
+const PUBLIC = path.join(MOBILE, '..', 'backend', 'public');
+
+// Previzualizarea linkului wishio.md în Telegram, Facebook și Viber, pe limbi.
+const OG = {
+  ro: { title: 'Nu uiți nicio ocazie. Știi ce să oferi.', sub: 'Zile de naștere, onomastici și idei de cadou din magazine din Moldova.' },
+  ru: { title: 'Ни одного забытого праздника. И понятно, что подарить.', sub: 'Дни рождения, именины и идеи подарков из магазинов Молдовы.' },
+  en: { title: 'Never miss an occasion. Always know what to give.', sub: 'Birthdays, name days and gift ideas from shops in Moldova.' },
+};
 
 function magick(...args) {
   execFileSync('magick', args, { stdio: 'inherit' });
@@ -167,6 +177,66 @@ function screenshotPage({ width, height, caption, rawWidth, rawHeight }) {
     <div class="device"><img src="screen.png" alt=""></div></div></body></html>`;
 }
 
+/** Fundița ca SVG de sine stătător, pentru favicon: albă, pe pătratul rotunjit. */
+function faviconSvg() {
+  const inner = BOW
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/^\s*<svg[^>]*>/, '')
+    .replace(/<\/svg>\s*$/, '')
+    .replaceAll('currentColor', '#ffffff')
+    .trim();
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Generat din mobile/store/brand/bow.svg cu \`node store/render.mjs web\`. Nu se editează de mână. -->
+  <defs>
+    <linearGradient id="wishio-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${BRAND.from}"/>
+      <stop offset="1" stop-color="${BRAND.to}"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="229" fill="url(#wishio-bg)"/>
+  <g transform="translate(512 512) scale(0.86) translate(-512 -512)">
+    ${inner}
+  </g>
+</svg>
+`;
+}
+
+function ogPage(locale) {
+  const copy = OG[locale];
+
+  return `<!doctype html><html><head><meta charset="utf-8"><style>
+    html, body { margin: 0; }
+    .og { box-sizing: border-box; display: flex; align-items: center; gap: 64px; width: 1200px; height: 630px; padding: 0 96px;
+          background: linear-gradient(135deg, ${BRAND.from}, ${BRAND.to}); color: #fff; font-family: ${FONT}; }
+    .tile { position: relative; flex: none; width: 240px; height: 240px; border-radius: 54px; background: rgba(255, 255, 255, 0.16);
+            box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.25); color: #fff; }
+    .tile svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: scale(0.84); filter: drop-shadow(0 5px 8px ${BRAND.shadow}); }
+    .name { font-size: 40px; font-weight: 700; letter-spacing: -0.01em; opacity: 0.9; }
+    .title { margin-top: 14px; font-size: 60px; font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; text-wrap: balance; }
+    .sub { margin-top: 20px; font-size: 28px; font-weight: 500; line-height: 1.3; opacity: 0.92; text-wrap: balance; }
+  </style></head><body><div class="og"><div class="tile">${BOW}</div>
+    <div><div class="name">Wishio</div><div class="title">${escapeHtml(copy.title)}</div><div class="sub">${escapeHtml(copy.sub)}</div></div></div></body></html>`;
+}
+
+async function web() {
+  fs.writeFileSync(path.join(PUBLIC, 'favicon.svg'), faviconSvg());
+
+  // PNG-urile pornesc din iconițele aplicației, deja generate: aceeași formă peste tot.
+  magick(path.join(MOBILE, 'assets/icon.png'), '-resize', '180x180', path.join(PUBLIC, 'favicon-180.png'));
+  magick(path.join(MOBILE, 'assets/icon.png'), '-resize', '512x512', path.join(PUBLIC, 'icon-512.png'));
+  magick(path.join(MOBILE, 'assets/splash-icon.png'), '-resize', '32x32', path.join(PUBLIC, 'favicon-32.png'));
+  magick(path.join(MOBILE, 'assets/splash-icon.png'), '-define', 'icon:auto-resize=48,32,16', path.join(PUBLIC, 'favicon.ico'));
+
+  for (const locale of Object.keys(OG)) {
+    const out = path.join(PUBLIC, 'og', `app-${locale}.png`);
+    await render(ogPage(locale), { width: 1200, height: 630, out });
+    opaque(out);
+  }
+
+  console.log(`Iconițele site-ului și imaginile Open Graph sunt în ${PUBLIC}.`);
+}
+
 async function icons(outRoot) {
   const target = (relative) => path.join(outRoot ?? MOBILE, relative);
   const gradient = `linear-gradient(135deg, ${BRAND.from}, ${BRAND.to})`;
@@ -245,9 +315,11 @@ const option = (name, fallback) => rest.find((arg) => arg.startsWith(`--${name}=
 
 if (command === 'icons') {
   await icons(option('out', null));
+} else if (command === 'web') {
+  await web();
 } else if (command === 'screenshots') {
   await screenshots(option('raw', path.join(HERE, 'screenshots', 'raw')), option('out', path.join(HERE, 'screenshots', 'out')));
 } else {
-  console.log('Folosire: node store/render.mjs icons|screenshots [--out=<dosar>] [--raw=<dosar>]');
+  console.log('Folosire: node store/render.mjs icons|web|screenshots [--out=<dosar>] [--raw=<dosar>]');
   process.exit(1);
 }

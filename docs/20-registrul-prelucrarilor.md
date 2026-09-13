@@ -77,7 +77,7 @@ Cererea de import mai poartă două numere agregate: câte contacte are agenda �
 | Temei | (a) executarea contractului; (b) consimțământ — art. 6 alin. (1) lit. a: bifă obligatorie, text versionat (`2026-09-1`), cu link spre politică lângă bifă |
 | Destinatari | (b) utilizatorul căruia îi aparține linkul — acesta e scopul; găzduirea; furnizorul de notificări (numele celui care a completat, în notificarea „cine este?”) |
 | Retenție | (b) până la retragere, din linkul primit la final, fără cont (`WithdrawSubmission`), sau până la ștergerea contului proprietarului. Completările la care proprietarul nu răspunde nu expiră — `docs/21`, M-10 |
-| Măsuri | `noindex` pe toate paginile publice (setarea `is_indexable` nu are efect azi — M-20); slug cu sufix aleator; cel mult 10 trimiteri în 10 minute de la același IP; nicio dată de contact pe pagină; completarea nu se lipește de un contact existent fără decizia proprietarului (S9.7, S9.8) |
+| Măsuri | `noindex` implicit pe paginile publice; profilul se indexează doar dacă proprietarul alege (`is_indexable`); slug cu sufix aleator; cel mult 10 trimiteri în 10 minute de la același IP; nicio dată de contact pe pagină; completarea nu se lipește de un contact existent fără decizia proprietarului (S9.7, S9.8) |
 | În cod | `public_profiles`, `wishlist_items`, `profile_submissions` · `PublicProfileController`, `MyProfileController`, `SubmissionController`, `ReceiveSubmission`, `WithdrawSubmission` |
 
 ### P5 · Recomandări de cadouri
@@ -137,6 +137,8 @@ Căutările de produse nu se stochează: termenul căutat filtrează catalogul �
 | Dacă se activează | evenimente de pe landing (vizualizare, schimbarea limbii, începutul completării, trimiterea), un identificator anonim în `localStorage`, IP-ul, la PostHog (host în UE, `eu.i.posthog.com`) |
 | Atenție | layout-ul e comun cu paginile `/@slug`, deci scriptul s-ar încărca și la cei care completează un link public, fără consimțământ. Condițiile de activare: `docs/21`, M-16 |
 | În cod | `resources/views/components/layouts/landing.blade.php` |
+
+**Contoarele de canal (S12.5).** Pagina principală și butoanele spre magazine numără, pe zi și pe sursa din `?src=`, vizitele și apăsările. Tabelul `channel_stats` nu conține nimic despre oameni — nici IP, nici cookie, nici identificator —, deci nu sunt date personale și nu cer consimțământ.
 
 ### P10 · Securitate și operare
 

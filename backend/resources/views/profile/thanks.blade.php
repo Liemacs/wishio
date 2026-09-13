@@ -13,10 +13,14 @@
              folosește produsul, pe propriile lui date (docs/01 § Reframe 2). --}}
         <div class="mt-10 rounded-card bg-white p-6 shadow-sm ring-1 ring-surface-200/60">
             <p class="text-base font-medium">{{ __('profile.thanks.own') }}</p>
-            <a href="{{ url('/') }}"
-               class="mt-4 block rounded-button bg-primary-600 px-6 py-3 text-base font-semibold text-white">
-                {{ __('profile.thanks.install') }}
-            </a>
+
+            {{-- Clickurile de aici se numără ca venite din linkurile personale (docs/07 § 6). --}}
+            <x-store-buttons source="profile_link" class="mt-4">
+                <a href="{{ route('landing') }}"
+                   class="mt-4 block rounded-button bg-primary-600 px-6 py-3 text-base font-semibold text-white">
+                    {{ __('profile.thanks.install') }}
+                </a>
+            </x-store-buttons>
         </div>
 
         <a href="{{ route('profile.destroy', ['slug' => $profile->slug, 'token' => $token]) }}"

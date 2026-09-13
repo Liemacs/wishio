@@ -94,6 +94,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Pagina principală a site-ului
+    |--------------------------------------------------------------------------
+    | `app`: prezentarea aplicației, cu butoanele spre magazine (lansarea,
+    | S12.5). `concierge`: landing-ul din Faza 0, cu formularul de cereri
+    | (docs/17), pentru când validarea se reia.
+    */
+    'landing' => env('WISHIO_LANDING', 'app'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Versiunea aplicației mobile
     |--------------------------------------------------------------------------
     | Sub versiunea minimă, aplicația arată doar ecranul de actualizare. Se
@@ -104,8 +114,9 @@ return [
     'app' => [
         'min_supported_version' => env('WISHIO_MIN_APP_VERSION', '0.1.0'),
         'store_url'             => [
-            'ios'     => env('WISHIO_APP_STORE_URL'),
-            'android' => env('WISHIO_PLAY_STORE_URL', 'https://play.google.com/store/apps/details?id=md.wishio.app'),
+            'ios' => env('WISHIO_APP_STORE_URL'),
+            // Goale până la publicare: fără ele, site-ul nu arată butoane spre magazine.
+            'android' => env('WISHIO_PLAY_STORE_URL'),
         ],
     ],
 

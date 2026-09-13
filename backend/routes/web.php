@@ -22,6 +22,11 @@ Route::post('/cerere', [LandingController::class, 'store'])
 
 Route::view('/multumim', 'landing.thanks')->name('landing.thanks');
 
+// Butoanele spre magazine: clickul se numără pe sursă, fără a identifica pe nimeni (S12.5).
+Route::get('/app/{platform}', [LandingController::class, 'download'])
+    ->whereIn('platform', ['ios', 'android'])
+    ->name('app.download');
+
 // Comutator de limba: seteaza preferinta si revine de unde a plecat.
 Route::get('/lang/{locale}', function (string $locale) {
     abort_unless(in_array($locale, config('wishio.locales.supported'), true), 404);

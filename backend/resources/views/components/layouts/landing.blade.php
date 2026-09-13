@@ -1,8 +1,17 @@
-@props(['title' => null, 'event' => null])
+@props(['title' => null, 'description' => null, 'event' => null, 'indexable' => false])
 
 @php
     $locale   = app()->getLocale();
     $ogLocale = ['ro' => 'ro_MD', 'ru' => 'ru_MD', 'en' => 'en_US'][$locale] ?? 'ro_MD';
+
+    // Pagina principală prezintă aplicația; landing-ul din Faza 0 rămâne ca mod separat (docs/17).
+    $concierge   = config('wishio.landing') === 'concierge';
+    $title     ??= __($concierge ? 'landing.meta.title' : 'home.meta.title');
+    $description ??= __($concierge ? 'landing.meta.description' : 'home.meta.description');
+    $ogImage     = url($concierge ? "/og/$locale.png" : "/og/app-$locale.png");
+
+    // Pe iPhone, Safari arată un banner spre App Store, iar linkul se deschide apoi în aplicație.
+    $appStoreId = preg_match('/id(\d+)/', (string) config('wishio.app.store_url.ios'), $match) ? $match[1] : null;
 @endphp
 
 <!DOCTYPE html>
@@ -12,11 +21,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#e11d48">
 
-    <title>{{ $title ?? __('landing.meta.title') }}</title>
-    <meta name="description" content="{{ __('landing.meta.description') }}">
+    <title>{{ $title }}</title>
+    <meta name="description" content="{{ $description }}">
 
-    {{-- Faza 0: nu vrem inca indexare. Vezi docs/14 § 6. --}}
-    <meta name="robots" content="noindex">
+    {{-- Implicit fără indexare: paginile oamenilor și documentele n-au ce căuta în
+         motoarele de căutare. Se deschid doar pagina principală a aplicației și
+         profilurile ai căror proprietari au ales asta (docs/06 § 5). --}}
+    @unless ($indexable)
+        <meta name="robots" content="noindex">
+    @endunless
+
+    @if ($appStoreId)
+        <meta name="apple-itunes-app" content="app-id={{ $appStoreId }}, app-argument={{ url()->current() }}">
+    @endif
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon-32.png" sizes="32x32">
@@ -27,9 +44,9 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Wishio">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ $title ?? __('landing.meta.title') }}">
-    <meta property="og:description" content="{{ __('landing.meta.description') }}">
-    <meta property="og:image" content="{{ url("/og/$locale.png") }}">
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:image" content="{{ $ogImage }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="{{ $ogLocale }}">
@@ -68,12 +85,13 @@
     </main>
 
     <footer class="mx-auto max-w-3xl px-5 pb-10 text-center text-xs leading-relaxed text-surface-400">
-        {{ __('landing.footer.about') }}
+        {{ __($concierge ? 'landing.footer.about' : 'home.footer.about') }}
 
         {{-- Pe aceste pagini lasă date oameni fără cont: documentele legale stau la un click. --}}
         <nav class="mt-3 flex justify-center gap-4">
             <a href="{{ route('legal', ['key' => 'privacy', 'lang' => app()->getLocale()]) }}" class="underline">{{ __('landing.footer.privacy') }}</a>
             <a href="{{ route('legal', ['key' => 'terms', 'lang' => app()->getLocale()]) }}" class="underline">{{ __('landing.footer.terms') }}</a>
+            <a href="{{ route('legal', ['key' => 'support', 'lang' => app()->getLocale()]) }}" class="underline">{{ __('home.footer.support') }}</a>
         </nav>
     </footer>
 

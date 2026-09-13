@@ -1,5 +1,7 @@
 # 17 — Landing-ul Faza 0
 
+> **Din S12.5, pagina principală prezintă aplicația** (`WISHIO_LANDING=app`, `docs/26`). Landing-ul de mai jos rămâne în cod și pornește cu `WISHIO_LANDING=concierge`, când validarea se reia.
+
 > Implementarea pasului **P0.6** din `PLAN.md`. Landing + formular + fluxul concierge.
 > **Temporar.** Se scoate după ce trecem porțile G0–G2, împreună cu tabelul `gift_requests`.
 
@@ -107,6 +109,8 @@ Când postezi linkul într-un grup de Facebook sau pe Telegram, previzualizarea 
 ### Favicon
 
 `public/favicon.svg` + PNG-uri derivate (32, 180, 512). Construit doar din forme simple — Imagick nu randează corect `<path>` cu contur, iar prima versiune ieșea ca două dreptunghiuri albe în loc de o cutie de cadou.
+
+Din S12.5, favicon-urile și imaginile Open Graph ale paginii principale le generează `node store/render.mjs web` (în `mobile/`), din fundița aplicației: site-ul și telefonul poartă aceeași marcă.
 
 ### Analytics
 

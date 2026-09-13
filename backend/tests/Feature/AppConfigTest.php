@@ -5,6 +5,7 @@ it('spune versiunea minima suportata si unde se actualizeaza, fara cont', functi
     config([
         'wishio.app.min_supported_version' => '1.2.0',
         'wishio.app.store_url.ios'         => 'https://apps.apple.com/app/id1234567890',
+        'wishio.app.store_url.android'     => 'https://play.google.com/store/apps/details?id=md.wishio.app',
     ]);
 
     $this->getJson('/api/v1/app-config')

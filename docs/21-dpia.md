@@ -119,7 +119,7 @@ Niciun risc nu rămâne ridicat.
 | M-17 | Sentry cu scrubbing de PII și un test real de restaurare a backup-ului (S11.7) | R-03, R-15 | înainte de lansare |
 | M-18 | Captcha pe formularul public, la primul abuz observat | R-07 | la nevoie |
 | M-19 | Coloanele nefolosite (`people.contact_hash`, `people.avatar_path`, `people.claimed_user_id`, `users.phone_hash`) scoase printr-o migrare nouă sau documentate ca rezervate, ca schema să nu sugereze o colectare care nu există | — | recomandat |
-| M-20 | `is_indexable`: paginile publice sunt mereu `noindex`, iar setarea din API nu are efect. Fie o respectăm, fie o scoatem | R-13 | recomandat |
+| M-20 | ✅ `is_indexable` e respectată din S12.5: un profil public se indexează doar dacă proprietarul alege | R-13 | făcut |
 | M-21 | Setare opțională pentru notificări fără nume („O zi de naștere mâine”) | R-04, R-14 | după feedback |
 | M-22 | Criptare la rest pentru `person_avoids.free_text` și `profile_submissions.message` | R-02 | recomandat |
 | M-23 | Pozele produselor servite prin serverul nostru (proxy cu cache), ca magazinele să nu vadă IP-ul utilizatorilor | R-16 | de cântărit la v1.1 |
