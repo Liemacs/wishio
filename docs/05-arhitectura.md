@@ -37,7 +37,8 @@ Regula, din `docs/00 § D-011`: **nu reimplementăm manual ce o bibliotecă matu
 |---|---|
 | **Reanimated 4** | animații pe UI thread — nu se blochează la scroll |
 | **Moti** | intrări de ecran, apariția cardurilor, tranziții de stare. API declarativ: `from` / `animate` |
-| **@gorhom/bottom-sheet** | selectorul de buget (R1), selectorul de interese (P4), acțiunile pe ocazie (H2) |
+| **@gorhom/bottom-sheet** | selectorul de buget (R1), selectorul de interese (P4), acțiunile pe ocazie (H2), ziua de naștere |
+| **@quidone/react-native-wheel-picker** | roțile pentru ziua de naștere — zi, lună, an opțional —, ca în Contactele din iPhone; doar JavaScript, deci merge și în Expo Go |
 | **@shopify/flash-list** | lista de persoane (P1), rezultatele (R4), catalogul — obligatoriu peste ~50 de elemente |
 | **lottie-react-native** | stări goale și momentul de sărbătoare din ziua ocaziei |
 | **expo-haptics** | la fiecare acțiune importantă. **Cel mai mare câștig de calitate percepută per efort depus** |

@@ -3,45 +3,19 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import type { Person, PersonInput } from '../../api/types';
+import { BirthdayPicker, toIsoBirthday, type BirthdayValue } from '../../components/ui/BirthdayPicker';
 import { Button } from '../../components/ui/Button';
 import { Field } from '../../components/ui/Field';
 
 const RELATIONSHIPS = ['partner', 'friend', 'parent', 'child', 'sibling', 'colleague', 'other'] as const;
 const GENDERS = ['m', 'f'] as const;
 
-/**
- * Ziua de naștere se scrie liber, fiindcă foarte des se știe doar ziua și luna.
- * Acceptăm ZZ.LL și ZZ.LL.AAAA; anul lipsă nu e o eroare, e cazul obișnuit.
- */
-function parseBirthDate(input: string): { date: string | null; yearKnown: boolean } | null {
-  const trimmed = input.trim();
+function toBirthday(person?: Person): BirthdayValue | null {
+  if (!person?.birth_date) return null;
 
-  if (!trimmed) return { date: null, yearKnown: false };
+  const [year, month, day] = person.birth_date.split('-').map(Number);
 
-  const match = trimmed.match(/^(\d{1,2})[.\-/](\d{1,2})(?:[.\-/](\d{4}))?$/);
-  if (!match) return null;
-
-  const [, day, month, year] = match;
-  const d = Number(day);
-  const m = Number(month);
-
-  if (d < 1 || d > 31 || m < 1 || m > 12) return null;
-
-  // Fără an, folosim un an-bisect fix ca 29 februarie să rămână valid.
-  const resolvedYear = year ?? '2000';
-
-  return {
-    date: `${resolvedYear}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`,
-    yearKnown: Boolean(year),
-  };
-}
-
-function formatBirthDate(person?: Person): string {
-  if (!person?.birth_date) return '';
-
-  const [year, month, day] = person.birth_date.split('-');
-
-  return person.birth_year_known ? `${day}.${month}.${year}` : `${day}.${month}`;
+  return { day, month, year: person.birth_year_known ? year : null };
 }
 
 type Props = {
@@ -59,28 +33,18 @@ export function PersonForm({ person, saving, onSubmit, children, footer }: Props
   const [name, setName] = useState(person?.display_name ?? '');
   const [relationship, setRelationship] = useState(person?.relationship ?? null);
   const [gender, setGender] = useState(person?.gender ?? null);
-  const [birthDate, setBirthDate] = useState(formatBirthDate(person));
+  const [birthday, setBirthday] = useState<BirthdayValue | null>(toBirthday(person));
   const [budgetMin, setBudgetMin] = useState(person?.budget_min ? String(person.budget_min) : '');
   const [budgetMax, setBudgetMax] = useState(person?.budget_max ? String(person.budget_max) : '');
   const [notes, setNotes] = useState(person?.notes ?? '');
-  const [dateError, setDateError] = useState<string | null>(null);
 
   const submit = () => {
-    const parsed = parseBirthDate(birthDate);
-
-    if (!parsed) {
-      setDateError(t('person.birthDatePlaceholder'));
-      return;
-    }
-
-    setDateError(null);
-
     onSubmit({
       display_name: name.trim(),
       relationship,
       gender,
-      birth_date: parsed.date,
-      birth_year_known: parsed.yearKnown,
+      birth_date: birthday ? toIsoBirthday(birthday) : null,
+      birth_year_known: birthday?.year != null,
       budget_min: budgetMin ? Number(budgetMin) : null,
       budget_max: budgetMax ? Number(budgetMax) : null,
       notes: notes.trim() || null,
@@ -132,14 +96,11 @@ export function PersonForm({ person, saving, onSubmit, children, footer }: Props
           </View>
         </View>
 
-        <Field
+        <BirthdayPicker
           label={t('person.birthDate')}
-          value={birthDate}
-          onChangeText={setBirthDate}
-          placeholder={t('person.birthDatePlaceholder')}
           help={t('person.birthDateHelp')}
-          error={dateError ?? undefined}
-          keyboardType="numbers-and-punctuation"
+          value={birthday}
+          onChange={setBirthday}
         />
 
         <View>

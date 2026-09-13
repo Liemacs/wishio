@@ -4,6 +4,7 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { StatusBar } from 'expo-status-bar';
 import { I18nextProvider } from 'react-i18next';
 
@@ -102,11 +103,14 @@ export default function RootLayout() {
       <I18nextProvider i18n={i18n}>
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
-            <StatusBar style="auto" />
-            <AuthGate />
-            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#fafafa' } }} />
-            <OfflineBanner />
-            <VersionGate />
+            {/* Foile de jos (@gorhom/bottom-sheet) se deschid peste orice ecran. */}
+            <BottomSheetModalProvider>
+              <StatusBar style="auto" />
+              <AuthGate />
+              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#fafafa' } }} />
+              <OfflineBanner />
+              <VersionGate />
+            </BottomSheetModalProvider>
           </SafeAreaProvider>
         </QueryClientProvider>
       </I18nextProvider>
