@@ -31,13 +31,17 @@
             <p class="font-semibold text-surface-800">{{ __('legal.operator') }}</p>
             <p class="mt-1 text-surface-500">
                 {{ config('wishio.legal.operator_name') ?: 'Wishio' }}<br>
+                @if (config('wishio.legal.operator_address'))
+                    {{ config('wishio.legal.operator_address') }}<br>
+                @endif
                 {{ config('wishio.legal.contact_email') ?: 'privacy@wishio.md' }}
             </p>
         </div>
 
-        <nav class="mt-8 flex gap-4 text-sm">
-            <a href="{{ route('legal', ['key' => 'privacy'] + $keep) }}" class="text-primary-600">{{ __('legal.privacy.title') }}</a>
-            <a href="{{ route('legal', ['key' => 'terms'] + $keep) }}" class="text-primary-600">{{ __('legal.terms.title') }}</a>
+        <nav class="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            @foreach (['privacy', 'terms', 'support', 'delete-account'] as $document)
+                <a href="{{ route('legal', ['key' => $document] + $keep) }}" class="text-primary-600">{{ __("legal.$document.title") }}</a>
+            @endforeach
         </nav>
     </article>
 

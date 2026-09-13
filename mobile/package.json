@@ -12,7 +12,8 @@
     "lint": "tsc --noEmit",
     "i18n:check": "node scripts/check-translations.js && node scripts/check-hardcoded-text.js",
     "build:dev:ios": "npx eas-cli@latest build --profile development --platform ios",
-    "build:dev:android": "npx eas-cli@latest build --profile development --platform android"
+    "build:dev:android": "npx eas-cli@latest build --profile development --platform android",
+    "store:check": "node scripts/check-store-listing.js"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.14",

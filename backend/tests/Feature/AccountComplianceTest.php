@@ -234,3 +234,26 @@ it('exporta si ce nu se vede in fisa persoanei', function () {
         ->and($data['clicks'][0]['person'])->toBe('Alex')
         ->and($data['recommendations'][0]['person'])->toBe('Alex');
 });
+
+it('afiseaza pagina de ajutor si pe cea de stergere a contului, in toate cele trei limbi', function (string $locale, string $support, string $deletion) {
+    // Ajutorul e Support URL-ul din App Store; ștergerea contului, linkul cerut de Google Play.
+    $this->withHeader('Accept-Language', $locale)->get('/legal/support')
+        ->assertOk()
+        ->assertSee($support, escape: false);
+
+    $this->withHeader('Accept-Language', $locale)->get('/legal/delete-account')
+        ->assertOk()
+        ->assertSee($deletion, escape: false);
+})->with([
+    ['ro', 'Ajutor și contact', 'Ștergerea contului Wishio'],
+    ['ru', 'Помощь и контакты', 'Удаление аккаунта Wishio'],
+    ['en', 'Help and contact', 'Deleting your Wishio account'],
+]);
+
+it('spune pe pagina de stergere pasii, ce se sterge si ce ramane', function () {
+    // Google Play cere pașii, datele șterse și ce se păstrează, cu termen.
+    $this->withHeader('Accept-Language', 'ro')->get('/legal/delete-account')
+        ->assertSee('Șterge contul', escape: false)
+        ->assertSee('Ce se șterge', escape: false)
+        ->assertSee('cel mult 3 luni', escape: false);
+});

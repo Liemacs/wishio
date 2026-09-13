@@ -4,7 +4,7 @@
  *  personal data requires a change here too. */
 
 return [
-    'updated'  => 'Last updated: 12 September 2026',
+    'updated'  => 'Last updated: September 13, 2026',
     'operator' => 'Data controller',
 
     'privacy' => [
@@ -126,4 +126,66 @@ return [
             ],
         ],
     ],
+
+    'support' => [
+        'title'    => 'Help and contact',
+        'intro'    => 'Have a question, found a mistake or want to tell us what is missing? Write to us at the address below. We read every message.',
+        'sections' => [
+            [
+                'title' => 'Frequently asked questions',
+                'items' => [
+                    'I am not getting reminders. Check in your phone settings that Wishio may send notifications, then in the app: My profile → Notifications.',
+                    'A name day is wrong. You can reject it or correct its date, and Wishio keeps your choice.',
+                    'I want to add someone without my contacts. Go to People → Add person. The app works fully without access to your contacts.',
+                    'How do I delete my account? My profile → Account → Delete account. The steps and what is kept are on the account deletion page.',
+                ],
+            ],
+            [
+                'title' => 'Your data',
+                'items' => [
+                    'What we collect and why is written in the privacy policy.',
+                    'You can download all your data at any time from My profile → Account.',
+                ],
+            ],
+        ],
+    ],
+
+    'delete-account' => [
+        'title'    => 'Deleting your Wishio account',
+        'intro'    => 'You can delete your account at any time, with everything in it. Deletion is permanent: the data cannot be recovered.',
+        'sections' => [
+            [
+                'title' => 'In the app',
+                'items' => [
+                    'Open Wishio and go to My profile → Account.',
+                    'Tap “Delete account”.',
+                    'Confirm by typing the email address of the account and your password.',
+                ],
+            ],
+            [
+                'title' => 'Without the app',
+                'items' => [
+                    'Email us from the address of your account, at the address below, and ask for deletion.',
+                    'We delete the account within 30 days and confirm by email.',
+                ],
+            ],
+            [
+                'title' => 'What is deleted',
+                'items' => [
+                    'Your account: name, email, password and settings.',
+                    'The people you added, with their occasions, notes, interests, ideas and gift history.',
+                    'Your public link, your wishlist and what others sent you through the link.',
+                    'Connected devices, reminders, recommendations and clicks to shops.',
+                ],
+            ],
+            [
+                'title' => 'What is kept',
+                'items' => [
+                    'Backups keep the data for at most 3 more months, then they are overwritten.',
+                    'Nothing else: data is deleted, not deactivated.',
+                ],
+            ],
+        ],
+    ],
+
 ];

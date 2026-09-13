@@ -76,8 +76,9 @@ return [
     | entitatea juridica (docs/08 § A7).
     */
     'legal' => [
-        'operator_name' => env('WISHIO_OPERATOR_NAME'),
-        'contact_email' => env('WISHIO_PRIVACY_EMAIL'),
+        'operator_name'    => env('WISHIO_OPERATOR_NAME'),
+        'operator_address' => env('WISHIO_OPERATOR_ADDRESS'),
+        'contact_email'    => env('WISHIO_PRIVACY_EMAIL'),
     ],
 
     /*

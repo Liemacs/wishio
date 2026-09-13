@@ -11,7 +11,7 @@
  */
 
 return [
-    'updated'  => 'Ultima actualizare: 12 septembrie 2026',
+    'updated'  => 'Ultima actualizare: 13 septembrie 2026',
     'operator' => 'Operatorul datelor',
 
     'privacy' => [
@@ -133,4 +133,66 @@ return [
             ],
         ],
     ],
+
+    'support' => [
+        'title'    => 'Ajutor și contact',
+        'intro'    => 'Ai o întrebare, ai dat de o greșeală sau vrei să ne spui ce lipsește? Scrie-ne la adresa de mai jos. Citim fiecare mesaj.',
+        'sections' => [
+            [
+                'title' => 'Întrebări frecvente',
+                'items' => [
+                    'Nu primesc remindere. Verifică în setările telefonului că Wishio are voie să trimită notificări, apoi, în aplicație: Profilul meu → Notificări.',
+                    'O onomastică e greșită. O poți respinge sau îi poți corecta data, iar Wishio păstrează alegerea ta.',
+                    'Vreau să adaug pe cineva fără agendă. Din Persoane → Adaugă persoană. Aplicația funcționează complet și fără acces la contacte.',
+                    'Cum îmi șterg contul? Din Profilul meu → Cont → Șterge contul. Pașii și ce se păstrează sunt pe pagina despre ștergerea contului.',
+                ],
+            ],
+            [
+                'title' => 'Datele tale',
+                'items' => [
+                    'Ce colectăm și de ce scrie în politica de confidențialitate.',
+                    'Îți poți descărca oricând toate datele din Profilul meu → Cont.',
+                ],
+            ],
+        ],
+    ],
+
+    'delete-account' => [
+        'title'    => 'Ștergerea contului Wishio',
+        'intro'    => 'Îți poți șterge contul oricând, cu tot ce ține de el. Ștergerea e definitivă: datele nu se mai pot recupera.',
+        'sections' => [
+            [
+                'title' => 'Din aplicație',
+                'items' => [
+                    'Deschide Wishio și mergi la Profilul meu → Cont.',
+                    'Apasă „Șterge contul”.',
+                    'Confirmă scriind adresa de email a contului și parola.',
+                ],
+            ],
+            [
+                'title' => 'Fără aplicație',
+                'items' => [
+                    'Scrie-ne de pe adresa de email a contului, la adresa de mai jos, și cere ștergerea.',
+                    'Ștergem contul în cel mult 30 de zile și îți confirmăm pe email.',
+                ],
+            ],
+            [
+                'title' => 'Ce se șterge',
+                'items' => [
+                    'Contul: numele, emailul, parola și setările.',
+                    'Persoanele pe care le-ai adăugat, cu ocaziile, notele, interesele, ideile și istoricul cadourilor.',
+                    'Linkul tău public, lista de dorințe și ce ți-au trimis alții prin link.',
+                    'Dispozitivele conectate, reminderele, recomandările și clickurile spre magazine.',
+                ],
+            ],
+            [
+                'title' => 'Ce rămâne',
+                'items' => [
+                    'Copiile de siguranță mai conțin datele cel mult 3 luni, apoi sunt suprascrise.',
+                    'Nimic altceva: datele nu se dezactivează, se șterg.',
+                ],
+            ],
+        ],
+    ],
+
 ];

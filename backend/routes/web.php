@@ -109,10 +109,9 @@ Route::get('/.well-known/assetlinks.json', function () {
 | Documente legale
 |--------------------------------------------------------------------------
 | URL-uri stabile, in RO/RU/EN. App Store si Google Play le cer la submit,
-| iar linkul trebuie sa ramana valid — vezi docs/06 § 7.
+| iar linkul trebuie sa ramana valid — vezi docs/06 § 7. Ajutorul e Support
+| URL-ul din App Store; stergerea contului e linkul cerut de Google Play.
 */
 Route::get('/legal/{key}', function (string $key) {
-    abort_unless(in_array($key, ['privacy', 'terms'], true), 404);
-
     return view('legal.document', ['key' => $key]);
-})->whereIn('key', ['privacy', 'terms'])->name('legal');
+})->whereIn('key', ['privacy', 'terms', 'support', 'delete-account'])->name('legal');
