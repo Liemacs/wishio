@@ -1,16 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 
 import { Button } from '../../src/components/ui/Button';
 import { ErrorState } from '../../src/components/ui/ErrorState';
 import { Screen } from '../../src/components/ui/Screen';
-import { useOccasions, useSetOccasionStatus } from '../../src/features/contacts/queries';
+import { useOccasions, useSetOccasionStatus, type Occasion } from '../../src/features/contacts/queries';
 import { TYPE } from '../../src/design/typography';
-
-const MONTHS_KEY = 'months';
 
 /**
  * Ecranul O7 din docs/09. Onomasticile deduse se confirmă una câte una.
@@ -21,21 +19,27 @@ const MONTHS_KEY = 'months';
 export default function ConfirmNameDays() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const { data: occasions, isLoading, isError, error, refetch } = useOccasions({ unconfirmed: true });
+  const { data: occasions, isFetching, isError, error, refetch } = useOccasions({ unconfirmed: true });
   const setStatus = useSetOccasionStatus();
 
+  // Lista se fixează la prima încărcare completă. Fiecare răspuns reîncarcă
+  // ocaziile, iar cele confirmate ies din ea: parcursă după index, o listă care
+  // se micșorează sărea peste onomastici și se termina înainte de vreme.
+  const queue = useRef<Occasion[] | null>(null);
+
+  if (queue.current === null && occasions && !isFetching) {
+    queue.current = occasions.filter((o) => o.type === 'name_day');
+  }
+
   const [index, setIndex] = useState(0);
-
-  const pending = useMemo(
-    () => (occasions ?? []).filter((o) => o.type === 'name_day'),
-    [occasions],
-  );
-
-  const current = pending[index];
+  const pending = queue.current;
+  const current = pending?.[index];
 
   const formatDate = (month: number, day: number) =>
     new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'long' })
       .format(new Date(2001, month - 1, day));
+
+  const advance = () => setIndex((i) => i + 1);
 
   const answer = (status: 'confirmed' | 'rejected') => {
     if (!current) return;
@@ -44,15 +48,22 @@ export default function ConfirmNameDays() {
     advance();
   };
 
-  const advance = () => {
-    if (index + 1 < pending.length) {
-      setIndex(index + 1);
-    } else {
-      router.replace('/onboarding/done');
+  if (pending === null) {
+    // Fără răspuns de la server nu sărim peste confirmare, ca și cum n-ar fi nimic
+    // de confirmat. Se poate merge mai departe, dar ca alegere, nu pe tăcute.
+    if (isError) {
+      return (
+        <Screen>
+          <View className="flex-1 justify-center">
+            <ErrorState error={error} onRetry={() => refetch()} />
+            <View className="px-8">
+              <Button label={t('common.continue')} variant="ghost" onPress={() => router.replace('/onboarding/done')} />
+            </View>
+          </View>
+        </Screen>
+      );
     }
-  };
 
-  if (isLoading) {
     return (
       <Screen>
         <View className="flex-1 items-center justify-center">
@@ -62,25 +73,10 @@ export default function ConfirmNameDays() {
     );
   }
 
-  // Fără răspuns de la server nu sărim peste confirmare, ca și cum n-ar fi nimic
-  // de confirmat. Se poate merge mai departe, dar ca alegere, nu pe tăcute.
-  if (isError) {
-    return (
-      <Screen>
-        <View className="flex-1 justify-center">
-          <ErrorState error={error} onRetry={() => refetch()} />
-          <View className="px-8">
-            <Button label={t('common.continue')} variant="ghost" onPress={() => router.replace('/onboarding/done')} />
-          </View>
-        </View>
-      </Screen>
-    );
-  }
-
+  // Nimic de confirmat sau ultima onomastică a primit răspuns. Navigarea e o
+  // componentă, nu un apel în timpul randării, pe care React nu îl permite.
   if (!current) {
-    router.replace('/onboarding/done');
-
-    return null;
+    return <Redirect href="/onboarding/done" />;
   }
 
   return (
