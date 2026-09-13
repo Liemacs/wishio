@@ -48,7 +48,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Setările de notificări (M6)** — trepte, oră pe riglă trasă cu degetul, liniște, digest; replanificare la orice schimbare |
 | ✅ | **Completările din link (S9.7)** — nu mai ating contactele existente; retragerea scoate doar datele trimise |
 | ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului · push care îl anunță |
-| ✅ | 310 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | 318 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
