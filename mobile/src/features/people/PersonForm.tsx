@@ -48,10 +48,12 @@ type Props = {
   person?: Person;
   saving?: boolean;
   onSubmit: (input: PersonInput) => void;
+  /** Sub butonul de salvare: secțiuni care nu se salvează odată cu formularul. */
+  footer?: React.ReactNode;
   children?: React.ReactNode;
 };
 
-export function PersonForm({ person, saving, onSubmit, children }: Props) {
+export function PersonForm({ person, saving, onSubmit, children, footer }: Props) {
   const { t } = useTranslation();
 
   const [name, setName] = useState(person?.display_name ?? '');
@@ -168,6 +170,8 @@ export function PersonForm({ person, saving, onSubmit, children }: Props) {
         {children}
 
         <Button label={t('common.save')} onPress={submit} loading={saving} disabled={!name.trim()} />
+
+        {footer}
       </View>
     </ScrollView>
   );

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 
 import { entrance, useReducedMotion } from '../../design/motion';
+import { TYPE } from '../../design/typography';
 import type { RecommendationItem } from './queries';
 
 /** Cardul din ecranul R4. Prețul și magazinul sunt la fel de importante ca titlul. */
@@ -11,10 +12,14 @@ export function ProductCard({
   item,
   index,
   onPress,
+  saved = false,
+  onSave,
 }: {
   item: RecommendationItem;
   index: number;
   onPress: () => void;
+  saved?: boolean;
+  onSave?: () => void;
 }) {
   const { t, i18n } = useTranslation();
   const reduced = useReducedMotion();
@@ -65,6 +70,21 @@ export function ProductCard({
             <Text className="mt-0.5 text-xs text-primary-600">
               {t('gift.otherOffers', { count: product.other_offers_count })}
             </Text>
+          ) : null}
+
+          {onSave ? (
+            <Pressable
+              onPress={onSave}
+              disabled={saved}
+              hitSlop={8}
+              accessibilityRole="button"
+              accessibilityState={{ selected: saved }}
+              className={`mt-2 self-start rounded-full px-3 py-1 ${saved ? 'bg-primary-50' : 'bg-surface-100 active:bg-surface-200'}`}
+            >
+              <Text className={saved ? 'text-primary-700' : 'text-surface-700'} style={TYPE.footnote}>
+                {saved ? `★ ${t('gifts.saved')}` : `☆ ${t('gifts.save')}`}
+              </Text>
+            </Pressable>
           ) : null}
         </View>
       </Pressable>

@@ -21,6 +21,8 @@ export type RecommendedProduct = {
 
 export type RecommendationItem = {
   rank: number;
+  /** Ideea salvată deja pentru acest produs și această persoană. */
+  idea_id?: number | null;
   score: number;
   reason: string | null;
   product: RecommendedProduct;

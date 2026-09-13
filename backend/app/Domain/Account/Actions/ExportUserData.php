@@ -20,7 +20,7 @@ class ExportUserData
     {
         $user->load([
             'people.interests', 'people.occasions.nameDay', 'people.occasions.holiday',
-            'people.giftHistory', 'people.fieldSources',
+            'people.giftHistory', 'people.giftIdeas', 'people.fieldSources',
             'settings', 'publicProfile.submissions', 'wishlistItems',
         ]);
 
@@ -71,6 +71,9 @@ class ExportUserData
                 ])->values(),
                 'gift_history' => $person->giftHistory->map(fn ($g) => [
                     'title' => $g->title, 'year' => $g->year, 'amount' => $g->amount,
+                ])->values(),
+                'gift_ideas' => $person->giftIdeas->map(fn ($i) => [
+                    'title' => $i->title, 'status' => $i->status, 'price' => $i->price, 'currency' => $i->currency,
                 ])->values(),
                 // Proveniența fiecărui câmp: utilizatorul are dreptul să știe
                 // de unde avem ce avem despre oamenii din agenda lui.

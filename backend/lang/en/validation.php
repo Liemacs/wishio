@@ -165,6 +165,10 @@ return [
         ],
     ],
     'attributes' => [
+        'amount'                       => 'amount',
+        'occasion_type'                => 'occasion type',
+        'product_id'                   => 'product',
+        'year'                         => 'year',
         'about'                        => 'about the person',
         'age_bracket'                  => 'age',
         'birth_date'                   => 'birth date',

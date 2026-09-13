@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { errorMessage } from '../../src/api/client';
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
+import { GiftSections } from '../../src/features/gifts/GiftSections';
 import { InterestPicker } from '../../src/features/people/InterestPicker';
 import { PersonForm } from '../../src/features/people/PersonForm';
 import { useDeletePerson, usePerson, useUpdatePerson } from '../../src/features/people/queries';
@@ -76,6 +77,7 @@ export default function PersonDetail() {
         person={person}
         saving={update.isPending}
         onSubmit={(input) => update.mutate(input, { onError: (e) => Alert.alert('', errorMessage(e)) })}
+        footer={<GiftSections personId={personId} />}
       >
         <View>
           <Text className="text-sm font-medium text-surface-700">{t('person.interests')}</Text>

@@ -59,7 +59,8 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'person_id' => ['nullable', 'integer', 'exists:people,id'],
-            'context'   => ['nullable', Rule::in(['search', 'recommendation', 'wishlist'])],
+            // „idea”: magazinul deschis dintr-o idee salvată, nu dintr-o recomandare nouă.
+            'context' => ['nullable', Rule::in(['search', 'recommendation', 'wishlist', 'idea'])],
         ]);
 
         OutboundClick::create([

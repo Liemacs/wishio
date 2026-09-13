@@ -311,5 +311,38 @@
     "keepsName": "{{name}} primește ziua și interesele din completare. Numele rămâne cel din lista ta.",
     "confirm": "Confirmă",
     "gone": "Completarea nu mai așteaptă un răspuns."
+  },
+  "gifts": {
+    "ideasTitle": "Idei de cadou",
+    "ideasEmpty": "Nicio idee salvată încă. Salvează din recomandări sau scrie una.",
+    "ideaPlaceholder": "Ex.: o carte de bucate",
+    "addIdea": "Adaugă",
+    "status": {
+      "idea": "Idee",
+      "chosen": "Aleasă",
+      "purchased": "Cumpărată"
+    },
+    "statusTitle": "Stare",
+    "given": "Am oferit cadoul",
+    "givenHint": "Trece în istoric, iar recomandările nu-l mai propun.",
+    "deleteIdea": "Șterge ideea",
+    "historyTitle": "Cadouri oferite",
+    "historyEmpty": "Aici apar cadourile oferite, pe ani.",
+    "addHistory": "Adaugă un cadou oferit",
+    "historyFormTitle": "Ce i-ai oferit?",
+    "historyGift": "Cadoul",
+    "historyYear": "Anul",
+    "historyAmount": "Cât a costat (opțional)",
+    "deleteHistoryConfirm": "Ștergi din istoric?",
+    "deleteHistoryText": "„{{title}}” nu va mai conta la recomandări.",
+    "savedTitle": "Idei salvate",
+    "savedEmpty": "Nicio idee salvată. În recomandări, apasă „Salvează”.",
+    "save": "Salvează",
+    "saved": "Salvată",
+    "boughtTitle": "Ai cumpărat „{{title}}”?",
+    "boughtBody": "Îl păstrăm la ideile de cadou, ca să nu uiți ce ai ales.",
+    "boughtYes": "Da, l-am cumpărat",
+    "boughtSave": "Salvez ideea",
+    "boughtNo": "Nu"
   }
 }

@@ -48,7 +48,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Setările de notificări (M6)** — trepte, oră pe riglă trasă cu degetul, liniște, digest; replanificare la orice schimbare |
 | ✅ | **Completările din link (S9.7)** — nu mai ating contactele existente; retragerea scoate doar datele trimise |
 | ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului · push care îl anunță |
-| ✅ | 318 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | **Idei și istoric de cadouri (S10)** — salvare, „Ai cumpărat?”, „am oferit” → istoric, anti-repetare în recomandări |
+| ✅ | 333 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -211,9 +212,9 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S10.1 | `gift_ideas`, `gift_history`; salvare, „ales”, „cumpărat”, „oferit” |
-| S10.2 | Timeline per persoană |
-| S10.3 | Filtrare anti-repetare activată în recomandări |
+| S10.1 ✅ | ~~`gift_ideas`, `gift_history`; salvare, „ales”, „cumpărat”, „oferit”~~ — din recomandări sau de mână; „Ai cumpărat?” la întoarcerea din magazin; „am oferit” mută ideea în istoric |
+| S10.2 ✅ | ~~Timeline per persoană~~ — pe ani, în fișa persoanei, cu adăugare manuală pentru cadourile de dinainte de aplicație |
+| S10.3 ✅ | ~~Filtrare anti-repetare activată în recomandări~~ — un produs oferit nu mai e propus aceleiași persoane; rezultatele arată ce e deja salvat |
 
 ## S11 · Conformitate & polish (săptămâna 11)
 

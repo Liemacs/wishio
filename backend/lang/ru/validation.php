@@ -165,6 +165,10 @@ return [
         ],
     ],
     'attributes' => [
+        'amount'                       => 'сумма',
+        'occasion_type'                => 'тип повода',
+        'product_id'                   => 'товар',
+        'year'                         => 'год',
         'about'                        => 'о человеке',
         'age_bracket'                  => 'возраст',
         'birth_date'                   => 'дата рождения',

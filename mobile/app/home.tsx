@@ -90,6 +90,15 @@ export default function Home() {
           </View>
 
           <Pressable
+            onPress={() => router.push('/ideas')}
+            accessibilityRole="button"
+            accessibilityLabel={t('gifts.savedTitle')}
+            className="ml-3 h-10 w-10 items-center justify-center rounded-full bg-surface-200/70 active:opacity-60"
+          >
+            <Text className="text-base">🎁</Text>
+          </Pressable>
+
+          <Pressable
             onPress={() => router.push('/profile')}
             className="ml-3 h-10 w-10 items-center justify-center rounded-full bg-surface-200/70 active:opacity-60"
           >

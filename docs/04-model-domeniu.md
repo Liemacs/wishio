@@ -236,10 +236,11 @@ recommendation_runs       id, user_id, person_id, occasion_id, budget_min/max,
                           model, tokens, cost, status, created_at
 recommendation_items      run_id, product_id | experience_id, rank, score,
                           reason_ro, reason_ru, reason_en, shown_at
-gift_ideas                user_id, person_id, product_id | free_text, status
-                          (idea|chosen|purchased|given), occasion_id
-gift_history              user_id, person_id, occasion_id, year, title,
-                          product_id (nullable), amount, feedback
+gift_ideas                user_id, person_id, product_id (nullable) | title,
+                          price, currency, status (idea|chosen|purchased);
+                          „am oferit” mută ideea în gift_history
+gift_history              user_id, person_id, product_id (nullable), title,
+                          year, occasion_type, amount
 outbound_clicks           user_id, product_id, merchant_id, run_id,
                           clicked_at, context
 

@@ -299,5 +299,38 @@
     "keepsName": "{{name}} gets the birthday and interests from this submission. The name stays as it is on your list.",
     "confirm": "Confirm",
     "gone": "This submission is no longer waiting for an answer."
+  },
+  "gifts": {
+    "ideasTitle": "Gift ideas",
+    "ideasEmpty": "No saved ideas yet. Save one from recommendations or write your own.",
+    "ideaPlaceholder": "E.g. a cookbook",
+    "addIdea": "Add",
+    "status": {
+      "idea": "Idea",
+      "chosen": "Chosen",
+      "purchased": "Bought"
+    },
+    "statusTitle": "Status",
+    "given": "I gave this gift",
+    "givenHint": "It moves to the history, and recommendations won't suggest it again.",
+    "deleteIdea": "Delete idea",
+    "historyTitle": "Gifts given",
+    "historyEmpty": "Gifts you've given show up here, by year.",
+    "addHistory": "Add a gift you gave",
+    "historyFormTitle": "What did you give?",
+    "historyGift": "Gift",
+    "historyYear": "Year",
+    "historyAmount": "What it cost (optional)",
+    "deleteHistoryConfirm": "Remove from history?",
+    "deleteHistoryText": "“{{title}}” will no longer count for recommendations.",
+    "savedTitle": "Saved ideas",
+    "savedEmpty": "No saved ideas. Tap “Save” on a recommendation.",
+    "save": "Save",
+    "saved": "Saved",
+    "boughtTitle": "Did you buy “{{title}}”?",
+    "boughtBody": "We'll keep it in your gift ideas, so you remember what you chose.",
+    "boughtYes": "Yes, I bought it",
+    "boughtSave": "Save the idea",
+    "boughtNo": "No"
   }
 }

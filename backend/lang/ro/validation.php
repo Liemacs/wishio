@@ -168,6 +168,10 @@ return [
         ],
     ],
     'attributes' => [
+        'amount'                       => 'sumă',
+        'occasion_type'                => 'tip de ocazie',
+        'product_id'                   => 'produs',
+        'year'                         => 'an',
         'about'                        => 'despre persoană',
         'age_bracket'                  => 'vârstă',
         'birth_date'                   => 'data nașterii',

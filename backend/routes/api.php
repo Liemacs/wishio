@@ -3,6 +3,7 @@
 use App\Http\Api\V1\Controllers\AccountController;
 use App\Http\Api\V1\Controllers\AuthController;
 use App\Http\Api\V1\Controllers\ContactImportController;
+use App\Http\Api\V1\Controllers\GiftController;
 use App\Http\Api\V1\Controllers\InterestController;
 use App\Http\Api\V1\Controllers\MyProfileController;
 use App\Http\Api\V1\Controllers\OccasionController;
@@ -52,6 +53,16 @@ Route::prefix('v1')->group(function () {
 
         Route::apiResource('people', PersonController::class);
         Route::put('/people/{person}/interests', [PersonInterestController::class, 'update']);
+
+        // Idei de cadou si istoric (S10)
+        Route::get('/people/{person}/gifts', [GiftController::class, 'index']);
+        Route::post('/people/{person}/ideas', [GiftController::class, 'storeIdea']);
+        Route::post('/people/{person}/history', [GiftController::class, 'storeHistory']);
+        Route::get('/ideas', [GiftController::class, 'ideas']);
+        Route::patch('/ideas/{idea}', [GiftController::class, 'updateIdea']);
+        Route::delete('/ideas/{idea}', [GiftController::class, 'destroyIdea']);
+        Route::post('/ideas/{idea}/given', [GiftController::class, 'given']);
+        Route::delete('/history/{entry}', [GiftController::class, 'destroyHistory']);
 
         // Import din agenda telefonului: doar contactele alese explicit, si
         // doar nume + zi de nastere (docs/00 § D-017).

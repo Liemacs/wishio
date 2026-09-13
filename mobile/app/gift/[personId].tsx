@@ -20,6 +20,9 @@ import {
 } from '../../src/features/recommendations/queries';
 import { useAuthStore } from '../../src/stores/auth';
 import { TYPE } from '../../src/design/typography';
+import * as Haptics from 'expo-haptics';
+import { useSaveIdea, type IdeaStatus } from '../../src/features/gifts/queries';
+import type { RecommendationItem } from '../../src/features/recommendations/queries';
 
 /** Benzile din docs/09 § R1. Aceleași cu cele de pe landing, pentru consecvență. */
 const BANDS: { min: number | null; max: number | null; label: string }[] = [
@@ -43,6 +46,9 @@ export default function GiftFlow() {
   const [runId, setRunId] = useState<number | null>(null);
   const { data: run } = useRecommendation(runId);
   const track = useTrackClick();
+  const saveIdea = useSaveIdea(id);
+  // Salvate acum: butonul se schimbă imediat, înainte să se reîncarce rezultatele.
+  const [savedNow, setSavedNow] = useState<Set<number>>(new Set());
 
   const [band, setBand] = useState<number | null>(null);
   const [customMin, setCustomMin] = useState('');
@@ -78,14 +84,41 @@ export default function GiftFlow() {
     search();
   };
 
-  const openShop = (offerId: number) =>
-    track.mutate(
-      { offerId, personId: id, context: 'recommendation' },
+  const isSaved = (item: RecommendationItem) => Boolean(item.idea_id) || savedNow.has(item.product.id);
+
+  const save = (item: RecommendationItem, status: IdeaStatus = 'idea') =>
+    saveIdea.mutate(
+      { product_id: item.product.id, status },
       {
-        onSuccess: (url) => WebBrowser.openBrowserAsync(url),
+        onSuccess: () => {
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          setSavedNow((current) => new Set(current).add(item.product.id));
+        },
         onError: (error) => Alert.alert('', errorMessage(error)),
       },
     );
+
+  const openShop = async (item: RecommendationItem) => {
+    if (!item.product.offer) return;
+
+    try {
+      const url = await track.mutateAsync({ offerId: item.product.offer.id, personId: id, context: 'recommendation' });
+      await WebBrowser.openBrowserAsync(url);
+    } catch (error) {
+      Alert.alert('', errorMessage(error));
+      return;
+    }
+
+    // Înapoi din magazin: bucla F2 din docs/09. Doar pentru ce nu e deja salvat,
+    // ca întrebarea să nu revină la fiecare comparație de preț.
+    if (isSaved(item)) return;
+
+    Alert.alert(t('gifts.boughtTitle', { title: item.product.title }), t('gifts.boughtBody'), [
+      { text: t('gifts.boughtNo'), style: 'cancel' },
+      { text: t('gifts.boughtSave'), onPress: () => save(item) },
+      { text: t('gifts.boughtYes'), onPress: () => save(item, 'purchased') },
+    ]);
+  };
 
   const header = (
     <View className="flex-row items-center gap-3 px-5 py-3">
@@ -146,7 +179,9 @@ export default function GiftFlow() {
                   key={item.product.id}
                   item={item}
                   index={index}
-                  onPress={() => item.product.offer && openShop(item.product.offer.id)}
+                  saved={isSaved(item)}
+                  onSave={() => save(item)}
+                  onPress={() => openShop(item)}
                 />
               ))}
             </View>
