@@ -5,6 +5,7 @@ import { api } from '../../api/client';
 export type IdentityCandidate = {
   id: number;
   display_name: string;
+  device_contact_id: string | null;
   relationship: string | null;
   birth_date: string | null;
   birth_year_known: boolean;

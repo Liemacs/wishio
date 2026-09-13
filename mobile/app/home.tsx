@@ -10,6 +10,7 @@ import { EmptyState } from '../src/components/ui/EmptyState';
 import { ErrorState } from '../src/components/ui/ErrorState';
 import { Skeleton, SkeletonRows } from '../src/components/ui/Skeleton';
 import { Screen } from '../src/components/ui/Screen';
+import { ContactAvatar } from '../src/features/contacts/ContactAvatar';
 import { useOccasions, type Occasion } from '../src/features/contacts/queries';
 import { usePendingSubmissions } from '../src/features/submissions/queries';
 import { useAuthStore } from '../src/stores/auth';
@@ -172,8 +173,20 @@ export default function Home() {
                     ) : null}
                   </View>
 
-                  <Text className="mt-1 text-surface-900" style={TYPE.title}>{titleOf(next)}</Text>
-                  <Text className="mt-1 text-lg text-surface-500">{when(next)}</Text>
+                  <View className="mt-1 flex-row items-center gap-4">
+                    <View className="flex-1">
+                      <Text className="text-surface-900" style={TYPE.title}>{titleOf(next)}</Text>
+                      <Text className="mt-1 text-lg text-surface-500">{when(next)}</Text>
+                    </View>
+
+                    {next.person ? (
+                      <ContactAvatar
+                        name={next.person.display_name}
+                        contactId={next.person.device_contact_id}
+                        size={64}
+                      />
+                    ) : null}
+                  </View>
 
                   {next.person ? (
                     <Button
@@ -204,7 +217,23 @@ export default function Home() {
                         onPress={() => occasion.person && router.push(`/people/${occasion.person.id}`)}
                         className="flex-row items-center gap-3 rounded-card bg-white px-4 py-3.5 active:opacity-70"
                       >
-                        <View className={`h-2 w-2 rounded-full ${DOT[occasion.type] ?? DOT.custom}`} />
+                        {occasion.person ? (
+                          <View>
+                            <ContactAvatar
+                              name={occasion.person.display_name}
+                              contactId={occasion.person.device_contact_id}
+                              size={40}
+                            />
+                            {/* Tipul ocaziei rămâne vizibil, ca un semn în colțul pozei. */}
+                            <View
+                              className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white ${DOT[occasion.type] ?? DOT.custom}`}
+                            />
+                          </View>
+                        ) : (
+                          <View className="h-10 w-10 items-center justify-center rounded-full bg-surface-100">
+                            <View className={`h-2.5 w-2.5 rounded-full ${DOT[occasion.type] ?? DOT.custom}`} />
+                          </View>
+                        )}
                         <View className="flex-1">
                           <Text className="text-base font-semibold text-surface-900" numberOfLines={1}>
                             {titleOf(occasion)}

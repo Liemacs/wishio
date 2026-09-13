@@ -142,6 +142,7 @@ export function SwitchRow({
 export function CheckRow({
   label,
   detail,
+  leading,
   checked,
   onPress,
   disabled = false,
@@ -150,6 +151,8 @@ export function CheckRow({
 }: {
   label: string;
   detail?: string;
+  /** În fața textului: de exemplu, poza persoanei. */
+  leading?: React.ReactNode;
   checked: boolean;
   onPress?: () => void;
   disabled?: boolean;
@@ -165,6 +168,8 @@ export function CheckRow({
       accessibilityState={{ checked, disabled: disabled || locked }}
       className={`min-h-12 flex-row items-center gap-3 px-4 py-3 ${locked ? '' : 'active:bg-surface-100'} ${disabled ? 'opacity-40' : ''}`}
     >
+      {leading}
+
       <View className="flex-1">
         <Text className="text-surface-900" style={TYPE.body}>{label}</Text>
         {detail ? <Text className="mt-0.5 text-surface-500" style={TYPE.footnote}>{detail}</Text> : null}

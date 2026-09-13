@@ -269,6 +269,8 @@ Cea mai onestă variantă este să nu-l colectăm deloc cât timp nu ne trebuie.
 - Textul permisiunii poate spune adevărul simplu: *„citim doar numele și ziua de naștere"*. Nu mai avem nevoie de formulări despre numere care „nu ajung la noi în clar".
 - Când vom implementa claim-ul, decizia se redeschide, cu o evaluare de impact scrisă (`docs/06`).
 
+**Actualizare — D-023:** aplicația citește acum și poza contactelor, doar ca s-o afișeze pe telefon; poza nu se transmite. Numerele de telefon rămân necitite.
+
 
 ---
 
@@ -341,3 +343,22 @@ Inertia ar fi însemnat un al doilea strat de build, un al doilea sistem de ruta
 - Cozile rulează cu `queue:work` pe Redis, ca daemon în panou. Horizon, prevăzut în `docs/10 § 2`, se adaugă când va fi nevoie de panoul lui.
 - Producția se actualizează dintr-un tag `v*`, după ce trec testele din CI (`docs/25 § 5`).
 - Domeniul `wishio.md` nu e cumpărat încă: e primul pas (`docs/25 § 1`).
+
+## D-023 · Poza din agendă se afișează, dar nu pleacă de pe telefon
+**Data:** 2026-09-13 · **Stare:** confirmată · *completează D-017 și regula 4*
+
+**Decizia:** aplicația citește poza contactelor și o arată lângă nume: la alegerea contactelor, în lista de oameni, pe pagina persoanei, pe ecranul principal și la „cine este?”. Poza nu se transmite și nu se stochează pe server.
+
+**De ce:**
+- Un om se recunoaște mai repede după poză decât după nume: în lista lungă de la import și mai ales între omonimi, la „cine este?”.
+- Regula 4 permitea deja asta: pozele de contact rămân pe device. D-017 le lăsase deoparte doar pentru că nu le foloseam.
+
+**Cum:**
+- Serverul îi întoarce proprietarului `device_contact_id`, pe care îl primea deja la import. Aplicația cere agendei poza acelui contact abia la afișare (`readContactPhoto`), doar dacă accesul la agendă e dat deja, și o ține în memorie. Pe iOS, `expo-contacts` scrie miniatura în cache-ul aplicației; `expo-image` o păstrează doar în memorie, fără încă o copie pe disc.
+- La import se citește doar semnul că o poză există, nu poza: altfel iOS ar scrie câte un fișier pentru fiecare contact din agendă.
+- Fără acces la agendă, pe alt telefon decât cel al importului sau pentru oamenii adăugați de mână rămân inițialele.
+
+**Consecințe:**
+- Textele care spuneau „nu citim poze” — permisiunea iOS, ecranul explicativ, landing-ul, politica de confidențialitate, descrierile din magazine și nota pentru review — spun acum că poza rămâne pe telefon. Textul permisiunii iOS se schimbă abia cu un build nou.
+- Etichetele de confidențialitate rămân aceleași: Apple și Google numesc colectare doar datele care pleacă de pe dispozitiv (`docs/22`).
+- `people.avatar_path` rămâne nefolosită (`docs/21`, M-19). `ContactImportTest` verifică faptul că serverul nu păstrează nicio poză, chiar dacă un client ar trimite-o.

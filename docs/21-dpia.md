@@ -32,7 +32,7 @@ Scara e mică la lansare. Asta nu scoate obligația, doar reduce gravitatea unor
 
 | Principiu | Cum îl respectăm | Dovada |
 |---|---|---|
-| Minimizare | din agendă se citesc doar numele și ziua de naștere; la server ajung doar contactele bifate; fără telefoane, emailuri, adrese, poze | `deviceContacts.ts`; `ContactImportTest` „nu stocheaza numere de telefon” |
+| Minimizare | la server ajung doar numele și ziua de naștere ale contactelor bifate; poza se citește doar ca să fie afișată, pe telefon (D-023); fără telefoane, emailuri, adrese | `deviceContacts.ts`; `ContactImportTest` „nu stocheaza numere de telefon”, „nu primeste pozele contactelor” |
 | Limitarea scopului | datele unei persoane servesc doar utilizatorului care le-a introdus; nu se folosesc pentru publicitate și nu se vând | D-004, D-021 |
 | Fără partajare între utilizatori | fără profiluri comune, fără potrivire între conturi după nume sau număr | testele „nu lasa un utilizator…” din `ContactImportTest`, `RecommendationsTest`, `SubmissionIdentityTest` |
 | Pseudonimizare | contextul pentru AI: intervale, coduri, titluri din catalog; fără nume și fără text liber | `PersonContext`; `RecommendationsTest` „trimite spre AI doar date pseudonimizate…” |
@@ -50,7 +50,7 @@ Temeiul pentru P2 din `docs/20`, verificat în trei pași.
 
 **1. Scopul e legitim.** Utilizatorul vrea să nu uite ocaziile oamenilor apropiați și să le facă un cadou potrivit; operatorul oferă acest serviciu. Pentru utilizator e o activitate personală, aceeași pe care o face cu un calendar sau o agendă. Wishio însă prelucrează datele ca serviciu, deci excepția pentru activitățile strict personale nu îl acoperă pe el.
 
-**2. Prelucrarea e necesară.** Un reminder de zi de naștere nu există fără nume și dată. Interesele și bugetul sunt minimul pentru o sugestie. Ce nu servește acestor două scopuri nu se colectează: telefoane, emailuri, adrese, poze.
+**2. Prelucrarea e necesară.** Un reminder de zi de naștere nu există fără nume și dată. Interesele și bugetul sunt minimul pentru o sugestie. Ce nu servește acestor două scopuri nu se colectează: telefoane, emailuri, adrese. Poza unui contact ajută doar la recunoaștere, deci rămâne pe telefon (D-023).
 
 **3. Echilibrul înclină spre utilizator, cu măsurile de mai jos.**
 - *Așteptări rezonabile.* E o practică obișnuită să-ți notezi ziua de naștere a unui prieten. Oamenii se așteaptă să fie ținuți minte.
@@ -137,7 +137,7 @@ Niciun risc nu rămâne ridicat.
 ## 8. Când se revizuiește
 
 - la activarea unui furnizor de AI (M-15) sau a analytics-ului (M-16);
-- la orice dată nouă despre persoane: numere de telefon (dacă D-017 se schimbă), poze, orice legătură între conturi;
+- la orice dată nouă despre persoane: numere de telefon (dacă D-017 se schimbă), poze trimise la server (azi rămân pe telefon — D-023), orice legătură între conturi;
 - la extinderea în România: GDPR direct aplicabil, reprezentant în UE;
 - după o breșă de securitate;
 - altfel, o dată pe an.

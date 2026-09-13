@@ -108,9 +108,9 @@
   },
   "onboarding": {
     "explainTitle": "Let's find occasions in your contacts",
-    "explainBody": "We read **only names** and, when present, **birthdays**. That's all.",
+    "explainBody": "We read **names** and, when present, **birthdays** and **photos**. Photos stay on your phone.",
     "explainNo1": "We don't read phone numbers",
-    "explainNo2": "We don't read photos, emails or addresses",
+    "explainNo2": "We don't read emails or addresses",
     "explainNo3": "You choose who we track",
     "allow": "Allow access",
     "manual": "I'll add people manually",

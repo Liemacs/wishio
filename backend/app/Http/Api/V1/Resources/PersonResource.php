@@ -24,6 +24,10 @@ class PersonResource extends JsonResource
             'notes'            => $this->notes,
             'avatar_path'      => $this->avatar_path,
 
+            // Contactul din agenda telefonului de pe care s-a importat: aplicatia
+            // citeste de acolo poza, care nu ajunge niciodata aici (regula 4, D-023).
+            'device_contact_id' => $this->device_contact_id,
+
             // Clientul trebuie sa stie ce e dedus si ce e confirmat, ca sa
             // marcheze vizual si sa nu propuna reconfirmarea a ce e deja sigur.
             'trust' => $this->whenLoaded('fieldSources', fn () => $this->fieldSources

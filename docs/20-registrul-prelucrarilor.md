@@ -41,7 +41,7 @@
 | Scop | amintirea ocaziilor (zile de naștere, onomastici, aniversări) și pregătirea cadourilor, în beneficiul personal al utilizatorului |
 | Persoane vizate | oameni din anturajul utilizatorului — rude, prieteni, colegi, **posibil minori**. De regulă nu sunt utilizatori și nu știu că apar în aplicație |
 | Date | numele afișat și prenumele normalizat (pentru onomastică), identificatorul local al contactului din telefon, relația, genul, data nașterii (cu sau fără an), bugetul, notele (**criptate la rest**), interesele și ce să evite (coduri din listă și, opțional, un text scurt), ocaziile, ideile și istoricul de cadouri, proveniența fiecărui câmp |
-| Ce NU colectăm | numere de telefon, emailuri, adrese, fotografii (D-017). Schema are coloanele `people.contact_hash`, `people.avatar_path`, `people.claimed_user_id` și `users.phone_hash`, dar nu le scrie nimic — `docs/21`, M-19 |
+| Ce NU colectăm | numere de telefon, emailuri, adrese (D-017). Poza din agendă se afișează doar pe telefon și nu ajunge pe server (D-023). Schema are coloanele `people.contact_hash`, `people.avatar_path`, `people.claimed_user_id` și `users.phone_hash`, dar nu le scrie nimic — `docs/21`, M-19 |
 | Sursă | utilizatorul: manual sau din agenda telefonului, **doar contactele pe care le bifează** (pleacă id-ul local, numele și data nașterii); dedus: onomastica, din prenume; persoana însăși: P4 |
 | Temei | interesul legitim al utilizatorului și al operatorului — art. 6 alin. (1) lit. f; testul de echilibrare în `docs/21 § 4` |
 | Informarea persoanelor | nu avem cum să le contactăm, pentru că nu colectăm date de contact — excepția de la art. 14 alin. (5) lit. b, cu politica publică drept măsură; de validat de jurist |

@@ -226,3 +226,27 @@ it('listeaza ocaziile in ordinea apropierii', function () {
 
     expect($days->toArray())->toBe($days->sort()->values()->toArray());
 });
+
+it('nu primeste pozele contactelor, doar id-ul local dupa care aplicatia le gaseste', function () {
+    // Regula 4: poza ramane pe telefon, chiar daca un client ar trimite-o.
+    $this->actingAs($this->user)->postJson('/api/v1/contacts/import', [
+        'contacts' => [contact('c1', 'Gheorghe Rusu', '1990-04-10', true) + [
+            'image'       => ['uri' => 'file:///var/mobile/Library/Caches/Contacts/c1-thumbnail.png'],
+            'avatar_path' => 'c1-thumbnail.png',
+        ]],
+    ])->assertCreated();
+
+    $person = Person::sole();
+
+    expect($person->avatar_path)->toBeNull()
+        ->and(collect($person->getAttributes())->implode(' '))->not->toContain('.png');
+
+    $this->actingAs($this->user)->getJson("/api/v1/people/{$person->id}")
+        ->assertOk()
+        ->assertJsonPath('data.device_contact_id', 'c1')
+        ->assertJsonPath('data.avatar_path', null);
+
+    $this->actingAs($this->user)->getJson('/api/v1/occasions')
+        ->assertOk()
+        ->assertJsonFragment(['device_contact_id' => 'c1']);
+});

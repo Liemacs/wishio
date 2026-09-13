@@ -74,7 +74,8 @@ Politici echivalente pentru User Data și permisiunea `READ_CONTACTS`: justifica
 | Nume, email, parolă (hash) | userul | server | contract | cât contul; în copiile de siguranță încă ≤ 3 luni |
 | Limbă, țară, fus orar, calendar, ziua userului | device / alegere | server | contract | idem |
 | Nume și zi de naștere ale unui contact | agendă, **doar contactele selectate**, sau manual | server | interes legitim (uz personal) | până la ștergere — vezi nota de mai jos |
-| **Numere de telefon, emailuri, adrese, poze din agendă** | — | **nu se citesc deloc** (D-017) | — | — |
+| **Numere de telefon, emailuri, adrese din agendă** | — | **nu se citesc deloc** (D-017) | — | — |
+| Poza unui contact | agenda, citită la afișare | **doar pe telefon**, nu se transmite (D-023) | — | cât e în agendă |
 | Relație, gen, buget, interese, ce să evite | userul / linkul public | server | interes legitim / consimțământ | până la ștergere |
 | Note despre persoane | userul | server, criptat la rest | interes legitim | idem |
 | Idei și istoric de cadouri | userul | server | interes legitim | idem |
@@ -98,9 +99,10 @@ Cont (Apple / Google / email OTP)
    ↓
 ┌────────────────────────────────────────────────────┐
 │ Ecran explicativ ÎNAINTE de promptul de Contacts:  │
-│ "Citim doar numele și, dacă există, ziua de        │
-│  naștere. Nu citim numere de telefon, emailuri     │
-│  sau poze. Alegi tu pe cine urmărim.               │
+│ "Citim numele și, dacă există, ziua de naștere     │
+│  și poza. Poza rămâne pe telefon. Nu citim         │
+│  numere de telefon sau emailuri. Alegi tu pe       │
+│  cine urmărim.                                     │
 │  Poți adăuga oameni și manual."                    │
 │  [Permite acces]   [Adaug manual]                  │
 └────────────────────────────────────────────────────┘

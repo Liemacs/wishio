@@ -59,6 +59,8 @@ export type Person = {
   budget_max: number | null;
   notes: string | null;
   avatar_path: string | null;
+  /** Contactul din agenda telefonului de pe care s-a importat; de acolo vine poza. */
+  device_contact_id: string | null;
   trust?: Record<string, FieldTrust>;
   interests?: Interest[];
   created_at: string | null;

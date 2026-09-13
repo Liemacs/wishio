@@ -35,7 +35,8 @@ return [
                 'title' => 'What we do NOT collect',
                 'items' => [
                     'We do not read or store phone numbers from your contacts.',
-                    'We do not read photos, emails or addresses from your contacts.',
+                    'We do not read emails or addresses from your contacts.',
+                    'Contact photos are shown only in the app, on your phone, and never reach our servers.',
                     'We do not upload your address book — only the contacts you explicitly select.',
                     'We do not show your data to other users and we do not build shared profiles.',
                 ],

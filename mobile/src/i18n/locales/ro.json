@@ -113,9 +113,9 @@
   },
   "onboarding": {
     "explainTitle": "Găsim ocaziile din agenda ta",
-    "explainBody": "Citim **doar numele** și, dacă există, **ziua de naștere**. Atât.",
+    "explainBody": "Citim **numele** și, dacă există, **ziua de naștere** și **poza**. Poza rămâne pe telefon.",
     "explainNo1": "Nu citim numere de telefon",
-    "explainNo2": "Nu citim fotografii, emailuri sau adrese",
+    "explainNo2": "Nu citim emailuri sau adrese",
     "explainNo3": "Alegi tu pe cine urmărim",
     "allow": "Permite accesul",
     "manual": "Adaug manual",

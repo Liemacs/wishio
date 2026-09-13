@@ -15,7 +15,7 @@
 
 ## 2. Modelul de identitate, sigur din punct de vedere legal
 
-> **Actualizare — `docs/00 § D-017`:** în MVP **nu colectăm deloc numere de telefon**. Schema de mai jos rămâne valabilă pentru momentul în care implementăm claim-ul, singura funcție care are nevoie de ea. Până atunci, importul citește doar numele și ziua de naștere, iar re-sincronizarea se face pe identificatorul local al contactului.
+> **Actualizare — `docs/00 § D-017`:** în MVP **nu colectăm deloc numere de telefon**. Schema de mai jos rămâne valabilă pentru momentul în care implementăm claim-ul, singura funcție care are nevoie de ea. Până atunci, importul trimite serverului doar numele și ziua de naștere, iar re-sincronizarea se face pe identificatorul local al contactului. Poza se citește din agendă doar ca să fie afișată, pe telefon (`docs/00 § D-023`).
 
 
 ### Ce NU facem

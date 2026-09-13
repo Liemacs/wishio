@@ -9,6 +9,7 @@ import { errorMessage } from '../../src/api/client';
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
 import { readContacts, type ContactsResult, type DeviceContact } from '../../src/features/contacts/deviceContacts';
+import { ContactAvatar } from '../../src/features/contacts/ContactAvatar';
 import { useImportContacts } from '../../src/features/contacts/queries';
 import { TYPE } from '../../src/design/typography';
 
@@ -128,6 +129,8 @@ export default function SelectContacts() {
                                 ${active ? 'border-primary-600 bg-primary-600' : 'border-surface-300'}`}>
                 {active ? <Text className="text-xs font-bold text-white">✓</Text> : null}
               </View>
+
+              <ContactAvatar name={item.name} contactId={item.id} hasPhoto={item.hasPhoto} size={40} />
 
               <View className="flex-1">
                 <Text className="text-base text-surface-900" numberOfLines={1}>{item.name}</Text>

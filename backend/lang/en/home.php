@@ -30,8 +30,8 @@ return [
     'privacy' => [
         'title' => 'Your data stays yours',
         'items' => [
-            'From your contacts we read only names and birthdays, and only for the people you choose.',
-            'We never read phone numbers, emails or photos.',
+            'From your contacts we keep only names and birthdays, and only for the people you choose.',
+            'We never read phone numbers or emails, and contact photos stay on your phone.',
             'No one else sees the people on your list.',
             'Download your data or delete your account right in the app.',
         ],

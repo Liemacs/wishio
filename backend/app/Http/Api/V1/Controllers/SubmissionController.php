@@ -39,11 +39,13 @@ class SubmissionController extends Controller
                     'submitted_at' => $submission->created_at?->toIso8601String(),
                     // Doar contactele proprietarului, cu ce știe el deja despre ele.
                     'candidates' => $candidates($submission)->map(fn (Person $person) => [
-                        'id'               => $person->id,
-                        'display_name'     => $person->display_name,
-                        'relationship'     => $person->relationship,
-                        'birth_date'       => $person->birth_date?->format('Y-m-d'),
-                        'birth_year_known' => $person->birth_year_known,
+                        'id'           => $person->id,
+                        'display_name' => $person->display_name,
+                        // Poza din agendă, pe telefon, deosebește omonimii mai repede decât numele.
+                        'device_contact_id' => $person->device_contact_id,
+                        'relationship'      => $person->relationship,
+                        'birth_date'        => $person->birth_date?->format('Y-m-d'),
+                        'birth_year_known'  => $person->birth_year_known,
                     ])->values(),
                 ])
                 ->values(),

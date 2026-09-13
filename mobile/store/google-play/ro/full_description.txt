@@ -16,11 +16,11 @@ PRIETENII ÎȚI SPUN SINGURI
 • Pe aceeași pagină poți publica, dacă vrei, lista ta de dorințe.
 
 PORNEȘTI ÎN CÂTEVA SECUNDE
-• Alegi din agendă pe cine urmărești. Citim doar numele și ziua de naștere.
+• Alegi din agendă pe cine urmărești. Numele, ziua de naștere și poza vin direct de acolo.
 • Sau adaugi oamenii de mână: aplicația funcționează complet și fără acces la agendă.
 
 DATELE TALE RĂMÂN ALE TALE
-• Nu citim numere de telefon, emailuri sau poze din agendă.
+• Nu citim numere de telefon sau emailuri, iar pozele din agendă rămân pe telefon.
 • Notele despre oameni sunt criptate, iar nimeni altcineva nu vede lista ta.
 • Îți descarci datele sau ștergi contul direct din aplicație.
 

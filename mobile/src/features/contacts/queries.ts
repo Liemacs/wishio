@@ -27,7 +27,7 @@ export type Occasion = {
   is_muted: boolean;
   may_notify: boolean;
   saint_name?: string | null;
-  person?: { id: number; display_name: string } | null;
+  person?: { id: number; display_name: string; device_contact_id: string | null } | null;
   /** Doar pentru sărbători: cine din contacte se potrivește. */
   audience?: { id: number; display_name: string }[];
 };
@@ -43,6 +43,7 @@ export function useImportContacts() {
           display_name: c.name,
           birth_date: c.birthDate,
           birth_year_known: c.birthYearKnown,
+          // Nici poza, nici măcar semnul că există: rămân pe telefon (regula 4).
         })),
         // Agregat, fără date personale: cât de des e completată ziua de
         // naștere în agendele reale. Măsoară riscul R1 în producție.

@@ -125,7 +125,7 @@ Raportul are pâlnia conturilor noi, cele cinci cifre ale săptămânii și surs
 
 > Hi r/moldova! Name days matter here as much as birthdays, and no global app knows them. So Wishio works them out from first names, on the new or the old calendar, and you just confirm. It reminds you a few days ahead and suggests gifts from shops in Moldova, within your budget.
 >
-> On privacy: it never reads phone numbers from your contacts — only names and birthdays of the people you pick — and nobody else sees your list. You can delete your account from the app.
+> On privacy: it never reads phone numbers from your contacts. Only the names and birthdays of the people you pick reach the server — photos stay on your phone — and nobody else sees your list. You can delete your account from the app.
 >
 > It's free, in Romanian, Russian and English: wishio.md/?src=reddit. Honest feedback is very welcome, especially on name days that come out wrong.
 

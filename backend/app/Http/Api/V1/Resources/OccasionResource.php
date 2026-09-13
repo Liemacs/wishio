@@ -39,6 +39,8 @@ class OccasionResource extends JsonResource
             'person' => $this->whenLoaded('person', fn () => [
                 'id'           => $this->person->id,
                 'display_name' => $this->person->display_name,
+                // Aplicația găsește după el poza din agendă, care rămâne pe telefon.
+                'device_contact_id' => $this->person->device_contact_id,
             ]),
         ];
     }

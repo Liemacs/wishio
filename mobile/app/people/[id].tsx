@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { errorMessage } from '../../src/api/client';
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
+import { ContactAvatar } from '../../src/features/contacts/ContactAvatar';
 import { GiftSections } from '../../src/features/gifts/GiftSections';
 import { InterestPicker } from '../../src/features/people/InterestPicker';
 import { PersonForm } from '../../src/features/people/PersonForm';
@@ -76,6 +77,11 @@ export default function PersonDetail() {
       <PersonForm
         person={person}
         saving={update.isPending}
+        header={
+          <View className="mb-6 items-center">
+            <ContactAvatar name={person.display_name} contactId={person.device_contact_id} size={88} />
+          </View>
+        }
         onSubmit={(input) => update.mutate(input, { onError: (e) => Alert.alert('', errorMessage(e)) })}
         footer={<GiftSections personId={personId} />}
       >

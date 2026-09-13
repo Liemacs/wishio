@@ -131,7 +131,7 @@ DEMO ACCOUNT
 The demo account already has people, occasions, saved gift ideas, a gift history, a public link with a wishlist, and one submission from the public link waiting for the owner to confirm who sent it.
 
 CONTACTS
-Access to contacts is requested only on the import screen, after an explanation. The app reads only names and birthdays, and saves only the contacts the user selects. Phone numbers, emails and photos are never read. The app works fully without this permission: people can be added by hand (People → Add person).
+Access to contacts is requested only on the import screen, after an explanation. The app reads names, birthdays and contact photos. Only the names and birthdays of the contacts the user selects are sent to our server; photos are shown on the device and never leave it. Phone numbers and emails are never read. The app works fully without this permission: people can be added by hand (People → Add person).
 
 NOTIFICATIONS
 Reminders arrive a few days before each occasion, at the time set in My profile → Notifications. The permission is optional.
@@ -152,7 +152,7 @@ My profile → Account → Delete account. Deletion is permanent and happens ent
 |---|---|
 | 5.1.1(v) — ștergerea contului | My profile → Account → Delete account |
 | 5.1.1 — aplicația merge fără permisiuni | adăugare manuală; S11.8 |
-| 5.1.2 — date despre terți | doar numele și ziua contactelor alese; nimic partajat între utilizatori (`docs/06 § 2`) |
+| 5.1.2 — date despre terți | la server, doar numele și ziua contactelor alese; poza rămâne pe telefon (D-023); nimic partajat între utilizatori (`docs/06 § 2`) |
 | 5.1.2(i) — date trimise unui AI terț | foaia de acord, retragere din Cont (`docs/21`, M-02) |
 | 4.8 — Sign in with Apple | nu e cerut: aplicația are doar cont cu email și parolă, fără login prin terți |
 | 2.3.1 — metadate corecte | § 2 |

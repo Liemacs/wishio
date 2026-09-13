@@ -42,7 +42,8 @@ return [
                 'title' => 'Ce NU colectăm',
                 'items' => [
                     'Nu citim și nu stocăm numere de telefon din agenda ta.',
-                    'Nu citim fotografii, emailuri sau adrese din agendă.',
+                    'Nu citim emailuri sau adrese din agendă.',
+                    'Pozele contactelor se afișează doar în aplicație, pe telefonul tău, și nu ajung pe serverele noastre.',
                     'Nu urcăm agenda ta pe server — doar contactele pe care le alegi explicit.',
                     'Nu arătăm datele tale altor utilizatori și nu construim profiluri partajate.',
                 ],

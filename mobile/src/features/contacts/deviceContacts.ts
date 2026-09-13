@@ -5,17 +5,21 @@
 import * as Contacts from 'expo-contacts/legacy';
 
 /**
- * Citirea agendei. Cerem DOAR numele și ziua de naștere.
+ * Citirea agendei: numele, ziua de naștere și poza.
  *
- * Nu cerem numere, fotografii, emailuri sau adrese — nu ne trebuie și nu le
- * stocăm (docs/00 § D-017). Cererea minimă de câmpuri e și cerință App Store
- * 5.1.2: colectezi doar ce folosești.
+ * Pe server ajung doar numele și ziua, și doar pentru contactele bifate. Poza
+ * nu pleacă de pe telefon (regula 4, docs/00 § D-023): se citește din agendă
+ * abia când trebuie afișată. Nu cerem numere, emailuri sau adrese — nu ne
+ * trebuie (D-017). Cererea minimă de câmpuri e și cerință App Store 5.1.2:
+ * colectezi doar ce folosești.
  */
 export type DeviceContact = {
   id: string;
   name: string;
   birthDate: string | null;   // YYYY-MM-DD
   birthYearKnown: boolean;
+  /** Doar dacă are poză. Poza însăși se citește la afișare, cu `readContactPhoto`. */
+  hasPhoto: boolean;
 };
 
 export type ContactsResult = {
@@ -65,7 +69,9 @@ function toIsoDate(birthday: Contacts.Date | undefined): DeviceContact['birthDat
 
 export async function readContacts(): Promise<ContactsResult> {
   const { data } = await Contacts.getContactsAsync({
-    fields: [Contacts.Fields.Name, Contacts.Fields.Birthday],
+    // Doar semnul că există o poză. Cerută aici, poza ar fi scrisă pe iOS într-un
+    // fișier pentru fiecare contact, la fiecare deschidere a listei.
+    fields: [Contacts.Fields.Name, Contacts.Fields.Birthday, Contacts.Fields.ImageAvailable],
   });
 
   const contacts = data
@@ -75,6 +81,7 @@ export async function readContacts(): Promise<ContactsResult> {
       name: (contact.name as string).trim(),
       birthDate: toIsoDate(contact.birthday),
       birthYearKnown: contact.birthday?.year !== undefined,
+      hasPhoto: contact.imageAvailable === true,
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -83,4 +90,25 @@ export async function readContacts(): Promise<ContactsResult> {
     total: data.length,
     withBirthday: contacts.filter((c) => c.birthDate !== null).length,
   };
+}
+
+/**
+ * Adresa locală a pozei unui contact, sau null.
+ *
+ * Pe iOS, modulul scrie miniatura în cache-ul aplicației; pe Android, adresa
+ * duce direct în agendă. În ambele cazuri, poza rămâne pe telefon.
+ */
+export async function readContactPhoto(id: string): Promise<string | null> {
+  try {
+    // Fără acces dat deja, agenda nu se atinge: pe iOS, prima citire ar deschide
+    // promptul de sistem departe de ecranul care îl explică (docs/09, O5).
+    if (!(await getPermission())) return null;
+
+    const contact = await Contacts.getContactByIdAsync(id, [Contacts.Fields.Image]);
+
+    return contact?.image?.uri ?? null;
+  } catch {
+    // Fără acces la agendă sau cu un contact șters între timp: rămân inițialele.
+    return null;
+  }
 }

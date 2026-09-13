@@ -32,12 +32,14 @@
 
 **Nu colectăm:** Health & Fitness, Financial Info, Location, Sensitive Info, Emails or Text Messages, Photos or Videos, Audio Data, Gameplay Content, Customer Support, Browsing History, Search History (căutările nu se stochează), Advertising Data, Other Usage Data, Diagnostics (până la Sentry — § 4).
 
+Pozele din agendă nu intră la „Photos or Videos”: se afișează pe telefon și nu pleacă de pe el (D-023), iar Apple numește colectare doar datele transmise în afara dispozitivului.
+
 **Privacy Policy URL:** `https://wishio.md/legal/privacy` — valid după deploy; acceptă `?lang=ro`, `ru` sau `en`.
 
 **Alte cerințe Apple, verificate pe cod:**
 - ștergerea contului din aplicație (5.1.1(v)) — Cont → Șterge contul;
 - acord explicit înainte ca datele să plece la un AI terț (5.1.2(i)) — foaia de acord, retragere din Cont; niciun furnizor activ;
-- textul permisiunii de Contacts, în RO/RU/EN, spune exact ce citim: numele și ziua de naștere, doar pentru contactele alese;
+- textul permisiunii de Contacts, în RO/RU/EN, spune exact ce citim și ce pleacă: citim numele, ziua de naștere și poza, iar la server ajung doar numele și ziua contactelor alese (D-023);
 - aplicația funcționează fără Contacts și fără push — S11.8;
 - **manifestul de confidențialitate** (`PrivacyInfo.xcprivacy`): modulele Expo își aduc motivele pentru API-urile care le cer. Dacă la primul build de producție App Store Connect trimite avertismentul ITMS-91053, motivele lipsă se adaugă în `ios.privacyManifests` din `app.json`.
 
@@ -70,6 +72,8 @@
 Toate tipurile de mai sus sunt colectate și niciunul nu e prelucrat doar efemer: toate se stochează.
 
 **Nu colectăm:** Location, Health and fitness, Messages, Photos and videos, Audio, Files and docs, Calendar, Web browsing, In-app search history, Installed apps, App info and performance (până la Sentry — § 4).
+
+Pozele din agendă nu intră la „Photos and videos”: nu pleacă de pe telefon (D-023), iar Google consideră colectate doar datele transmise în afara dispozitivului.
 
 **Permisiuni Android**, verificate cu `npx expo config --type introspect`:
 - `READ_CONTACTS` — importul contactelor alese; ecranul explicativ vine înaintea promptului sistemului, iar aplicația merge și fără;

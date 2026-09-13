@@ -69,6 +69,8 @@ it('arata completarea si doar contactele proprietarului care seamana', function 
         ->assertJsonPath('data.0.display_name', 'Ana Popescu')
         ->assertJsonPath('data.0.interests.0.code', 'coffee')
         ->assertJsonCount(2, 'data.0.candidates')
+        // Aplicatia arata poza din agenda, gasita pe telefon dupa id-ul local.
+        ->assertJsonFragment(['device_contact_id' => 'agenda-ana-rusu'])
         ->assertJsonMissing(['display_name' => 'Ana Straina']);
 });
 

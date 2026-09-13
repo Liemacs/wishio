@@ -13,6 +13,7 @@ import { Screen } from '../../src/components/ui/Screen';
 import { CheckRow, Group, Section } from '../../src/components/ui/SettingsList';
 import { entrance, useReducedMotion } from '../../src/design/motion';
 import { TYPE } from '../../src/design/typography';
+import { ContactAvatar } from '../../src/features/contacts/ContactAvatar';
 import {
   usePendingSubmissions,
   useResolveSubmission,
@@ -168,6 +169,7 @@ export default function ResolveSubmissionScreen() {
               <CheckRow
                 key={candidate.id}
                 single
+                leading={<ContactAvatar name={candidate.display_name} contactId={candidate.device_contact_id} size={36} />}
                 label={candidate.display_name}
                 detail={candidateDetail(candidate)}
                 checked={choice === candidate.id}
@@ -176,6 +178,15 @@ export default function ResolveSubmissionScreen() {
             ))}
             <CheckRow
               single
+              leading={
+                <View
+                  accessibilityElementsHidden
+                  importantForAccessibility="no-hide-descendants"
+                  className="h-9 w-9 items-center justify-center rounded-full bg-surface-100"
+                >
+                  <Text className="text-surface-500" style={TYPE.heading}>+</Text>
+                </View>
+              }
               label={t('submissions.newPerson')}
               detail={t('submissions.newDetail', { name: submission.display_name })}
               checked={choice === 'new'}

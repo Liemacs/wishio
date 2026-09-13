@@ -30,8 +30,8 @@ return [
     'privacy' => [
         'title' => 'Datele tale rămân ale tale',
         'items' => [
-            'Din agendă citim doar numele și ziua de naștere, doar pentru contactele pe care le alegi.',
-            'Nu citim numere de telefon, emailuri sau poze.',
+            'Din agendă păstrăm doar numele și ziua de naștere, doar pentru contactele pe care le alegi.',
+            'Nu citim numere de telefon sau emailuri, iar pozele din agendă rămân pe telefon.',
             'Nimeni altcineva nu vede oamenii din lista ta.',
             'Îți descarci datele sau ștergi contul direct din aplicație.',
         ],
