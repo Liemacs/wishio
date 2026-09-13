@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!--
+    Fundița Wishio: două bucle, nodul și două capete.
+    Culoarea vine din `color` (currentColor), ca aceeași formă să servească
+    iconița albă pe roz, iconița monocromă din Android și bannerul din Play.
+  -->
+  <defs>
+    <mask id="wishio-loop-left" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#000"/>
+      <ellipse cx="330" cy="392" rx="192" ry="128" transform="rotate(26 330 392)" fill="#fff"/>
+      <ellipse cx="316" cy="384" rx="84" ry="40" transform="rotate(26 316 384)" fill="#000"/>
+    </mask>
+    <mask id="wishio-loop-right" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#000"/>
+      <ellipse cx="694" cy="392" rx="192" ry="128" transform="rotate(-26 694 392)" fill="#fff"/>
+      <ellipse cx="708" cy="384" rx="84" ry="40" transform="rotate(-26 708 384)" fill="#000"/>
+    </mask>
+  </defs>
+  <g fill="currentColor" stroke="currentColor" stroke-linejoin="round">
+    <path d="M -56 0 L 56 0 L 56 250 L 0 212 L -56 250 Z" transform="translate(478 520) rotate(16)" stroke-width="22"/>
+    <path d="M -56 0 L 56 0 L 56 250 L 0 212 L -56 250 Z" transform="translate(546 520) rotate(-16)" stroke-width="22"/>
+    <rect width="1024" height="1024" mask="url(#wishio-loop-left)" stroke="none"/>
+    <rect width="1024" height="1024" mask="url(#wishio-loop-right)" stroke="none"/>
+    <rect x="437" y="424" width="150" height="142" rx="54" stroke="none"/>
+  </g>
+</svg>

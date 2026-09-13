@@ -1,0 +1,34 @@
+{
+  "shots": [
+    {
+      "id": "01-home",
+      "screen": "Ecranul principal, cu ocaziile care urmează",
+      "caption": { "ro": "Nu mai uiți nicio ocazie", "ru": "Ни одного забытого праздника", "en-US": "Never miss an occasion" }
+    },
+    {
+      "id": "02-person",
+      "screen": "Fișa unei persoane: zi de naștere, onomastică, interese",
+      "caption": { "ro": "Onomasticile se găsesc singure", "ru": "Именины находятся сами", "en-US": "Name days, found for you" }
+    },
+    {
+      "id": "03-gifts",
+      "screen": "Recomandările pentru Mihai, cu bugetul ales",
+      "caption": { "ro": "Idei de cadou în bugetul tău", "ru": "Идеи подарков в вашем бюджете", "en-US": "Gift ideas within your budget" }
+    },
+    {
+      "id": "04-ideas",
+      "screen": "Ideile salvate și istoricul cadourilor",
+      "caption": { "ro": "Ține minte ce ai oferit", "ru": "Помнит, что вы дарили", "en-US": "Remembers what you gave" }
+    },
+    {
+      "id": "05-link",
+      "screen": "Profilul meu, cu linkul de trimis prietenilor",
+      "caption": { "ro": "Prietenii își scriu singuri ziua", "ru": "Друзья сами укажут свою дату", "en-US": "Friends add their own birthday" }
+    },
+    {
+      "id": "06-reminders",
+      "screen": "Setările de notificări, cu rigla orei",
+      "caption": { "ro": "Reminderul vine când vrei tu", "ru": "Напоминания, когда вам удобно", "en-US": "Reminders on your schedule" }
+    }
+  ]
+}

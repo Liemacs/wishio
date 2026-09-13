@@ -39,3 +39,7 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Capturile din telefon și cele încadrate: se regenerează (docs/23)
+store/screenshots/raw/
+store/screenshots/out/
