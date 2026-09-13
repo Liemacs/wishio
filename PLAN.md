@@ -49,7 +49,7 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Completările din link (S9.7)** — nu mai ating contactele existente; retragerea scoate doar datele trimise |
 | ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului · push care îl anunță |
 | ✅ | **Idei și istoric de cadouri (S10)** — salvare, „Ai cumpărat?”, „am oferit” → istoric, anti-repetare în recomandări |
-| ✅ | 333 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | 339 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -225,7 +225,7 @@ Cifrele îți spun unde să insiști.
 | S11.3 🔴 | **C12 — DPIA + registrul prelucrărilor** (Legea 195/2024, în vigoare din 23 aug 2026) |
 | S11.4 | Privacy Nutrition Label (Apple) + Data Safety (Google) |
 | S11.5 | Stări goale, erori, offline, skeletons, animații |
-| S11.6 🔴 | **Audit de traduceri**: zero stringuri hardcodate, zero fallback vizibil, testat cu RU (texte mai lungi) |
+| S11.6 ✅ | ~~**Audit de traduceri**: zero stringuri hardcodate, zero fallback vizibil, testat cu RU (texte mai lungi)~~ — scanner pe cod în mobil și pe chei în backend, ambele în CI; titlurile de push sub 40 de caractere în toate limbile |
 | S11.7 | Sentry cu scrubbing PII; test real de restaurare backup |
 | S11.8 | Test: aplicația **fără** Contacts și **fără** push — complet utilizabilă |
 

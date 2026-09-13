@@ -2,6 +2,7 @@ import { Pressable, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import type { Person } from '../../api/types';
+import { relationshipLabel } from './relationship';
 
 /** Inițialele, cât timp nu avem avatar. Cyrillic și diacriticele funcționează. */
 function initials(name: string): string {
@@ -17,7 +18,7 @@ export function PersonRow({ person, onPress }: { person: Person; onPress: () => 
   const { t } = useTranslation();
 
   const subtitle = [
-    person.relationship ? t(`relationships.${person.relationship}`, { defaultValue: '' }) : '',
+    relationshipLabel(person.relationship) ?? '',
     person.age !== null ? t('people.years', { count: person.age }) : '',
   ]
     .filter(Boolean)

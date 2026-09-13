@@ -10,7 +10,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "tsc --noEmit",
-    "i18n:check": "node scripts/check-translations.js",
+    "i18n:check": "node scripts/check-translations.js && node scripts/check-hardcoded-text.js",
     "build:dev:ios": "npx eas-cli@latest build --profile development --platform ios",
     "build:dev:android": "npx eas-cli@latest build --profile development --platform android"
   },

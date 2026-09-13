@@ -17,6 +17,7 @@ import {
   useResolveSubmission,
   type IdentityCandidate,
 } from '../../src/features/submissions/queries';
+import { relationshipLabel } from '../../src/features/people/relationship';
 import { formatBirthday } from '../../src/lib/dates';
 
 /**
@@ -51,7 +52,7 @@ export default function ResolveSubmissionScreen() {
 
   const candidateDetail = (candidate: IdentityCandidate) =>
     [
-      candidate.relationship ? t(`relationships.${candidate.relationship}`) : null,
+      relationshipLabel(candidate.relationship),
       candidate.birth_date
         ? t('submissions.candidateBirthday', { date: birthday(candidate.birth_date, candidate.birth_year_known) })
         : t('submissions.candidateNoBirthday'),

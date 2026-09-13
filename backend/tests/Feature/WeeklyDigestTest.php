@@ -165,3 +165,18 @@ it('respinge un link de dezabonare nesemnat', function () {
 
     expect($this->user->settings()->first()->email_digest)->toBeTrue();
 });
+
+it('confirma dezabonarea in limba utilizatorului', function (string $locale, string $expected) {
+    // Pagina afisa cheia bruta „common.done” si titlul paginii de multumire.
+    $user = User::factory()->create(['locale' => $locale]);
+
+    $this->get(URL::signedRoute('digest.unsubscribe', ['user' => $user]))
+        ->assertOk()
+        // Fără escape: false — Blade scrie apostroful din „won't” ca &#039;.
+        ->assertSee($expected)
+        ->assertDontSee('common.done');
+})->with([
+    ['ro', 'Nu mai primești rezumatul săptămânal'],
+    ['ru', 'Еженедельная сводка отключена'],
+    ['en', 'You won\'t get the weekly summary anymore'],
+]);

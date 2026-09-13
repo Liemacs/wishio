@@ -9,15 +9,17 @@ return [
         'custom'      => 'Ocazie personalizată',
     ],
     'digest' => [
-        'subject'     => '{1} O ocazie în perioada următoare|[2,19] :count ocazii în perioada următoare|[20,*] :count de ocazii în perioada următoare',
-        'greeting'    => 'Bună, :name',
-        'intro'       => 'Iată ce urmează în următoarele 30 de zile.',
-        'today'       => 'astăzi',
-        'tomorrow'    => 'mâine',
-        'in_days'     => '{1} peste o zi|[2,19] peste :count zile|[20,*] peste :count de zile',
-        'cta'         => 'Deschide Wishio',
-        'unsubscribe' => 'Nu mai vreau acest email',
-        'footer'      => 'Primești acest email pentru că ai activat rezumatul săptămânal în Wishio.',
+        'subject'            => '{1} O ocazie în perioada următoare|[2,19] :count ocazii în perioada următoare|[20,*] :count de ocazii în perioada următoare',
+        'greeting'           => 'Bună, :name',
+        'intro'              => 'Iată ce urmează în următoarele 30 de zile.',
+        'today'              => 'astăzi',
+        'tomorrow'           => 'mâine',
+        'in_days'            => '{1} peste o zi|[2,19] peste :count zile|[20,*] peste :count de zile',
+        'cta'                => 'Deschide Wishio',
+        'unsubscribe'        => 'Nu mai vreau acest email',
+        'unsubscribed_title' => 'Nu mai primești rezumatul săptămânal',
+        'unsubscribed_body'  => 'Gata, te-am scos de pe listă. Îl poți reporni oricând din Notificări, în aplicație.',
+        'footer'             => 'Primești acest email pentru că ai activat rezumatul săptămânal în Wishio.',
     ],
 
     'holiday' => [
@@ -28,14 +30,19 @@ return [
     ],
 
     'push' => [
-        // Construcții neutre la gen: „își serbează” merge și pentru Alex, și
-        // pentru Ana. Genitivul românesc („a lui / a Anei”) ar fi cerut să
-        // ghicim genul, iar deseori nu-l știm.
-        'today'    => ':name își serbează :occasion astăzi 🎂',
-        'tomorrow' => ':name își serbează :occasion mâine',
-        'soon'     => '{1} :name își serbează :occasion peste o zi|[2,19] :name își serbează :occasion peste :count zile|[20,*] :name își serbează :occasion peste :count de zile',
-        'plan'     => '{1} :name are :occasion peste o zi. Găsim un cadou?|[2,19] :name are :occasion peste :count zile. Găsim un cadou?|[20,*] :name are :occasion peste :count de zile. Găsim un cadou?',
-        'cta'      => 'Găsește un cadou',
+        'today'    => ':name are :occasion astăzi 🎂',
+        'tomorrow' => ':name are :occasion mâine',
+        'soon'     => '{1} :name are :occasion peste o zi|[2,19] :name are :occasion peste :count zile|[20,*] :name are :occasion peste :count de zile',
+        // Invitația la cadou stă în corpul notificării: titlul trebuie să încapă în ~40 de caractere.
+        'ask' => 'Găsim un cadou?',
+        'cta' => 'Găsește un cadou',
+        // Forma din propoziție: „Ana are ziua”, nu „Ana are zi de naștere”.
+        'occasion' => [
+            'birthday'    => 'ziua',
+            'name_day'    => 'onomastica',
+            'anniversary' => 'aniversarea',
+            'custom'      => 'o ocazie',
+        ],
     ],
 
     'reminder' => [

@@ -142,7 +142,7 @@ export default function SelectContacts() {
 
       <View className="absolute inset-x-0 bottom-0 px-5 pb-8 pt-4">
         <Button
-          label={importContacts.isPending ? t('onboarding.importing') : t('common.continue', { defaultValue: '→' })}
+          label={importContacts.isPending ? t('onboarding.importing') : t('common.continue')}
           onPress={submit}
           loading={importContacts.isPending}
           disabled={selected.size === 0}

@@ -114,7 +114,26 @@ it('construieste mesaje diferite pe fiecare treapta', function (int $daysBefore,
     [0, 'astăzi'],
     [1, 'mâine'],
     [3, 'peste 3 zile'],
-    [7, 'Găsim un cadou?'],
+    [7, 'peste 7 zile'],
+]);
+
+it('tine titlul scurt, ca iOS sa nu-l taie, si pune invitatia la cadou in corp', function (string $locale, string $title, string $ask) {
+    // Inainte: „Alexandra are zi de naștere peste 14 zile. Găsim un cadou?” — 58 de caractere.
+    $person = Person::create(['user_id' => $this->user->id, 'display_name' => 'Alexandra']);
+    $occasion = Occasion::create([
+        'user_id' => $this->user->id, 'person_id' => $person->id, 'type' => 'birthday',
+        'month'   => 12, 'day' => 25, 'source' => FieldSource::OwnerManual->value, 'confirmed_at' => now(),
+    ]);
+
+    $content = app(BuildReminderContent::class)($occasion->load('person'), 14, $locale);
+
+    expect($content['title'])->toBe($title)
+        ->and(mb_strlen($content['title']))->toBeLessThanOrEqual(40)
+        ->and($content['body'])->toBe($ask);
+})->with([
+    ['ro', 'Alexandra are ziua peste 14 zile', 'Găsim un cadou?'],
+    ['ru', 'У Alexandra день рождения через 14 дней', 'Подберём подарок?'],
+    ['en', "Alexandra's birthday is in 14 days", 'Shall we find a gift?'],
 ]);
 
 it('include date de rutare, ca apasarea sa duca la persoana', function () {

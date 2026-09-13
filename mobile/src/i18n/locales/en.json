@@ -7,7 +7,8 @@
     "done": "Done",
     "back": "Back",
     "retry": "Try again",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "continue": "Continue"
   },
   "occasions": {
     "birthday": "Birthday",

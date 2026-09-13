@@ -149,6 +149,8 @@ P3 adaugă → P5 „Spune-mi despre Alex" (frază liberă)
 
 **Onomastici:** aceeași scară, dar doar **7 / 1 / în zi** — sunt mai multe și mai puțin importante. Vezi `config/wishio.php`.
 
+**Titlu și corp.** Titlul ține numele și momentul și încape în ~40 de caractere, cât arată iOS: „Ana are ziua peste 7 zile”. Invitația („Găsim un cadou?”) stă în corpul notificării, de la 5 zile în sus. Textele din tabel descriu intenția fiecărei trepte; formularea exactă e în `lang/*/wishio.php`.
+
 ### Alte notificări
 
 | Când | RO | RU |

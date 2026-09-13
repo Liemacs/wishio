@@ -20,25 +20,31 @@ class BuildReminderContent
             return $this->holiday($occasion, $daysBefore, $locale);
         }
 
-        $name = $occasion->person->display_name;
-        $occasionLabel = mb_strtolower(__("wishio.occasions.{$occasion->type}", [], $locale));
+        $replace = [
+            'name' => $occasion->person->display_name,
+            // Forma din propoziție, nu eticheta: „are ziua”, nu „are zi de naștere”.
+            'occasion' => __("wishio.push.occasion.{$occasion->type}", [], $locale),
+            'count'    => $daysBefore,
+        ];
 
-        $replace = ['name' => $name, 'occasion' => $occasionLabel, 'count' => $daysBefore];
-
+        // Titlul: numele și momentul, scurt, ca iOS să nu-l taie (~40 de caractere,
+        // docs/09 § 3). Invitația la acțiune stă în corp, de la 5 zile în sus: mai e
+        // timp să cumperi.
         $title = match (true) {
             $daysBefore === 0 => __('wishio.push.today', $replace, $locale),
             $daysBefore === 1 => __('wishio.push.tomorrow', $replace, $locale),
-            // De la 5 zile în sus invităm la acțiune: mai e timp să cumperi.
-            $daysBefore >= 5 => trans_choice('wishio.push.plan', $daysBefore, $replace, $locale),
-            default          => trans_choice('wishio.push.soon', $daysBefore, $replace, $locale),
+            default           => trans_choice('wishio.push.soon', $daysBefore, $replace, $locale),
         };
+
+        $body = array_filter([
+            $occasion->type === 'name_day' ? $occasion->nameDay?->saintName($locale) : null,
+            $daysBefore >= 5 ? __('wishio.push.ask', [], $locale) : null,
+        ]);
 
         return [
             'title' => $title,
-            'body'  => $occasion->type === 'name_day' && $occasion->nameDay
-                ? $occasion->nameDay->saintName($locale)
-                : '',
-            'cta' => __('wishio.push.cta', [], $locale),
+            'body'  => implode(' · ', $body),
+            'cta'   => __('wishio.push.cta', [], $locale),
         ];
     }
 

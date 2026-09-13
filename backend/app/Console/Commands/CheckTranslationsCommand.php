@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Lang;
 
 /**
  * Verifică paritatea cheilor între RO, RU și EN.
@@ -50,6 +51,16 @@ class CheckTranslationsCommand extends Command
             }
         }
 
+        // Cheile folosite în cod trebuie să existe în toate limbile: altfel pagina
+        // afișează cheia brută („common.done” pe pagina de dezabonare).
+        foreach ($this->codeKeys() as [$key, $where]) {
+            foreach ($locales as $locale) {
+                if (! Lang::has($key, $locale, false)) {
+                    $missing[] = "$where → $key ($locale)";
+                }
+            }
+        }
+
         if ($missing !== []) {
             $this->error(sprintf('%d chei de traducere lipsesc:', count($missing)));
 
@@ -63,6 +74,39 @@ class CheckTranslationsCommand extends Command
         $this->info('Traduceri complete în '.implode(', ', $locales).'.');
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Cheile scrise literal în `__()`, `trans()`, `trans_choice()` și `@lang()`.
+     * Cele construite din variabile (`'landing.occasions.'.$type`) nu se pot
+     * verifica static și sunt sărite.
+     *
+     * @return list<array{string, string}>
+     */
+    private function codeKeys(): array
+    {
+        $found = [];
+
+        foreach (['app', 'resources/views', 'routes'] as $dir) {
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(base_path($dir)));
+
+            foreach ($files as $file) {
+                if (! str_ends_with($file->getFilename(), '.php')) {
+                    continue;
+                }
+
+                $code = file_get_contents($file->getPathname());
+
+                preg_match_all("/(?:__|trans_choice|trans|@lang)\\(\\s*['\"]([a-z_]+\\.[A-Za-z0-9_.\\-]*[A-Za-z0-9_\\-])['\"]/", $code, $matches, PREG_OFFSET_CAPTURE);
+
+                foreach ($matches[1] as [$key, $offset]) {
+                    $line = substr_count(substr($code, 0, $offset), "\n") + 1;
+                    $found[] = [$key, str_replace(base_path().'/', '', $file->getPathname()).":$line"];
+                }
+            }
+        }
+
+        return $found;
     }
 
     /** @return array<string, list<string>> */

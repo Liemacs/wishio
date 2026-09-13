@@ -9,15 +9,17 @@ return [
         'custom'      => 'Custom occasion',
     ],
     'digest' => [
-        'subject'     => '{1} One occasion coming up|[2,*] :count occasions coming up',
-        'greeting'    => 'Hi :name',
-        'intro'       => "Here's what's coming in the next 30 days.",
-        'today'       => 'today',
-        'tomorrow'    => 'tomorrow',
-        'in_days'     => '{1} in one day|[2,*] in :count days',
-        'cta'         => 'Open Wishio',
-        'unsubscribe' => 'Unsubscribe from these emails',
-        'footer'      => "You're receiving this because you enabled the weekly digest in Wishio.",
+        'subject'            => '{1} One occasion coming up|[2,*] :count occasions coming up',
+        'greeting'           => 'Hi :name',
+        'intro'              => "Here's what's coming in the next 30 days.",
+        'today'              => 'today',
+        'tomorrow'           => 'tomorrow',
+        'in_days'            => '{1} in one day|[2,*] in :count days',
+        'cta'                => 'Open Wishio',
+        'unsubscribe'        => 'Unsubscribe from these emails',
+        'unsubscribed_title' => 'You won\'t get the weekly summary anymore',
+        'unsubscribed_body'  => 'Done, you\'re off the list. You can turn it back on anytime under Notifications in the app.',
+        'footer'             => "You're receiving this because you enabled the weekly digest in Wishio.",
     ],
 
     'holiday' => [
@@ -28,11 +30,17 @@ return [
     ],
 
     'push' => [
-        'today'    => ':name has a :occasion today 🎂',
-        'tomorrow' => ':name has a :occasion tomorrow',
-        'soon'     => '{1} :name has a :occasion in one day|[2,*] :name has a :occasion in :count days',
-        'plan'     => '{1} :name has a :occasion in one day. Shall we find a gift?|[2,*] :name has a :occasion in :count days. Shall we find a gift?',
+        'today'    => ":name's :occasion is today 🎂",
+        'tomorrow' => ":name's :occasion is tomorrow",
+        'soon'     => "{1} :name's :occasion is in one day|[2,*] :name's :occasion is in :count days",
+        'ask'      => 'Shall we find a gift?',
         'cta'      => 'Find a gift',
+        'occasion' => [
+            'birthday'    => 'birthday',
+            'name_day'    => 'name day',
+            'anniversary' => 'anniversary',
+            'custom'      => 'occasion',
+        ],
     ],
 
     'reminder' => [
