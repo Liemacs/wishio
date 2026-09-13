@@ -3,6 +3,8 @@ name: CI
 on:
   push:
     branches: [main]
+    # Un tag v* rulează testele și, dacă trec, pornește deploy-ul în producție (docs/25 § 5).
+    tags: ['v*']
   pull_request:
 
 jobs:
@@ -95,3 +97,25 @@ jobs:
       - name: Paritatea traducerilor
         working-directory: mobile
         run: npm run i18n:check
+
+      - name: Textele din store
+        working-directory: mobile
+        run: npm run store:check
+
+  deploy:
+    # Producția se actualizează doar dintr-un tag v*, după ce trec ambele joburi.
+    # Deploy-ul îl face panoul (Forge sau Ploi); aici doar îl pornim (docs/25 § 5).
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [backend, mobile]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pornește deploy-ul din panou
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "DEPLOY_HOOK_URL nu e setat în GitHub: niciun deploy."
+            exit 0
+          fi
+          curl --fail --silent --show-error -X POST "$DEPLOY_HOOK_URL"

@@ -8,7 +8,7 @@
 
 | Ce | Unde | Stare |
 |---|---|---|
-| Serverul de producție, cu HTTPS pe `wishio.md` | `docs/10 § 2` | **lipsește** |
+| Serverul de producție, cu HTTPS pe `wishio.md` | `docs/25` | **lipsește** — primul pas e domeniul, încă necumpărat |
 | `WISHIO_PUSH_DRIVER=expo` în `.env` pe server | — | la deploy |
 | Aplicația creată în App Store Connect, cu Bundle ID `md.wishio.app` | App Store Connect | **lipsește** |
 | Aplicația creată în Play Console, pachetul `md.wishio.app` | Play Console | **lipsește** |

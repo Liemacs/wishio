@@ -28,3 +28,7 @@ Schedule::job(new SendWeeklyDigests)->hourly()->withoutOverlapping();
 // „Cine este?”: o singură notificare pentru completările care așteaptă, în
 // afara orelor de liniște și cel mult una pe zi (S9.8).
 Schedule::job(new NotifyOwnersOfPendingSubmissions)->everyFiveMinutes()->withoutOverlapping();
+
+// Joburile eșuate păstrează excepția, care poate conține date din cerere: o
+// săptămână ajunge pentru depanare (docs/21, M-11).
+Schedule::command('queue:prune-failed --hours=168')->daily();

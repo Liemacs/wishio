@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Șablonul .env de producție se comite (docs/25); fișierele .env reale, nu.
+!.env.production.example

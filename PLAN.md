@@ -50,8 +50,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului · push care îl anunță |
 | ✅ | **Idei și istoric de cadouri (S10)** — salvare, „Ai cumpărat?”, „am oferit” → istoric, anti-repetare în recomandări |
 | ✅ | **Conformitate (S11)** — DPIA, registrul prelucrărilor, etichetele de confidențialitate, stări de eroare și offline, audit de traduceri; acordul AI se retrage din Cont |
-| ✅ | **Lansare, partea din repo (S12)** — cont demo pentru App Review, textele și grafica din store în 3 limbi, paginile de ajutor și de ștergere a contului, versiunea minimă obligatorie |
-| ✅ | 356 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | **Lansare, partea din repo (S12)** — cont demo pentru App Review, textele și grafica din store în 3 limbi, paginile de ajutor și de ștergere a contului, versiunea minimă obligatorie, kitul de beta cu măsurarea pâlniei, deploy-ul pregătit pentru producție |
+| ✅ | 363 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -241,6 +241,7 @@ Cifrele îți spun unde să insiști.
 | S12.4 | Submit — **buffer de 2 săptămâni** pentru respingeri (5.1.2 e probabilă la prima încercare) |
 | S12.5 | Lansare: grupuri FB MD, Telegram, Reddit local, PR |
 | S12.6 ✅ | ~~**Versiune minimă obligatorie** — `/api/v1/app-config` + ecran de actualizare (`docs/10 § 5`)~~ — `WISHIO_MIN_APP_VERSION` comparată cu versiunea din `app.json`; ecranul stă peste navigație și nu se închide; fără răspuns de la server, aplicația merge mai departe |
+| S12.7 🔴 | **Producția** — domeniul, un VPS în UE administrat cu Forge sau Ploi (D-022), deploy dintr-un tag după teste — **pregătit din repo** (`docs/25`): `backend/.env.production.example`, `deploy/deploy.sh`, jobul de deploy din CI. Rămân domeniul (necumpărat), serverul și panoul |
 
 ---
 

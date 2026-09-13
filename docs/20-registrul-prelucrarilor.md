@@ -157,6 +157,8 @@ Căutările de produse nu se stochează: termenul căutat filtrează catalogul �
 | Furnizor | Rol | Ce primește | Unde | Stare |
 |---|---|---|---|---|
 | Găzduire (VPS, de ex. Hetzner) | împuternicit | toate datele | UE | neales; DPA la contractare |
+| Panoul de administrare (Forge sau Ploi) | împuternicit — administrează serverul | acces de administrator, deci toate datele | Ploi: Țările de Jos; Forge: SUA — de verificat | neales; DPA la contractare (D-022) |
+| Stocare pentru backup (S3 în UE) | împuternicit | copiile criptate ale bazei | UE | neales |
 | Expo (650 Industries, Inc.) | împuternicit — push | tokenul, titlul și textul notificării (nume + ocazie), datele de rutare | SUA | DPA-ul Expo de acceptat; mecanismul de transfer de documentat |
 | Apple (APNs), Google (FCM) | livrarea notificărilor, la nivel de sistem | tokenul dispozitivului și conținutul notificării | SUA | termenii platformelor |
 | Furnizor de email (SMTP) | împuternicit — rezumatul săptămânal | emailul, numele, numele persoanelor și ocaziile | de preferat UE | neales; DPA |

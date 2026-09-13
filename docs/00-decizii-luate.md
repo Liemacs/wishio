@@ -325,3 +325,19 @@ Inertia ar fi însemnat un al doilea strat de build, un al doilea sistem de ruta
 **Descoperit cu ocazia asta:** `AcceptSubmission` lipește azi completarea de primul contact cu același prenume, fără confirmare. „Ana Popescu” poate suprascrie numele și ziua lui „Ana Rusu” importată din agendă, iar retragerea completării șterge definitiv acel contact, cu ocaziile lui, dacă proprietarul nu l-a editat manual (`PLAN.md` S9.7).
 
 **Rezolvat în S9.7:** o completare se leagă doar de persoana apărută dintr-o completare anterioară a aceluiași om — același link, același nume complet. Retragerea nu mai șterge un contact care exista înainte; îi scoate datele trimise de persoană, ca agenda să le poată reface.
+
+## D-022 · Producția pe un VPS în UE, administrat cu Forge sau Ploi
+**Data:** 2026-09-13 · **Stare:** confirmată · *completează `docs/10 § 2`*
+
+**Decizia:** serverul de producție e un VPS în UE (Hetzner sau similar), administrat printr-un panou — Laravel Forge sau Ploi. Nu un server configurat de mână și nici o platformă PaaS.
+
+**De ce:**
+- Arhitectura rămâne cea din `docs/10 § 2` — Nginx, PHP 8.3, MySQL, Redis, un singur server —, dar HTTPS-ul, worker-ul, planificarea, backup-ul bazei și deploy-ul le face panoul. La 15 ore pe săptămână (D-010), fiecare script de server scris de mână e încă un lucru de întreținut.
+- Scripturile pentru un server configurat de mână nu pot fi încercate înainte să existe serverul, iar prima lor rulare ar fi chiar pe producție.
+- O platformă PaaS scapă de server, dar costul crește cu traficul, iar locația datelor cere mai multă atenție.
+
+**Consecințe:**
+- Panoul are acces de administrator la server, deci e împuternicit: intră în registru (`docs/20 § 2`), cu DPA.
+- Cozile rulează cu `queue:work` pe Redis, ca daemon în panou. Horizon, prevăzut în `docs/10 § 2`, se adaugă când va fi nevoie de panoul lui.
+- Producția se actualizează dintr-un tag `v*`, după ce trec testele din CI (`docs/25 § 5`).
+- Domeniul `wishio.md` nu e cumpărat încă: e primul pas (`docs/25 § 1`).

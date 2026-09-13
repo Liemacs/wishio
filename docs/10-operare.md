@@ -10,10 +10,10 @@
 | Mediu | Rol | Bază de date | Cine îl atinge |
 |---|---|---|---|
 | **local** | dezvoltare | MariaDB (XAMPP) | tu |
-| **staging** | test înainte de release, cont demo pentru App Review | MySQL 8.4, date fictive | tu + Apple/Google reviewers |
-| **production** | utilizatori reali | MySQL 8.4, backup zilnic | deploy automat din `main` |
+| **staging** | test înainte de release, când va fi nevoie de el | MySQL 8.4, date fictive | tu |
+| **production** | utilizatori reali și contul demo pentru App Review | MySQL 8, backup zilnic | deploy dintr-un tag `v*`, după teste (`docs/25 § 5`) |
 
-**Regula:** date reale **niciodată** în staging. Conturile de test din App Review trăiesc în staging cu date populate artificial. Dacă vreodată copiezi producția în staging, anonimizează.
+**Regula:** date reale **niciodată** în staging. Contul demo pentru App Review trăiește în producție, cu date fictive (`php artisan wishio:demo`): build-ul trimis în review vorbește cu serverul de producție, deci doar acolo îl poate folosi reviewerul. Dacă vreodată copiezi producția în staging, anonimizează.
 
 ---
 
@@ -22,13 +22,14 @@
 | | |
 |---|---|
 | Hosting | VPS în UE (Hetzner CX22 sau similar) — **datele în UE simplifică Legea 195/2024** |
+| Administrare | Forge sau Ploi: HTTPS, worker, planificare, backup, deploy (D-022, `docs/25`) |
 | Web server | Nginx + PHP-FPM 8.3 |
 | Bază de date | MySQL 8.4 pe aceeași mașină la început; separată când depășești ~5k utilizatori activi |
 | Redis | pe aceeași mașină |
-| Cozi | Horizon sub supervisor, restart la deploy |
+| Cozi | `queue:work` pe Redis, ca daemon în panou, repornit la deploy; Horizon când va fi nevoie de panoul lui (D-022) |
 | Cron | `php artisan schedule:run` la fiecare minut |
 | TLS | Let's Encrypt, reînnoire automată |
-| Fișiere | S3-compatibil (Hetzner Object Storage sau Cloudflare R2) |
+| Fișiere | S3-compatibil în UE (Hetzner Object Storage): deocamdată doar backup-urile, aplicația nu primește fișiere încărcate |
 
 **Nu Kubernetes, nu microservicii, nu multi-region.** Un VPS duce lejer 25.000 de utilizatori pentru acest profil de trafic. Complexitatea prematură omoară proiectele solo.
 
@@ -47,18 +48,19 @@ eval AI       → setul de 30 de profiluri (doar când se schimbă prompturile)
 
 ### La merge în `main`
 ```
-backend  → deploy automat pe staging
-mobile   → EAS build profil `preview` (internal distribution)
+teste    → aceleași verificări ca la pull request, plus textele din store
+backend  → niciun deploy: staging nu există încă
 ```
 
 ### Release în producție
 ```
-tag v0.x.y → migrări → deploy zero-downtime → smoke test → Horizon restart
-mobile     → EAS build profil `production` → submit manual în store
+tag v0.x.y → teste în CI → linkul de deploy al panoului → deploy/deploy.sh:
+             dependențe, migrări, cache, restart worker, verificare /up
+mobile     → EAS build profil `production` → eas submit (TestFlight, pista internă) → review
 ```
 
-**Zero-downtime:** deploy în director nou + symlink, `php artisan down` doar dacă migrarea e distructivă.
-**Rollback:** symlink înapoi la release-ul anterior. Migrările **nu** se rollback-uiesc automat — de aceea vezi §4.
+**Zero-downtime:** panourile oferă de obicei deploy în director nou + symlink; merită pornit când traficul o cere. Până atunci, deploy-ul pe loc durează câteva secunde.
+**Rollback:** deploy al commitului anterior. Migrările **nu** se rollback-uiesc automat — de aceea vezi §4.
 
 ---
 
@@ -157,6 +159,7 @@ UI-ul mobile (fragil, scump). În schimb: checklist manual pe device fizic + scr
 | | |
 |---|---|
 | Ce | dump MySQL complet + fișiere încărcate |
+| Cum | backup-ul bazei din panou (`docs/25 § 7`) |
 | Cât de des | zilnic 03:00, plus înainte de fiecare migrare în producție |
 | Unde | object storage în UE, **criptat**, separat de serverul aplicației |
 | Retenție | 7 zilnice + 4 săptămânale + 3 lunare |
