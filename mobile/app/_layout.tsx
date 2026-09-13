@@ -9,10 +9,14 @@ import { I18nextProvider } from 'react-i18next';
 
 import * as Notifications from 'expo-notifications';
 
+import { OfflineBanner } from '../src/components/ui/OfflineBanner';
 import i18n from '../src/i18n';
+import { connectQueryToDevice } from '../src/lib/network';
 import { queryClient } from '../src/lib/queryClient';
 import { isSubmissionNotification, routeFromNotification } from '../src/features/notifications/push';
 import { useAuthStore } from '../src/stores/auth';
+
+connectQueryToDevice();
 
 // Notificarea se vede și când aplicația e deschisă: altfel utilizatorul
 // primește reminderul exact în momentul în care nu îl observă.
@@ -99,6 +103,7 @@ export default function RootLayout() {
             <StatusBar style="auto" />
             <AuthGate />
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#fafafa' } }} />
+            <OfflineBanner />
           </SafeAreaProvider>
         </QueryClientProvider>
       </I18nextProvider>

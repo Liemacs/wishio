@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
@@ -7,6 +7,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { Button } from '../src/components/ui/Button';
 import { EmptyState } from '../src/components/ui/EmptyState';
+import { ErrorState } from '../src/components/ui/ErrorState';
+import { Skeleton, SkeletonRows } from '../src/components/ui/Skeleton';
 import { Screen } from '../src/components/ui/Screen';
 import { useOccasions, type Occasion } from '../src/features/contacts/queries';
 import { usePendingSubmissions } from '../src/features/submissions/queries';
@@ -34,7 +36,7 @@ export default function Home() {
   const { t } = useTranslation();
   const router = useRouter();
   const profile = useAuthStore((s) => s.profile);
-  const { data: occasions, isLoading, refetch } = useOccasions();
+  const { data: occasions, isLoading, isError, error, refetch } = useOccasions();
   const { data: pending } = usePendingSubmissions();
 
   const upcoming = useMemo(
@@ -66,11 +68,19 @@ export default function Home() {
         ? t('home.tomorrow')
         : t('home.inDays', { count: occasion.days_until });
 
+  // Forma ecranului, nu un spinner: se vede ce urmează să apară.
   if (isLoading) {
     return (
       <Screen>
-        <View className="flex-1 items-center justify-center">
-          <ActivityIndicator color="#e11d48" />
+        <View className="gap-3 px-5 pt-4">
+          <Skeleton width="40%" height={14} />
+          <Skeleton width="70%" height={30} />
+          <View className="mt-2">
+            <Skeleton height={168} radius={20} />
+          </View>
+        </View>
+        <View className="mt-8 px-5">
+          <SkeletonRows count={3} />
         </View>
       </Screen>
     );
@@ -130,7 +140,10 @@ export default function Home() {
           </View>
         ) : null}
 
-        {!next ? (
+        {/* Fără răspuns de la server nu spunem „nicio ocazie”: n-ar fi adevărat. */}
+        {isError ? (
+          <ErrorState error={error} onRetry={() => refetch()} />
+        ) : !next ? (
           <EmptyState emoji="🎁" title={t('home.emptyTitle')} description={t('home.emptyText')}>
             <Button label={t('people.add')} onPress={() => router.push('/people/new')} />
           </EmptyState>

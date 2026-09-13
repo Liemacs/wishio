@@ -8,7 +8,9 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 
 import { errorMessage } from '../src/api/client';
+import { BackButton } from '../src/components/ui/BackButton';
 import { Button } from '../src/components/ui/Button';
+import { ErrorState } from '../src/components/ui/ErrorState';
 import { Screen } from '../src/components/ui/Screen';
 import { useAddWish, useMyProfile, useRemoveWish, useUpdateMyProfile, type WishKind } from '../src/features/profile/queries';
 
@@ -19,7 +21,7 @@ export default function MyProfileScreen() {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const { data: profile, isLoading } = useMyProfile();
+  const { data: profile, isLoading, isError, error, refetch } = useMyProfile();
   const updateProfile = useUpdateMyProfile();
   const addWish = useAddWish();
   const removeWish = useRemoveWish();
@@ -58,6 +60,15 @@ export default function MyProfileScreen() {
       },
     });
   };
+
+  if (isError && !profile) {
+    return (
+      <Screen>
+        <BackButton />
+        <ErrorState error={error} onRetry={() => refetch()} />
+      </Screen>
+    );
+  }
 
   if (isLoading || !profile) {
     return (

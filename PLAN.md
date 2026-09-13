@@ -224,7 +224,7 @@ Cifrele îți spun unde să insiști.
 | S11.2 🔴 | **C11 — Privacy Policy + ToS în RO/RU/EN**, la URL stabil |
 | S11.3 🔴 | **C12 — DPIA + registrul prelucrărilor** (Legea 195/2024, în vigoare din 23 aug 2026) |
 | S11.4 | Privacy Nutrition Label (Apple) + Data Safety (Google) |
-| S11.5 | Stări goale, erori, offline, skeletons, animații |
+| S11.5 ✅ | ~~Stări goale, erori, offline, skeletons, animații~~ — stare de eroare comună cu reîncercare; schelete pe ecranul principal, persoane și idei; bandă offline legată de pauza cererilor; modificările făcute offline eșuează imediat, cu mesaj |
 | S11.6 ✅ | ~~**Audit de traduceri**: zero stringuri hardcodate, zero fallback vizibil, testat cu RU (texte mai lungi)~~ — scanner pe cod în mobil și pe chei în backend, ambele în CI; titlurile de push sub 40 de caractere în toate limbile |
 | S11.7 | Sentry cu scrubbing PII; test real de restaurare backup |
 | S11.8 | Test: aplicația **fără** Contacts și **fără** push — complet utilizabilă |

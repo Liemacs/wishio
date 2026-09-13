@@ -8,6 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { errorMessage } from '../../src/api/client';
 import { BackButton } from '../../src/components/ui/BackButton';
 import { Button } from '../../src/components/ui/Button';
+import { ErrorState } from '../../src/components/ui/ErrorState';
 import { Screen } from '../../src/components/ui/Screen';
 import { CheckRow, Group, Section } from '../../src/components/ui/SettingsList';
 import { entrance, useReducedMotion } from '../../src/design/motion';
@@ -32,7 +33,7 @@ export default function ResolveSubmissionScreen() {
   const router = useRouter();
   const reduced = useReducedMotion();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: pending, isLoading, isFetching, refetch } = usePendingSubmissions();
+  const { data: pending, isLoading, isFetching, isError, error, refetch } = usePendingSubmissions();
   const resolve = useResolveSubmission();
   const [choice, setChoice] = useState<number | 'new' | null>(null);
 
@@ -95,6 +96,16 @@ export default function ResolveSubmissionScreen() {
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color="#e11d48" />
         </View>
+      </Screen>
+    );
+  }
+
+  // O eroare de rețea nu înseamnă că răspunsul s-a dat deja.
+  if (!submission && isError) {
+    return (
+      <Screen>
+        <BackButton />
+        <ErrorState error={error} onRetry={() => refetch()} />
       </Screen>
     );
   }

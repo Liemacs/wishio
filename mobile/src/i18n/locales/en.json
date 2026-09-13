@@ -43,7 +43,8 @@
   "errors": {
     "network": "Could not reach the server. Check your connection.",
     "unknown": "Something went wrong. Try again.",
-    "required": "This field is required."
+    "required": "This field is required.",
+    "loadTitle": "Couldn't load this"
   },
   "auth": {
     "welcome": "Welcome",
@@ -162,7 +163,9 @@
     "retry": "Search again",
     "sponsored": "sponsored",
     "resultsTitle_one": "{{count}} idea for {{name}}",
-    "resultsTitle_other": "{{count}} ideas for {{name}}"
+    "resultsTitle_other": "{{count}} ideas for {{name}}",
+    "failedTitle": "The search didn't work",
+    "failedText": "Try again in a moment."
   },
   "aiConsent": {
     "title": "Want better ideas?",
@@ -333,5 +336,9 @@
     "boughtYes": "Yes, I bought it",
     "boughtSave": "Save the idea",
     "boughtNo": "No"
+  },
+  "network": {
+    "offlineTitle": "You're offline",
+    "offlineBody": "You're seeing what was already loaded. Changes can be saved once you're back online."
   }
 }

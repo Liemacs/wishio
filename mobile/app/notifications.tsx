@@ -6,6 +6,7 @@ import { MotiView } from 'moti';
 import { errorMessage } from '../src/api/client';
 import { BackButton } from '../src/components/ui/BackButton';
 import { Button } from '../src/components/ui/Button';
+import { ErrorState } from '../src/components/ui/ErrorState';
 import { Screen } from '../src/components/ui/Screen';
 import { CheckRow, Group, Section, StepperRow, SwitchRow } from '../src/components/ui/SettingsList';
 import { entrance, useReducedMotion } from '../src/design/motion';
@@ -34,7 +35,7 @@ export default function NotificationSettingsScreen() {
   const { t } = useTranslation();
   const reduced = useReducedMotion();
   const email = useAuthStore((s) => s.profile?.email ?? '');
-  const { data: settings } = useNotificationSettings();
+  const { data: settings, isError, error, refetch } = useNotificationSettings();
   const update = useUpdateNotificationSettings();
   const { permission, enable } = usePushPermission();
 
@@ -90,7 +91,9 @@ export default function NotificationSettingsScreen() {
           <Text className="text-surface-900" style={TYPE.title}>{t('notifications.title')}</Text>
         </MotiView>
 
-        {!settings ? (
+        {isError && !settings ? (
+          <ErrorState error={error} onRetry={() => refetch()} />
+        ) : !settings ? (
           <ActivityIndicator color="#e11d48" style={{ marginTop: 40 }} />
         ) : (
           <>

@@ -44,7 +44,7 @@ export default function GiftFlow() {
 
   const start = useStartRecommendation(id);
   const [runId, setRunId] = useState<number | null>(null);
-  const { data: run } = useRecommendation(runId);
+  const { data: run, isError: runError } = useRecommendation(runId);
   const track = useTrackClick();
   const saveIdea = useSaveIdea(id);
   // Salvate acum: butonul se schimbă imediat, înainte să se reîncarce rezultatele.
@@ -144,6 +144,19 @@ export default function GiftFlow() {
           <Text className="mt-6 text-lg font-semibold text-surface-800">{t('gift.searching')}</Text>
           <Text className="mt-1 text-sm text-surface-400">{t('gift.searchingHint')}</Text>
         </View>
+      </Screen>
+    );
+  }
+
+  // ── Căutarea a eșuat ─────────────────────────────────────────────────────
+  // Înainte, ecranul revenea în tăcere la alegerea bugetului.
+  if (run?.status === 'failed' || runError) {
+    return (
+      <Screen>
+        {header}
+        <EmptyState emoji="😕" title={t('gift.failedTitle')} description={t('gift.failedText')}>
+          <Button label={t('gift.retry')} onPress={() => setRunId(null)} />
+        </EmptyState>
       </Screen>
     );
   }

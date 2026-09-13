@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 
 import { BackButton } from '../src/components/ui/BackButton';
+import { ErrorState } from '../src/components/ui/ErrorState';
 import { Screen } from '../src/components/ui/Screen';
+import { SkeletonRows } from '../src/components/ui/Skeleton';
 import { Group } from '../src/components/ui/SettingsList';
 import { entrance, useReducedMotion } from '../src/design/motion';
 import { TYPE } from '../src/design/typography';
@@ -18,7 +20,7 @@ export default function SavedIdeasScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const reduced = useReducedMotion();
-  const { data: ideas, isLoading } = useAllIdeas();
+  const { data: ideas, isLoading, isError, error, refetch } = useAllIdeas();
   const { open, sheet } = useIdeaActions();
 
   const groups = useMemo(() => {
@@ -43,7 +45,11 @@ export default function SavedIdeasScreen() {
         </MotiView>
 
         {isLoading ? (
-          <ActivityIndicator color="#e11d48" style={{ marginTop: 40 }} />
+          <View className="mt-8">
+            <SkeletonRows count={4} />
+          </View>
+        ) : isError ? (
+          <ErrorState error={error} onRetry={() => refetch()} />
         ) : groups.length === 0 ? (
           <Text className="mt-6 text-surface-500" style={TYPE.body}>{t('gifts.savedEmpty')}</Text>
         ) : (

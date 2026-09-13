@@ -49,7 +49,8 @@
   "errors": {
     "network": "Не удалось связаться с сервером. Проверьте соединение.",
     "unknown": "Что-то пошло не так. Попробуйте ещё раз.",
-    "required": "Заполните это поле."
+    "required": "Заполните это поле.",
+    "loadTitle": "Не удалось загрузить данные"
   },
   "auth": {
     "welcome": "Добро пожаловать",
@@ -180,7 +181,9 @@
     "resultsTitle_one": "{{count}} идея для {{name}}",
     "resultsTitle_few": "{{count}} идеи для {{name}}",
     "resultsTitle_many": "{{count}} идей для {{name}}",
-    "resultsTitle_other": "{{count}} идеи для {{name}}"
+    "resultsTitle_other": "{{count}} идеи для {{name}}",
+    "failedTitle": "Не получилось подобрать подарки",
+    "failedText": "Попробуйте ещё раз через минуту."
   },
   "aiConsent": {
     "title": "Хотите идеи получше?",
@@ -357,5 +360,9 @@
     "boughtYes": "Да, куплено",
     "boughtSave": "Сохранить идею",
     "boughtNo": "Нет"
+  },
+  "network": {
+    "offlineTitle": "Нет подключения к интернету",
+    "offlineBody": "Показываем то, что уже загружено. Изменения можно будет сохранить, когда связь вернётся."
   }
 }

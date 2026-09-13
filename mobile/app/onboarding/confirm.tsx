@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 
 import { Button } from '../../src/components/ui/Button';
+import { ErrorState } from '../../src/components/ui/ErrorState';
 import { Screen } from '../../src/components/ui/Screen';
 import { useOccasions, useSetOccasionStatus } from '../../src/features/contacts/queries';
 import { TYPE } from '../../src/design/typography';
@@ -20,7 +21,7 @@ const MONTHS_KEY = 'months';
 export default function ConfirmNameDays() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const { data: occasions, isLoading } = useOccasions({ unconfirmed: true });
+  const { data: occasions, isLoading, isError, error, refetch } = useOccasions({ unconfirmed: true });
   const setStatus = useSetOccasionStatus();
 
   const [index, setIndex] = useState(0);
@@ -56,6 +57,21 @@ export default function ConfirmNameDays() {
       <Screen>
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color="#e11d48" />
+        </View>
+      </Screen>
+    );
+  }
+
+  // Fără răspuns de la server nu sărim peste confirmare, ca și cum n-ar fi nimic
+  // de confirmat. Se poate merge mai departe, dar ca alegere, nu pe tăcute.
+  if (isError) {
+    return (
+      <Screen>
+        <View className="flex-1 justify-center">
+          <ErrorState error={error} onRetry={() => refetch()} />
+          <View className="px-8">
+            <Button label={t('common.continue')} variant="ghost" onPress={() => router.replace('/onboarding/done')} />
+          </View>
         </View>
       </Screen>
     );

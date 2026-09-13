@@ -46,7 +46,8 @@
   "errors": {
     "network": "Nu am putut contacta serverul. Verifică conexiunea.",
     "unknown": "Ceva n-a mers. Încearcă din nou.",
-    "required": "Completează acest câmp."
+    "required": "Completează acest câmp.",
+    "loadTitle": "Nu s-au putut încărca datele"
   },
   "auth": {
     "welcome": "Bine ai venit",
@@ -171,7 +172,9 @@
     "sponsored": "promovat",
     "resultsTitle_one": "{{count}} idee pentru {{name}}",
     "resultsTitle_few": "{{count}} idei pentru {{name}}",
-    "resultsTitle_other": "{{count}} de idei pentru {{name}}"
+    "resultsTitle_other": "{{count}} de idei pentru {{name}}",
+    "failedTitle": "Căutarea n-a mers",
+    "failedText": "Încearcă din nou peste câteva momente."
   },
   "aiConsent": {
     "title": "Vrei idei mai bune?",
@@ -345,5 +348,9 @@
     "boughtYes": "Da, l-am cumpărat",
     "boughtSave": "Salvez ideea",
     "boughtNo": "Nu"
+  },
+  "network": {
+    "offlineTitle": "Ești offline",
+    "offlineBody": "Vezi ce era deja încărcat. Modificările se pot salva după ce revine conexiunea."
   }
 }

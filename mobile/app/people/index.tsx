@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { errorMessage } from '../../src/api/client';
 import { Button } from '../../src/components/ui/Button';
 import { EmptyState } from '../../src/components/ui/EmptyState';
+import { ErrorState } from '../../src/components/ui/ErrorState';
+import { SkeletonRows } from '../../src/components/ui/Skeleton';
 import { Screen } from '../../src/components/ui/Screen';
 import { PersonRow } from '../../src/features/people/PersonRow';
 import { usePeople } from '../../src/features/people/queries';
@@ -60,13 +61,11 @@ export default function PeopleList() {
       ) : null}
 
       {isLoading ? (
-        <View className="flex-1 items-center justify-center">
-          <ActivityIndicator color="#e11d48" />
+        <View className="px-5">
+          <SkeletonRows count={6} />
         </View>
       ) : isError ? (
-        <EmptyState emoji="⚠️" title={errorMessage(error)}>
-          <Button label={t('common.retry')} variant="secondary" onPress={() => refetch()} />
-        </EmptyState>
+        <ErrorState error={error} onRetry={() => refetch()} />
       ) : filtered.length === 0 ? (
         <EmptyState
           emoji={query ? '🔍' : '🎁'}
