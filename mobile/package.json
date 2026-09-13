@@ -5,11 +5,14 @@
   "private": true,
   "scripts": {
     "start": "expo start",
+    "start:go": "expo start --go",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "tsc --noEmit",
-    "i18n:check": "node scripts/check-translations.js"
+    "i18n:check": "node scripts/check-translations.js",
+    "build:dev:ios": "npx eas-cli@latest build --profile development --platform ios",
+    "build:dev:android": "npx eas-cli@latest build --profile development --platform android"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.14",
@@ -21,8 +24,10 @@
     "expo-clipboard": "~57.0.2",
     "expo-constants": "~57.0.18",
     "expo-contacts": "~57.0.5",
+    "expo-dev-client": "~57.0.19",
     "expo-device": "~57.0.2",
     "expo-file-system": "~57.0.7",
+    "expo-font": "~57.0.4",
     "expo-haptics": "~57.0.3",
     "expo-image": "~57.0.5",
     "expo-linear-gradient": "~57.0.2",
@@ -51,6 +56,7 @@
     "react-native-screens": "~4.26.0",
     "react-native-svg": "15.15.4",
     "react-native-web": "^0.21.2",
+    "react-native-worklets": "0.10.1",
     "tailwindcss": "^4.3.3",
     "zustand": "^5.0.8"
   },

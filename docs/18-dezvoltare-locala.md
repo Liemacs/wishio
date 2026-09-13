@@ -8,7 +8,7 @@ Cum pornești tot, acum, pe mașina ta. Vezi și `docs/00 § D-014`.
 
 ```bash
 cd backend
-php artisan serve --port=8000
+php artisan serve --host=0.0.0.0 --port=8000
 ```
 
 Baza de date rulează prin XAMPP (MariaDB). Dacă portul 8000 e ocupat, alege altul și vezi § 3.
@@ -124,6 +124,53 @@ Nu lipsește un modul, ci **toate** modulele native Expo. Expo Go conține modul
 Proiectul e pe **SDK 57** → cere **Expo Go iOS 57.x**. Versiunea e scrisă în josul ecranului de pornire din Expo Go. Se actualizează din App Store.
 
 Corolar: pachetele native trebuie să fie exact la versiunea pe care o conține Expo Go, altfel apar aceleași erori pentru un singur modul. `npx expo install --check` le arată, `npx expo install --fix` le aliniază. (Ne-a prins cu `@shopify/flash-list` 2.3.2 în loc de 2.0.2.)
+
+---
+
+## 5c. Build de dezvoltare (EAS) — pentru push și testul pe telefon
+
+Expo Go nu primește notificări push trimise de server, deci remindere, „cine este?” și orice altă notificare se testează doar într-un **build de dezvoltare**: aplicația Wishio proprie, instalată pe telefon, care încarcă JS-ul de pe calculatorul tău ca Expo Go.
+
+**Ce e deja pregătit în repo:** `expo-dev-client`, profilurile din `mobile/eas.json`, pluginul de notificări (iconiță, culoare și canal pe Android) și scripturile `npm run build:dev:ios` / `npm run build:dev:android`.
+
+### O singură dată, pentru proiect — făcut
+
+Proiectul există pe expo.dev ca `@liemax/wishio`, creat cu `npx eas-cli@latest init`, iar `extra.eas.projectId` e în `app.json`. Fără el, telefonul nu poate obține tokenul de push.
+
+**Înainte de fiecare build, `npx expo-doctor` trebuie să treacă.** La primul a prins două dependențe native (`react-native-worklets`, `expo-font`) prezente doar indirect. În Expo Go mergeau, fiindcă vin incluse în aplicație; un build propriu nu le-ar fi inclus și s-ar fi închis la pornire.
+
+### iPhone
+
+Cere **Apple Developer Program** (plătit). Autentificarea Apple se face în terminalul tău, nu se poate automatiza.
+
+1. Înregistrează telefonul: `npx eas-cli@latest device:create`, apoi deschide linkul pe iPhone și instalează profilul.
+2. Pe iPhone: **Setări → Confidențialitate și securitate → Mod dezvoltator**, pornit (cere repornire).
+3. `cd mobile && npm run build:dev:ios`. Când EAS întreabă de notificări push, răspunde **da**: generează singur cheia APNs.
+4. Instalează aplicația din linkul sau codul QR primit la finalul build-ului.
+
+### Android
+
+1. `cd mobile && npm run build:dev:android` și instalează APK-ul din link.
+2. Pentru push: proiect Firebase → aplicație Android `md.wishio.app` → descarcă `google-services.json` în `mobile/` și adaugă `"googleServicesFile": "./google-services.json"` sub `android` în `app.json`. Cheia contului de serviciu (FCM V1) se încarcă prin `npx eas-cli@latest credentials`; **nu o pune în repo**.
+
+### Lucrul de zi cu zi cu build-ul de dezvoltare
+
+```bash
+make api
+```
+
+```bash
+make schedule
+```
+
+```bash
+cd mobile && npx expo start
+```
+
+- `make api` ascultă pe `0.0.0.0`: altfel telefonul nu ajunge la API. Consecința: API-ul de dezvoltare e vizibil în rețeaua locală.
+- `make schedule` rulează jobs-urile (remindere, „cine este?”, rezumatul). Fără el nu pleacă nicio notificare.
+- În `backend/.env`, `WISHIO_PUSH_DRIVER=expo`. Implicit e `null`, care nu trimite nimic.
+- Cu `expo-dev-client` instalat, `npx expo start` deschide build-ul de dezvoltare. Pentru Expo Go: `npm run start:go`.
 
 ---
 

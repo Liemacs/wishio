@@ -4,7 +4,7 @@
 export npm_config_cache := $(HOME)/.cache/npm-wishio
 
 .DEFAULT_GOAL := help
-.PHONY: help up down setup api mobile queue test lint fresh
+.PHONY: help up down setup api mobile queue test lint fresh schedule
 
 help: ## Afiseaza comenzile disponibile
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -21,8 +21,11 @@ setup: ## Instalare completa (prima rulare)
 	cd backend && php artisan migrate --seed
 	cd mobile && npm install
 
-api: ## Porneste API-ul Laravel (http://localhost:8000)
-	cd backend && php artisan serve
+api: ## Porneste API-ul Laravel, accesibil si de pe telefon din reteaua locala (port 8000)
+	cd backend && php artisan serve --host=0.0.0.0 --port=8000
+
+schedule: ## Porneste programarea: remindere, notificari, rezumatul saptamanal
+	cd backend && php artisan schedule:work
 
 queue: ## Porneste worker-ul de cozi
 	cd backend && php artisan queue:listen --tries=1
