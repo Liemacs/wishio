@@ -47,8 +47,8 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Ecranul Cont (M7)** — limbă salvată în cont, export de date, documente legale, ștergerea contului din aplicație |
 | ✅ | **Setările de notificări (M6)** — trepte, oră pe riglă trasă cu degetul, liniște, digest; replanificare la orice schimbare |
 | ✅ | **Completările din link (S9.7)** — nu mai ating contactele existente; retragerea scoate doar datele trimise |
-| ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului |
-| ✅ | 300 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului · push care îl anunță |
+| ✅ | 310 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -205,7 +205,7 @@ Cifrele îți spun unde să insiști.
 | S9.5 ✅ | ~~Prompt de instalare + eveniment `profile_submission`~~ |
 | S9.6 ✅ | ~~Deep link `@slug` → aplicație~~ — config + fișiere de asociere; cer un build semnat ca să funcționeze |
 | S9.7 ✅ | ~~**Completările din link nu mai strică contacte existente**~~ (`docs/00 § D-021`) — legare doar de persoana apărută dintr-o completare anterioară a aceluiași om (același link, același nume complet); retragerea nu mai șterge un contact existent, dar îi scoate datele trimise și ocazia de naștere |
-| S9.8 ✅ | ~~**„Cine este?” înainte de completare**~~ — o completare al cărei nume seamănă cu contacte existente așteaptă alegerea proprietarului (card pe ecranul principal); contactul ales primește ziua și interesele, fără redenumire; legătura confirmată se ține minte pentru următoarele completări ale aceluiași om |
+| S9.8 ✅ | ~~**„Cine este?” înainte de completare**~~ — o completare al cărei nume seamănă cu contacte existente așteaptă alegerea proprietarului (card pe ecranul principal); contactul ales primește ziua și interesele, fără redenumire; legătura confirmată se ține minte pentru următoarele completări ale aceluiași om; notificare push „cine este?”, grupată, în afara orelor de liniște, cel mult una pe zi |
 
 ## S10 · Istoric cadouri & idei (săptămâna 10)
 

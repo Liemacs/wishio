@@ -11,7 +11,7 @@ import * as Notifications from 'expo-notifications';
 
 import i18n from '../src/i18n';
 import { queryClient } from '../src/lib/queryClient';
-import { routeFromNotification } from '../src/features/notifications/push';
+import { isSubmissionNotification, routeFromNotification } from '../src/features/notifications/push';
 import { useAuthStore } from '../src/stores/auth';
 
 // Notificarea se vede și când aplicația e deschisă: altfel utilizatorul
@@ -30,7 +30,21 @@ function useNotificationRouting() {
   const router = useRouter();
 
   useEffect(() => {
-    const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+    // O completare nouă trebuie să apară imediat, nu după ce expiră cache-ul:
+    // altfel ecranul „cine este?” n-ar găsi-o și ar spune că nu mai așteaptă.
+    const refreshSubmissions = (data: unknown) => {
+      if (isSubmissionNotification(data)) {
+        queryClient.invalidateQueries({ queryKey: ['submissions', 'pending'] });
+      }
+    };
+
+    const received = Notifications.addNotificationReceivedListener((notification) =>
+      refreshSubmissions(notification.request.content.data),
+    );
+
+    const responded = Notifications.addNotificationResponseReceivedListener((response) => {
+      refreshSubmissions(response.notification.request.content.data);
+
       const path = routeFromNotification(response);
 
       if (path) {
@@ -38,7 +52,10 @@ function useNotificationRouting() {
       }
     });
 
-    return () => subscription.remove();
+    return () => {
+      received.remove();
+      responded.remove();
+    };
   }, [router]);
 }
 

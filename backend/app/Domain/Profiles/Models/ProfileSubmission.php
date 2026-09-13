@@ -18,6 +18,7 @@ class ProfileSubmission extends Model
         'consented_at'          => 'datetime',
         'accepted_at'           => 'datetime',
         'identity_confirmed_at' => 'datetime',
+        'owner_notified_at'     => 'datetime',
     ];
 
     public function profile(): BelongsTo

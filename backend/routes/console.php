@@ -7,6 +7,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
+use App\Domain\Profiles\Jobs\NotifyOwnersOfPendingSubmissions;
 use App\Domain\Reminders\Jobs\ScheduleRemindersForAllUsers;
 use App\Domain\Reminders\Jobs\SendDueNotifications;
 use App\Domain\Reminders\Jobs\SendWeeklyDigests;
@@ -23,3 +24,7 @@ Schedule::job(new SendDueNotifications)->everyFiveMinutes()->withoutOverlapping(
 // Din oră în oră: fiecare utilizator îl primește luni la 9 dimineața, în
 // fusul lui. O rulare zilnică ar trimite emailuri la miezul nopții.
 Schedule::job(new SendWeeklyDigests)->hourly()->withoutOverlapping();
+
+// „Cine este?”: o singură notificare pentru completările care așteaptă, în
+// afara orelor de liniște și cel mult una pe zi (S9.8).
+Schedule::job(new NotifyOwnersOfPendingSubmissions)->everyFiveMinutes()->withoutOverlapping();

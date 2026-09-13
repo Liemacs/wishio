@@ -40,4 +40,12 @@ return [
         'today'       => "Today is :name's :occasion",
         'cta_gift'    => 'Find a gift',
     ],
+
+    // „Cine este?” — completări din link care așteaptă alegerea proprietarului (S9.8)
+    'submissions' => [
+        'one_title'  => ':name filled in your link',
+        'one_body'   => 'Tell us who this is, so the birthday reaches the right person.',
+        'many_title' => '{1} One submission is waiting for you|[2,*] :count submissions are waiting for you',
+        'many_body'  => 'Tell us who they are, so the birthdays reach the right people.',
+    ],
 ];

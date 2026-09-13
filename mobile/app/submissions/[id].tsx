@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -31,11 +31,20 @@ export default function ResolveSubmissionScreen() {
   const router = useRouter();
   const reduced = useReducedMotion();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: pending, isLoading } = usePendingSubmissions();
+  const { data: pending, isLoading, isFetching, refetch } = usePendingSubmissions();
   const resolve = useResolveSubmission();
   const [choice, setChoice] = useState<number | 'new' | null>(null);
 
   const submission = pending?.find((item) => item.id === Number(id));
+
+  // Deschis dintr-o notificare cu lista încă în cache: o completare lipsă poate
+  // fi doar una nouă. Reîncărcăm o dată înainte să spunem că nu mai așteaptă.
+  useEffect(() => {
+    if (pending && !submission) {
+      refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const selected = submission?.candidates.find((candidate) => candidate.id === choice);
 
   const birthday = (date: string, withYear: boolean) => formatBirthday(date, withYear, i18n.language);
@@ -73,7 +82,13 @@ export default function ResolveSubmissionScreen() {
     );
   };
 
-  if (isLoading) {
+  // După confirmare, completarea dispare din listă înainte ca navigarea să se
+  // termine: nu arătăm „nu mai așteaptă” pentru o clipă.
+  if (!submission && resolve.isSuccess) {
+    return null;
+  }
+
+  if (isLoading || (!submission && isFetching)) {
     return (
       <Screen>
         <View className="flex-1 items-center justify-center">
@@ -83,10 +98,8 @@ export default function ResolveSubmissionScreen() {
     );
   }
 
-  // După confirmare, completarea dispare din listă înainte ca navigarea să se
-  // termine: nu arătăm „nu mai așteaptă” pentru o clipă.
   if (!submission) {
-    return resolve.isSuccess ? null : (
+    return (
       <Screen>
         <BackButton />
         <Text className="px-5 text-surface-500" style={TYPE.body}>{t('submissions.gone')}</Text>

@@ -41,4 +41,12 @@ return [
         'today'       => 'Сегодня у :name :occasion',
         'cta_gift'    => 'Подобрать подарок',
     ],
+
+    // „Cine este?” — completări din link care așteaptă alegerea proprietarului (S9.8)
+    'submissions' => [
+        'one_title'  => ':name: новая анкета',
+        'one_body'   => 'Скажите, кто это, чтобы день рождения попал к нужному человеку.',
+        'many_title' => '{1} Одна анкета ждёт ответа|[2,4] :count анкеты ждут ответа|[5,*] :count анкет ждут ответа',
+        'many_body'  => 'Скажите, кто это, чтобы дни рождения попали к нужным людям.',
+    ],
 ];

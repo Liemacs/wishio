@@ -94,11 +94,32 @@ async function registerDevice(): Promise<void> {
   });
 }
 
-/** Apăsarea unei notificări duce la persoana respectivă, nu la ecranul principal. */
+type NotificationData = { type?: string; person_id?: number; submission_id?: number } | undefined;
+
+/** O notificare despre completările din link care așteaptă „cine este?”. */
+export function isSubmissionNotification(data: unknown): boolean {
+  const type = (data as NotificationData)?.type;
+
+  return type === 'submission' || type === 'submissions';
+}
+
+/**
+ * Apăsarea unei notificări duce la ce anunță: la persoană, la completarea care
+ * așteaptă răspuns sau, pentru mai multe completări, la ecranul principal, unde
+ * stau toate.
+ */
 export function routeFromNotification(
   response: Notifications.NotificationResponse,
 ): string | null {
-  const data = response.notification.request.content.data as { person_id?: number } | undefined;
+  const data = response.notification.request.content.data as NotificationData;
+
+  if (data?.type === 'submission' && data.submission_id) {
+    return `/submissions/${data.submission_id}`;
+  }
+
+  if (data?.type === 'submissions') {
+    return '/home';
+  }
 
   return data?.person_id ? `/people/${data.person_id}` : null;
 }

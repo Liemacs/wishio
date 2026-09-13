@@ -43,4 +43,12 @@ return [
         'today'       => 'Astăzi este :occasion pentru :name',
         'cta_gift'    => 'Găsește un cadou',
     ],
+
+    // „Cine este?” — completări din link care așteaptă alegerea proprietarului (S9.8)
+    'submissions' => [
+        'one_title'  => ':name ți-a completat linkul',
+        'one_body'   => 'Spune-ne cine este, ca ziua să ajungă la persoana potrivită.',
+        'many_title' => '{1} O completare așteaptă răspunsul tău|[2,19] :count completări așteaptă răspunsul tău|[20,*] :count de completări așteaptă răspunsul tău',
+        'many_body'  => 'Spune-ne cine sunt, ca zilele să ajungă la persoanele potrivite.',
+    ],
 ];

@@ -149,6 +149,15 @@ P3 adaugă → P5 „Spune-mi despre Alex" (frază liberă)
 
 **Onomastici:** aceeași scară, dar doar **7 / 1 / în zi** — sunt mai multe și mai puțin importante. Vezi `config/wishio.php`.
 
+### Alte notificări
+
+| Când | RO | RU |
+|---|---|---|
+| o completare din link așteaptă „cine este?" | „Ana Popescu ți-a completat linkul" | «Ana Popescu: новая анкета» |
+| mai multe completări așteaptă | „3 completări așteaptă răspunsul tău" | «3 анкеты ждут ответа» |
+
+O singură notificare pentru completările venite în rafală, niciodată în orele de liniște, cel mult una pe zi. Limita zilnică de push e comună cu reminderele.
+
 ### Copy care trebuie scris (nu e opțional)
 
 | Suprafață | Volum | Când |
