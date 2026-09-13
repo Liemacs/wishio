@@ -80,6 +80,17 @@ return [
         'contact_email' => env('WISHIO_PRIVACY_EMAIL'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Contul demo
+    |--------------------------------------------------------------------------
+    | Pentru App Review și capturile din store: `php artisan wishio:demo`.
+    | Parola nu stă în repo; fără ea, comanda generează una și o afișează.
+    */
+    'demo' => [
+        'password' => env('WISHIO_DEMO_PASSWORD'),
+    ],
+
     'deep_links' => [
         'ios_app_id'                 => env('WISHIO_IOS_APP_ID'),        // TEAMID.md.wishio.app
         'android_package'            => env('WISHIO_ANDROID_PACKAGE', 'md.wishio.app'),
