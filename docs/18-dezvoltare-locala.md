@@ -109,6 +109,22 @@ curl -s "http://127.0.0.1:8081/.expo/.virtual-metro-entry.bundle?platform=ios&de
 
 Zero înseamnă că CSS-ul nu a ajuns în aplicație, oricât de verde ar fi build-ul. Aceasta e calea pe care o cere chiar Expo Go — `expo export` ocolește serverul de dezvoltare și ascunde exact acest tip de eșec.
 
+**Același server vechi, alt simptom: Worklets.** Dacă o dependență nativă se instalează sau își schimbă versiunea cât rulează `expo start`, aplicația poate cădea chiar la pornire, pe primul import din `app/_layout.tsx`, cu:
+
+```
+[Worklets] Mismatch between JavaScript code version and Worklets Babel plugin version (0.10.1 vs. 0.10.4)
+```
+
+Pluginul Babel își citește versiunea o singură dată, când pornesc worker-ii de transformare, iar codul JavaScript al bibliotecii se citește de pe disc la fiecare bundle. Pe 13 septembrie, `react-native-worklets` a trecut de la 0.10.4, adus indirect, la 0.10.1, versiunea SDK-ului, fixată la pregătirea build-ului EAS. Serverul pornit din seara dinainte a continuat cu pluginul vechi. În cod nu era nimic de reparat: serverul se oprește și se pornește cu `npx expo start -c`, apoi aplicația se reîncarcă.
+
+Versiunea instalată trebuie să fie cea din SDK:
+
+```bash
+cd mobile && node -p "require('react-native-worklets/package.json').version + ' / SDK: ' + require('expo/bundledNativeModules.json')['react-native-worklets']"
+```
+
+Dacă mesajul pomenește „C++ code version” în loc de „Babel plugin version”, diferența e între JavaScript și partea nativă: build-ul de dezvoltare trebuie refăcut (§ 5c).
+
 ## 5b. ⚠️ Expo Go trebuie să fie de aceeași versiune cu SDK-ul
 
 **Simptom:** bundle-ul se construiește („`Bundled ... 2564 modules`"), dar aplicația cade imediat pe telefon:
