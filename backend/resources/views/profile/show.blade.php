@@ -67,12 +67,47 @@
                               focus:border-primary-400 focus:ring-2 focus:ring-primary-100 focus:outline-none">
             </x-form.field>
 
-            <x-form.field name="birthday" :label="__('profile.form.birthday')" :help="__('profile.form.birthdayHelp')">
-                <input type="text" name="birthday" id="birthday" value="{{ old('birthday') }}"
-                       inputmode="numeric" placeholder="23.04 · 23.04.1998"
-                       class="w-full rounded-button border border-surface-200 px-3.5 py-2.5 text-base
-                              placeholder:text-surface-300 focus:border-primary-400 focus:ring-2
-                              focus:ring-primary-100 focus:outline-none">
+            {{-- Trei liste, nu un câmp de text: pe telefon se deschid ca roți native, iar
+                 anul rămâne opțional — deseori se știu doar ziua și luna. --}}
+            @php
+                $selectClass = 'w-full appearance-none rounded-button border border-surface-200 bg-white px-3 py-2.5 text-base
+                                focus:border-primary-400 focus:ring-2 focus:ring-primary-100 focus:outline-none';
+                $months = collect(range(1, 12))->mapWithKeys(fn (int $month) => [
+                    $month => \Illuminate\Support\Str::ucfirst(
+                        \Carbon\Carbon::create(2000, $month, 1)->locale(app()->getLocale())->isoFormat('MMMM')
+                    ),
+                ]);
+            @endphp
+
+            <x-form.field name="birth_day" :label="__('profile.form.birthday')" :help="__('profile.form.birthdayHelp')">
+                <div class="grid grid-cols-[7fr_12fr_10fr] gap-2">
+                    <select name="birth_day" id="birth_day" aria-label="{{ __('profile.form.day') }}" class="{{ $selectClass }}">
+                        <option value="">{{ __('profile.form.day') }}</option>
+                        @foreach (range(1, 31) as $day)
+                            <option value="{{ $day }}" @selected(old('birth_day') == $day)>{{ $day }}</option>
+                        @endforeach
+                    </select>
+
+                    <select name="birth_month" aria-label="{{ __('profile.form.month') }}" class="{{ $selectClass }}">
+                        <option value="">{{ __('profile.form.month') }}</option>
+                        @foreach ($months as $number => $monthName)
+                            <option value="{{ $number }}" @selected(old('birth_month') == $number)>{{ $monthName }}</option>
+                        @endforeach
+                    </select>
+
+                    <select name="birth_year" aria-label="{{ __('profile.form.year') }}" class="{{ $selectClass }}">
+                        <option value="">{{ __('profile.form.noYear') }}</option>
+                        @foreach (range(now()->year, now()->year - 110) as $year)
+                            <option value="{{ $year }}" @selected(old('birth_year') == $year)>{{ $year }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                @foreach (['birth_month', 'birth_year'] as $birthField)
+                    @error($birthField)
+                        <p class="mt-1.5 text-xs text-danger">{{ $message }}</p>
+                    @enderror
+                @endforeach
             </x-form.field>
 
             <x-form.field name="interests" :label="__('profile.form.interests')" :help="__('profile.form.interestsHelp')">

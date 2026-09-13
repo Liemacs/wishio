@@ -47,7 +47,7 @@ beforeEach(function () {
 function pendingFrom(PublicProfile $profile, string $name): ProfileSubmission
 {
     test()->post("/@{$profile->slug}", [
-        'display_name' => $name, 'birthday' => '05.05.1995', 'consent' => '1',
+        'display_name' => $name, 'birth_day' => '5', 'birth_month' => '5', 'birth_year' => '1995', 'consent' => '1',
     ])->assertRedirect();
 
     return ProfileSubmission::latest('id')->first();

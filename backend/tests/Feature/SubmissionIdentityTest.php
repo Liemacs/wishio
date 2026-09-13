@@ -36,7 +36,7 @@ beforeEach(function () {
 function fillLink(PublicProfile $profile, array $overrides = []): void
 {
     test()->post("/@{$profile->slug}", array_merge([
-        'display_name' => 'Ana Popescu', 'birthday' => '05.05.1995',
+        'display_name' => 'Ana Popescu', 'birth_day' => '5', 'birth_month' => '5', 'birth_year' => '1995',
         'interests'    => ['coffee'], 'consent' => '1',
     ], $overrides))->assertRedirect();
 }
@@ -136,7 +136,7 @@ it('leaga direct urmatoarea completare a aceluiasi om de contactul confirmat', f
     fillLink($this->profile);
     resolveAs($this->owner, ProfileSubmission::sole(), $this->anaCiobanu->id);
 
-    fillLink($this->profile, ['birthday' => '06.05.1995']);
+    fillLink($this->profile, ['birth_day' => '6', 'birth_month' => '5', 'birth_year' => '1995']);
 
     expect(ProfileSubmission::pending()->count())->toBe(0)
         ->and(Person::count())->toBe(2)
@@ -145,7 +145,7 @@ it('leaga direct urmatoarea completare a aceluiasi om de contactul confirmat', f
 
 it('pune o singura intrebare pentru doua completari ale aceluiasi om', function () {
     fillLink($this->profile);
-    fillLink($this->profile, ['birthday' => '06.05.1995']);
+    fillLink($this->profile, ['birth_day' => '6', 'birth_month' => '5', 'birth_year' => '1995']);
 
     expect(ProfileSubmission::pending()->count())->toBe(2);
 

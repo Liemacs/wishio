@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Pagina publică `@slug`. Motorul de creștere din docs/01 § Reframe 2.
@@ -51,14 +52,21 @@ class PublicProfileController extends Controller
 
         $data = $request->validate([
             'display_name' => ['required', 'string', 'max:120'],
-            'birthday'     => ['nullable', 'string', 'max:16'],
-            'interests'    => ['nullable', 'array', 'max:12'],
-            'interests.*'  => ['string', Rule::in(Interest::validCodes())],
-            'message'      => ['nullable', 'string', 'max:280'],
-            'consent'      => ['accepted'],
+            // Ziua și luna vin împreună; anul e opțional (docs/09, W2).
+            'birth_day'   => ['nullable', 'integer', 'between:1,31', 'required_with:birth_month,birth_year'],
+            'birth_month' => ['nullable', 'integer', 'between:1,12', 'required_with:birth_day,birth_year'],
+            'birth_year'  => ['nullable', 'integer', 'between:'.(now()->year - 120).','.now()->year],
+            'interests'   => ['nullable', 'array', 'max:12'],
+            'interests.*' => ['string', Rule::in(Interest::validCodes())],
+            'message'     => ['nullable', 'string', 'max:280'],
+            'consent'     => ['accepted'],
+        ], [], [
+            'birth_day'   => __('profile.form.day'),
+            'birth_month' => __('profile.form.month'),
+            'birth_year'  => __('profile.form.year'),
         ]);
 
-        [$birthDate, $yearKnown] = $this->parseBirthday($data['birthday'] ?? null);
+        [$birthDate, $yearKnown] = $this->birthDate($data);
 
         $submission = ProfileSubmission::create([
             'public_profile_id' => $profile->id,
@@ -109,20 +117,27 @@ class PublicProfileController extends Controller
         return view('profile.deleted', ['profile' => $profile]);
     }
 
-    /** @return array{?string, bool} */
-    private function parseBirthday(?string $input): array
+    /**
+     * Data din cele trei liste. Listele permit și 31 aprilie sau 29 februarie
+     * într-un an nebisect; calendarul, nu.
+     *
+     * @return array{?string, bool}
+     */
+    private function birthDate(array $data): array
     {
-        if (! $input || ! preg_match('/^(\d{1,2})[.\-\/](\d{1,2})(?:[.\-\/](\d{4}))?$/', trim($input), $m)) {
-            return [null, false];
-        }
+        $day = $data['birth_day'] ?? null;
+        $month = $data['birth_month'] ?? null;
+        $year = $data['birth_year'] ?? null;
 
-        [, $day, $month, $year] = array_pad($m, 4, null);
-
-        if ((int) $day < 1 || (int) $day > 31 || (int) $month < 1 || (int) $month > 12) {
+        if ($day === null || $month === null) {
             return [null, false];
         }
 
         // Fără an folosim un an bisect, ca 29 februarie să rămână valid.
-        return [sprintf('%s-%02d-%02d', $year ?? '2000', $month, $day), $year !== null];
+        if (! checkdate((int) $month, (int) $day, (int) ($year ?? 2000))) {
+            throw ValidationException::withMessages(['birth_day' => __('profile.form.birthdayInvalid')]);
+        }
+
+        return [sprintf('%04d-%02d-%02d', $year ?? 2000, $month, $day), $year !== null];
     }
 }

@@ -34,7 +34,9 @@ function submit(string $slug, array $overrides = []): array
 {
     return array_merge([
         'display_name' => 'Gheorghe Rusu',
-        'birthday'     => '23.04.1998',
+        'birth_day'    => '23',
+        'birth_month'  => '4',
+        'birth_year'   => '1998',
         'interests'    => ['audio', 'car_care'],
         'consent'      => '1',
     ], $overrides);
@@ -114,7 +116,7 @@ it('creeaza si ocaziile, inclusiv onomastica', function () {
 });
 
 it('accepta o zi de nastere fara an', function () {
-    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birthday' => '23.04']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birth_year' => '']));
 
     $person = Person::sole();
 
@@ -298,7 +300,7 @@ it('nu lipeste completarea de un contact din agenda cu acelasi prenume', functio
     $contact = importedContact($this->owner, 'Ana Rusu', '1990-01-10');
 
     $this->post("/@{$this->profile->slug}", submit($this->profile->slug, [
-        'display_name' => 'Ana Popescu', 'birthday' => '05.05.1995',
+        'display_name' => 'Ana Popescu', 'birth_day' => '5', 'birth_month' => '5', 'birth_year' => '1995',
     ]))->assertRedirect();
 
     $contact->refresh();
@@ -312,8 +314,8 @@ it('nu lipeste completarea de un contact din agenda cu acelasi prenume', functio
 });
 
 it('nu uneste automat doi oameni cu acelasi prenume', function () {
-    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Popescu', 'birthday' => '05.05.1995']));
-    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Rusu', 'birthday' => '10.01.1990']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Popescu', 'birth_day' => '5', 'birth_month' => '5', 'birth_year' => '1995']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ana Rusu', 'birth_day' => '10', 'birth_month' => '1', 'birth_year' => '1990']));
 
     // A doua „Ana” asteapta alegerea proprietarului; prima ramane neatinsa.
     expect(Person::pluck('display_name')->all())->toBe(['Ana Popescu'])
@@ -323,8 +325,8 @@ it('nu uneste automat doi oameni cu acelasi prenume', function () {
 
 it('recunoaste acelasi om si cu alte majuscule sau diacritice', function () {
     // Omul care isi corecteaza ziua nu trebuie sa apara de doua ori.
-    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ștefan Rusu', 'birthday' => '23.04.1998']));
-    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'stefan rusu', 'birthday' => '24.04.1998']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'Ștefan Rusu', 'birth_day' => '23', 'birth_month' => '4', 'birth_year' => '1998']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['display_name' => 'stefan rusu', 'birth_day' => '24', 'birth_month' => '4', 'birth_year' => '1998']));
 
     expect(Person::count())->toBe(1)
         ->and(Person::sole()->birth_date->format('m-d'))->toBe('04-24');
@@ -379,7 +381,7 @@ it('scoate datele trimise si din persoana pastrata pentru ca proprietarul a edit
 
 it('sterge persoana abia cand omul si-a retras toate completarile', function () {
     $this->post("/@{$this->profile->slug}", submit($this->profile->slug));
-    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birthday' => '24.04.1998']));
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birth_day' => '24', 'birth_month' => '4', 'birth_year' => '1998']));
 
     [$first, $second] = ProfileSubmission::orderBy('id')->pluck('delete_token')->all();
 
@@ -419,4 +421,53 @@ it('lasa motoarele de cautare sa gaseasca profilul doar daca proprietarul a ales
     $this->get("/@{$this->profile->slug}")
         ->assertOk()
         ->assertDontSee('name="robots" content="noindex"', escape: false);
+});
+
+it('arata ziua de nastere ca trei liste, cu lunile in limba vizitatorului si anul optional', function (string $locale, string $april, string $noYear) {
+    $this->withHeader('Accept-Language', $locale)->get("/@{$this->profile->slug}")
+        ->assertOk()
+        ->assertSee('name="birth_day"', escape: false)
+        ->assertSee('name="birth_month"', escape: false)
+        ->assertSee($april, escape: false)
+        ->assertSee($noYear, escape: false)
+        ->assertDontSee('name="birthday"', escape: false);
+})->with([
+    ['ro', 'Aprilie', 'Fără an'],
+    ['ru', 'Апрель', 'Без года'],
+    ['en', 'April', 'No year'],
+]);
+
+it('respinge o data care nu exista in calendar', function () {
+    // Listele permit 31 aprilie; o zi de naștere inexistentă n-ar genera niciodată un reminder.
+    $this->withHeader('Accept-Language', 'ro')
+        ->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birth_day' => '31', 'birth_month' => '4']))
+        ->assertSessionHasErrors(['birth_day' => 'Data aceasta nu există. Verifică ziua și luna.']);
+
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birth_day' => '29', 'birth_month' => '2', 'birth_year' => '2001']))
+        ->assertSessionHasErrors('birth_day');
+
+    expect(ProfileSubmission::count())->toBe(0);
+});
+
+it('accepta 29 februarie fara an si lasa ziua de nastere necompletata', function () {
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birth_day' => '29', 'birth_month' => '2', 'birth_year' => '']))
+        ->assertSessionHasNoErrors();
+
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, [
+        'display_name' => 'Fără zi', 'birth_day' => '', 'birth_month' => '', 'birth_year' => '',
+    ]))->assertSessionHasNoErrors();
+
+    $submissions = ProfileSubmission::orderBy('id')->get();
+
+    expect($submissions[0]->birth_date->format('m-d'))->toBe('02-29')
+        ->and($submissions[0]->birth_year_known)->toBeFalse()
+        ->and($submissions[1]->birth_date)->toBeNull();
+});
+
+it('cere ziua si luna impreuna', function () {
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birth_day' => '', 'birth_month' => '4', 'birth_year' => '']))
+        ->assertSessionHasErrors('birth_day');
+
+    $this->post("/@{$this->profile->slug}", submit($this->profile->slug, ['birth_day' => '', 'birth_month' => '', 'birth_year' => '1990']))
+        ->assertSessionHasErrors(['birth_day', 'birth_month']);
 });
