@@ -12,7 +12,7 @@
       "bundleIdentifier": "md.wishio.app",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
-        "NSContactsUsageDescription": "Wishio citește doar numele și, dacă există, ziua de naștere, ca să-ți amintească de ocaziile importante. Numerele de telefon nu ajung niciodată la noi în clar, iar pozele rămân pe telefonul tău."
+        "NSContactsUsageDescription": "Wishio citește doar numele și, dacă există, ziua de naștere, ca să-ți amintească de ocaziile importante. Pe server ajung doar contactele pe care le alegi. Nu citim numere de telefon, emailuri sau poze."
       },
       "associatedDomains": [
         "applinks:wishio.md"
@@ -44,8 +44,12 @@
         }
       ],
       "permissions": [
-        "android.permission.READ_CONTACTS",
-        "android.permission.WRITE_CONTACTS"
+        "android.permission.READ_CONTACTS"
+      ],
+      "blockedPermissions": [
+        "android.permission.WRITE_CONTACTS",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
       ]
     },
     "web": {
@@ -73,7 +77,7 @@
       [
         "expo-contacts",
         {
-          "contactsPermission": "Wishio citește doar numele și ziua de naștere, ca să nu uiți ocaziile importante."
+          "contactsPermission": "Wishio citește doar numele și, dacă există, ziua de naștere, ca să-ți amintească de ocaziile importante. Pe server ajung doar contactele pe care le alegi. Nu citim numere de telefon, emailuri sau poze."
         }
       ],
       "expo-image",

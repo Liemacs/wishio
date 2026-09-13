@@ -69,6 +69,12 @@
 
     <footer class="mx-auto max-w-3xl px-5 pb-10 text-center text-xs leading-relaxed text-surface-400">
         {{ __('landing.footer.about') }}
+
+        {{-- Pe aceste pagini lasă date oameni fără cont: documentele legale stau la un click. --}}
+        <nav class="mt-3 flex justify-center gap-4">
+            <a href="{{ route('legal', ['key' => 'privacy', 'lang' => app()->getLocale()]) }}" class="underline">{{ __('landing.footer.privacy') }}</a>
+            <a href="{{ route('legal', ['key' => 'terms', 'lang' => app()->getLocale()]) }}" class="underline">{{ __('landing.footer.terms') }}</a>
+        </nav>
     </footer>
 
     {{-- Analytics. Schema de evenimente: docs/07-metrici.md § 3.

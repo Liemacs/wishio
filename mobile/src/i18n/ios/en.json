@@ -1,3 +1,3 @@
 {
-  "NSContactsUsageDescription": "Wishio only reads names and, when available, birthdays, so it can remind you of important occasions. Phone numbers never reach us in clear text, and photos stay on your phone."
+  "NSContactsUsageDescription": "Wishio only reads names and, when available, birthdays, so it can remind you of important occasions. Only the contacts you choose reach our server. We don't read phone numbers, emails or photos."
 }

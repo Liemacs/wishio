@@ -60,6 +60,8 @@ return [
         'back'     => 'Back',
     ],
     'footer' => [
-        'about' => 'Wishio is being built. For now we look for ideas by hand, to understand what actually helps.',
+        'about'   => 'Wishio is being built. For now we look for ideas by hand, to understand what actually helps.',
+        'privacy' => 'Privacy',
+        'terms'   => 'Terms',
     ],
 ];

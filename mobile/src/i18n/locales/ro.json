@@ -180,8 +180,8 @@
   "aiConsent": {
     "title": "Vrei idei mai bune?",
     "body": "Ca să găsim idei potrivite, trimitem către furnizorul nostru de inteligență artificială:",
-    "sends": "vârsta aproximativă, relația, interesele și bugetul",
-    "notSends": "NU trimitem numele, telefonul sau notele tale",
+    "sends": "vârsta aproximativă, genul, relația, ocazia, bugetul, interesele și ce să evităm (din listă), plus cadourile din catalog oferite deja",
+    "notSends": "NU trimitem numele, telefonul, notele tale sau alt text scris de tine",
     "allow": "De acord",
     "skip": "Nu, doar filtre",
     "note": "Poți schimba oricând din setări."
@@ -237,6 +237,9 @@
     "export": "Descarcă o copie a datelor",
     "exportHint": "Un fișier cu tot ce avem despre tine: persoanele, ocaziile, istoricul cadourilor și de unde vine fiecare informație.",
     "exportUnavailable": "Pe acest dispozitiv nu se pot partaja fișiere.",
+    "aiTitle": "Inteligența artificială",
+    "aiConsent": "Idei explicate de AI",
+    "aiHint": "Fără nume, note sau alt text scris de tine. Oprit, primești aceleași sugestii, doar fără explicații.",
     "legalTitle": "Legal",
     "privacy": "Politica de confidențialitate",
     "terms": "Termeni și condiții",

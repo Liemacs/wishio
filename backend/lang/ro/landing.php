@@ -61,6 +61,8 @@ return [
         'back'     => 'Înapoi',
     ],
     'footer' => [
-        'about' => 'Wishio este în construcție. Momentan căutăm ideile manual, ca să înțelegem ce ajută cu adevărat.',
+        'about'   => 'Wishio este în construcție. Momentan căutăm ideile manual, ca să înțelegem ce ajută cu adevărat.',
+        'privacy' => 'Confidențialitate',
+        'terms'   => 'Termeni',
     ],
 ];

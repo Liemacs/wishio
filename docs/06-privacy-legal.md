@@ -67,21 +67,24 @@ Politici echivalente pentru User Data și permisiunea `READ_CONTACTS`: justifica
 
 ## 3. Harta datelor
 
+> Rezumat, după cod, nu după intenție. Registrul complet, cu destinatari și termene, e în `docs/20`; evaluarea de impact, în `docs/21`; răspunsurile pentru App Store și Google Play, în `docs/22`.
+
 | Dată | Sursă | Unde stă | Temei | Retenție |
 |---|---|---|---|---|
-| Email / telefon user | userul | server | contract | cât contul + 30 zile |
-| Locale (ro/ru/en) | device / alegere | server | contract | idem |
-| Nume contact | agendă, **selectat de user** | server | interes legitim (uz personal) | până la ștergere |
-| Ziua de naștere a unui contact | agendă / manual / de la persoană | server | interes legitim / consimțământ | idem |
-| **Poza de contact** | agendă | **doar pe device** | — | nu părăsește device-ul |
-| **Numere de telefon din agendă** | agendă | **niciodată în clar** — doar HMAC | interes legitim | hash, ireversibil |
-| Note despre persoane | userul | server, criptat la rest | interes legitim | până la ștergere |
-| Interese | manual / AI / link | server | interes legitim / consimțământ | idem |
-| Istoric cadouri | userul | server | interes legitim | idem |
-| Context trimis spre AI | derivat | **pseudonimizat**, zero-retention | consimțământ explicit | nestocat de provider |
-| Clickuri spre magazin | comportament | server | interes legitim | 24 luni, apoi agregat |
-| Date din linkul public | **persoana însăși** | server | **consimțământ** | până la retragere |
+| Nume, email, parolă (hash) | userul | server | contract | cât contul; în copiile de siguranță încă ≤ 3 luni |
+| Limbă, țară, fus orar, calendar, ziua userului | device / alegere | server | contract | idem |
+| Nume și zi de naștere ale unui contact | agendă, **doar contactele selectate**, sau manual | server | interes legitim (uz personal) | până la ștergere — vezi nota de mai jos |
+| **Numere de telefon, emailuri, adrese, poze din agendă** | — | **nu se citesc deloc** (D-017) | — | — |
+| Relație, gen, buget, interese, ce să evite | userul / linkul public | server | interes legitim / consimțământ | până la ștergere |
+| Note despre persoane | userul | server, criptat la rest | interes legitim | idem |
+| Idei și istoric de cadouri | userul | server | interes legitim | idem |
+| Token de push | device, cu permisiunea sistemului | server + Expo | contract | până la deconectare sau până când Expo îl respinge |
+| Context trimis spre AI | derivat | **pseudonimizat**: coduri și titluri din catalog, fără text liber | consimțământ explicit, retras din Cont | nestocat de provider — **niciun provider activ azi** |
+| Clickuri spre magazin | comportament | server | interes legitim | 24 luni, apoi agregat — **agregarea nu există încă** (`docs/21`, M-08) |
+| Date din linkul public | **persoana însăși** | server | **consimțământ**, versionat | până la retragere, din linkul primit la final |
+| Cereri din Faza 0 | vizitatorul landing-ului | server | consimțământ | **nedefinită** (`docs/21`, M-09) |
 
+**Persoanele șterse** din aplicație rămân în baza de date (soft delete), ca reimportul din agendă să le readucă cu tot cu note (`ImportContacts`). Nu au termen de ștergere definitivă — decizia e în `docs/21`, M-07.
 ---
 
 ## 4. Fluxuri de consimțământ
@@ -96,8 +99,8 @@ Cont (Apple / Google / email OTP)
 ┌────────────────────────────────────────────────────┐
 │ Ecran explicativ ÎNAINTE de promptul de Contacts:  │
 │ "Citim doar numele și, dacă există, ziua de        │
-│  naștere. Numerele nu ajung niciodată la noi în    │
-│  clar. Pozele rămân pe telefonul tău.              │
+│  naștere. Nu citim numere de telefon, emailuri     │
+│  sau poze. Alegi tu pe cine urmărim.               │
 │  Poți adăuga oameni și manual."                    │
 │  [Permite acces]   [Adaug manual]                  │
 └────────────────────────────────────────────────────┘
@@ -117,12 +120,16 @@ Prima cerere de recomandare
 ┌────────────────────────────────────────────────────┐
 │ Consimțământ AI:                                   │
 │ "Ca să-ți dăm idei bune, trimitem către            │
-│  furnizorul nostru AI: vârstă aproximativă,        │
-│  relația, interesele și bugetul.                   │
-│  NU trimitem: numele, telefonul, notele tale."     │
+│  furnizorul nostru AI: vârsta aproximativă,        │
+│  genul, relația, ocazia, bugetul, interesele și    │
+│  ce să evităm, cadourile din catalog oferite deja. │
+│  NU trimitem: numele, telefonul, notele tale       │
+│  sau alt text scris de tine."                      │
 │  [Accept]   [Nu, vreau doar filtre]                │
 └────────────────────────────────────────────────────┘
 ```
+
+Acordul pentru AI se retrage oricând din **Cont → Inteligența artificială**, cu un singur comutator — la fel de ușor cum s-a dat.
 
 ---
 
@@ -139,8 +146,9 @@ Prima cerere de recomandare
 
 ## 6. Securitate — minim obligatoriu
 
-- `PEPPER` pentru HMAC în secrets manager, **nu** în `.env` din repo; rotația invalidează hash-urile (documentează procedura)
+- `PEPPER` pentru HMAC în secrets manager, **nu** în `.env` din repo; rotația invalidează hash-urile (documentează procedura) — la MVP nu există hash-uri de telefon (D-017); IP-urile din formularele publice se păstrează ca HMAC cu `APP_KEY`
 - notele despre persoane — criptate la rest (Laravel encrypted casts)
+- sesiunile web criptate în producție (`SESSION_ENCRYPT=true`): la o eroare de validare, câmpurile din formularul public stau în sesiune până la cererea următoare
 - rate limiting pe toate endpointurile publice
 - fără PII în logurile Sentry (scrubbing configurat explicit)
 - backup criptat, testat prin restaurare reală
@@ -150,14 +158,15 @@ Prima cerere de recomandare
 
 ## 7. Checklist înainte de primul submit
 
-- [ ] Privacy Policy + ToS, în RO / RU / EN, publicate la URL stabil
+- [ ] Privacy Policy + ToS, în RO / RU / EN, publicate la URL stabil — **texte gata** la `/legal/privacy` și `/legal/terms`, aliniate cu codul în S11.3; lipsesc operatorul (A7), revizuirea juridică și domeniul de producție
 - [ ] Ecran de ștergere cont în aplicație, funcțional — **implementat (M7)**, verificat cap-coadă pe API; rămâne verificarea pe telefon
 - [ ] Export de date funcțional — **implementat (M7)**, prin foaia de partajare a sistemului; rămâne verificarea pe telefon
-- [ ] Privacy Nutrition Label (Apple) + Data Safety (Google) completate corect
-- [ ] Aplicația testată **fără** permisiune de Contacts și **fără** push — complet utilizabilă
-- [ ] Consimțământ AI implementat și testat pe ruta „refuz”
-- [ ] DPIA scrisă (chiar sumară — dar scrisă)
-- [ ] Registrul prelucrărilor completat
-- [ ] Contracte/DPA cu: hosting, AI provider, analytics, push
+- [ ] Privacy Nutrition Label (Apple) + Data Safety (Google) completate corect — **răspunsuri pregătite** în `docs/22`; se introduc la submit
+- [ ] Aplicația testată **fără** permisiune de Contacts și **fără** push — complet utilizabilă — cod auditat (S11.8); rămâne testul pe telefon
+- [ ] Consimțământ AI implementat și testat pe ruta „refuz” — testat pe API; retragerea din Cont adăugată în S11.3; rămâne verificarea pe telefon
+- [ ] DPIA scrisă (chiar sumară — dar scrisă) — **ciornă** în `docs/21`; se aprobă după A7, cu juristul
+- [ ] Registrul prelucrărilor completat — **ciornă** în `docs/20`; lipsește identitatea operatorului
+- [ ] Contracte/DPA cu: hosting, push (Expo), email, AI provider, analytics, erori — lista și starea în `docs/20 § 2`
+- [ ] Pagină web pentru cererea de ștergere a contului — Google Play o cere în Data Safety (`docs/22 § 2`)
 - [ ] Cont de demo pentru App Review, cu date populate, cu instrucțiuni în EN
 - [ ] Screenshot-uri și descriere în RO / RU / EN

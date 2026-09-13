@@ -26,14 +26,16 @@ return [
                     'Limba, fusul orar și țara, ca aplicația să funcționeze corect.',
                     'Ziua ta de naștere și interesele tale, dacă le completezi.',
                     'Preferințele de notificare și identificatorul dispozitivului, ca să-ți putem trimite remindere.',
+                    'Ce oferte deschizi din aplicație spre magazine și când, ca să știm dacă sugestiile sunt utile.',
                 ],
             ],
             [
                 'title' => 'Ce colectăm despre persoanele pe care le adaugi',
                 'items' => [
                     'Numele și, dacă există, ziua de naștere — din agenda telefonului, doar pentru contactele pe care le selectezi tu, sau introduse manual de tine.',
-                    'Relația, interesele, bugetul și notele tale despre ele. Notele sunt criptate și nu părăsesc serverul.',
-                    'Istoricul cadourilor pe care le-ai oferit, dacă îl completezi.',
+                    'Relația, genul, interesele, bugetul și notele tale despre ele. Notele sunt criptate și nu părăsesc serverul.',
+                    'Ideile de cadou și istoricul cadourilor oferite, dacă le completezi.',
+                    'Ce îți trimit alți oameni prin linkul tău public: numele, ziua de naștere, interesele și un mesaj scurt.',
                 ],
             ],
             [
@@ -48,8 +50,8 @@ return [
             [
                 'title' => 'Inteligența artificială',
                 'items' => [
-                    'Dacă accepți, trimitem unui furnizor extern de inteligență artificială: vârsta aproximativă, relația, interesele și bugetul.',
-                    'NU trimitem niciodată numele, adresa de email, numărul de telefon sau notele tale.',
+                    'Dacă accepți, trimitem unui furnizor extern de inteligență artificială: vârsta aproximativă, genul, relația, ocazia, bugetul, interesele și ce să evităm (alese din lista aplicației) și cadourile din catalogul nostru pe care i le-ai oferit deja.',
+                    'NU trimitem niciodată numele, adresa de email, numărul de telefon, notele tale sau alt text scris de tine.',
                     'Poți refuza. Aplicația funcționează integral și fără această opțiune — primești aceleași sugestii, fără explicații.',
                     'Poți schimba alegerea oricând, din setări.',
                 ],
@@ -66,7 +68,8 @@ return [
                 'title' => 'Cui transmitem date',
                 'items' => [
                     'Furnizorului de găzduire, pentru a rula serviciul.',
-                    'Furnizorului de notificări, pentru a le livra pe telefonul tău.',
+                    'Furnizorului de notificări, prin Apple sau Google, pentru a le livra pe telefonul tău. O notificare conține numele persoanei și ocazia.',
+                    'Furnizorului de email, pentru rezumatul săptămânal, cât timp nu te dezabonezi.',
                     'Furnizorului de inteligență artificială, doar dacă ai acceptat și doar datele enumerate mai sus.',
                     'Nu vindem date. Nu le dăm nimănui în scop de publicitate.',
                 ],
@@ -77,6 +80,7 @@ return [
                     'Datele contului, cât timp contul există.',
                     'Clickurile spre magazine, 24 de luni, apoi doar agregat.',
                     'La ștergerea contului, tot ce ține de el se șterge definitiv, nu se dezactivează.',
+                    'Copiile de siguranță mai păstrează datele cel mult 3 luni după ștergere, apoi sunt suprascrise.',
                 ],
             ],
             [

@@ -1,14 +1,20 @@
 <?php
 
+use App\Domain\Catalog\Models\Offer;
+use App\Domain\Catalog\Models\OutboundClick;
 use App\Domain\Occasions\Models\Occasion;
 use App\Domain\People\Actions\WritePersonField;
 use App\Domain\People\Enums\FieldSource;
 use App\Domain\People\Models\GiftHistory;
 use App\Domain\People\Models\Person;
+use App\Domain\People\Models\PersonAvoid;
 use App\Domain\Profiles\Models\PublicProfile;
+use App\Domain\Recommendations\Models\RecommendationRun;
 use App\Domain\Reminders\Models\DeviceToken;
 use App\Domain\Reminders\Models\UserSettings;
 use App\Models\User;
+use Database\Seeders\CatalogSeeder;
+use Database\Seeders\InterestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -194,4 +200,37 @@ it('lasa comutatorul de limba din pagina sa castige fata de URL', function () {
 it('pastreaza limba in linkurile dintre documente', function () {
     $this->get('/legal/privacy?lang=ru')
         ->assertSee(route('legal', ['key' => 'terms', 'lang' => 'ru']), escape: false);
+});
+
+it('exporta si ce nu se vede in fisa persoanei', function () {
+    // „Poți descărca toate datele tale”, din politică, trebuie să fie adevărat:
+    // și clickurile, recomandările, dispozitivele, persoanele șterse încă păstrate.
+    $this->seed(InterestSeeder::class);
+    $this->seed(CatalogSeeder::class);
+
+    $this->user->update(['ai_consent_at' => now(), 'ai_consent_asked_at' => now()]);
+    PersonAvoid::create(['person_id' => $this->person->id, 'free_text' => 'alergic la nuci']);
+    Person::create(['user_id' => $this->user->id, 'display_name' => 'Fost coleg'])->delete();
+
+    $offer = Offer::with('product')->first();
+    OutboundClick::create([
+        'user_id'   => $this->user->id, 'offer_id' => $offer->id, 'merchant_id' => $offer->merchant_id,
+        'person_id' => $this->person->id, 'price' => $offer->price, 'context' => 'recommendation',
+    ]);
+    RecommendationRun::create([
+        'user_id' => $this->user->id, 'person_id' => $this->person->id, 'locale' => 'ro', 'status' => 'ready',
+    ]);
+
+    $data = $this->actingAs($this->user)->getJson('/api/v1/account/export')->assertOk()->json();
+    $people = collect($data['people']);
+
+    expect($data['format'])->toBe('wishio/export/2')
+        ->and($data['account']['ai_consent_at'])->not->toBeNull()
+        ->and($people->firstWhere('name', 'Alex')['avoids'][0]['text'])->toBe('alergic la nuci')
+        ->and($people->firstWhere('name', 'Fost coleg')['deleted_at'])->not->toBeNull()
+        ->and($data['devices'])->toHaveCount(1)
+        ->and($data['devices'][0])->not->toHaveKey('token')
+        ->and($data['clicks'][0]['product'])->toBe($offer->product->title)
+        ->and($data['clicks'][0]['person'])->toBe('Alex')
+        ->and($data['recommendations'][0]['person'])->toBe('Alex');
 });

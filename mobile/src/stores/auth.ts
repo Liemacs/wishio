@@ -3,6 +3,7 @@ import { getCalendars } from 'expo-localization';
 
 import { api, getToken, setToken } from '../api/client';
 import type { Locale, Profile } from '../api/types';
+import { unregisterDevice } from '../features/notifications/push';
 import i18n from '../i18n';
 import { queryClient } from '../lib/queryClient';
 import { useLocaleStore } from './locale';
@@ -100,6 +101,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
+    // Întâi telefonul, cât tokenul de acces mai e valabil.
+    await unregisterDevice();
+
     try {
       await api.post('/auth/logout');
     } catch {

@@ -115,6 +115,12 @@
                 </span>
             </label>
 
+            {{-- Informarea vine înainte de consimțământ, nu după. --}}
+            <p class="text-center">
+                <a href="{{ route('legal', ['key' => 'privacy', 'lang' => app()->getLocale()]) }}"
+                   class="text-xs text-surface-400 underline">{{ __('profile.form.privacy') }}</a>
+            </p>
+
             <button type="submit"
                     class="w-full rounded-button bg-primary-600 px-6 py-3.5 text-base font-semibold text-white
                            transition hover:bg-primary-700 active:scale-[0.99]">

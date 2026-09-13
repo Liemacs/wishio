@@ -7,9 +7,11 @@ use App\Domain\People\Models\Person;
 /**
  * Ce trimitem spre AI despre o persoană.
  *
- * PSEUDONIMIZAT, deliberat: fără nume, fără telefon, fără email, fără notele
- * libere ale utilizatorului. Notele pot conține date sensibile („e diabetic”,
- * „divorțează”) și nu părăsesc serverul. Vezi docs/05 § 5 și docs/06 § 2.
+ * PSEUDONIMIZAT, deliberat: fără nume, fără telefon, fără email și fără niciun
+ * text scris de utilizator. Notele, „de evitat” scris liber și cadourile
+ * introduse de mână pot conține date sensibile („e diabetic”, „alergic la
+ * nuci”) și nu părăsesc serverul. Pleacă doar coduri din taxonomie și titluri
+ * din catalog. Vezi docs/05 § 5, docs/06 § 2 și docs/21.
  */
 readonly class PersonContext
 {
@@ -33,8 +35,10 @@ readonly class PersonContext
             gender: $person->gender,
             ageBracket: self::bracket($person->age()),
             interests: $person->interests->pluck('code')->all(),
-            avoid: $person->avoids->map(fn ($a) => $a->interest?->code ?? $a->free_text)->filter()->values()->all(),
-            alreadyReceived: $person->giftHistory->pluck('title')->all(),
+            avoid: $person->avoids->map(fn ($a) => $a->interest?->code)->filter()->values()->all(),
+            // Titlul unui cadou introdus de mână e textul utilizatorului
+            // („tabloul cu noi doi la mare”), nu un produs: pleacă doar cele din catalog.
+            alreadyReceived: $person->giftHistory->map(fn ($entry) => $entry->product?->title)->filter()->values()->all(),
             budgetMin: $budgetMin ?? $person->budget_min,
             budgetMax: $budgetMax ?? $person->budget_max,
             occasionType: $occasionType,

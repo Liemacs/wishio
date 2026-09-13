@@ -171,8 +171,8 @@
   "aiConsent": {
     "title": "Want better ideas?",
     "body": "To find suitable ideas, we send our AI provider:",
-    "sends": "approximate age, relationship, interests and budget",
-    "notSends": "we do NOT send names, phone numbers or your notes",
+    "sends": "approximate age, gender, relationship, occasion, budget, interests and things to avoid (from the list), plus catalog gifts already given",
+    "notSends": "we do NOT send names, phone numbers, your notes or any other text you wrote",
     "allow": "I agree",
     "skip": "No, filters only",
     "note": "You can change this in settings at any time."
@@ -226,6 +226,9 @@
     "export": "Download a copy of your data",
     "exportHint": "A file with everything we hold about you: your people, occasions, gift history, and where each piece of information came from.",
     "exportUnavailable": "File sharing isn't available on this device.",
+    "aiTitle": "Artificial intelligence",
+    "aiConsent": "Ideas explained by AI",
+    "aiHint": "No names, notes or any text you wrote. When off, you get the same suggestions, just without explanations.",
     "legalTitle": "Legal",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",

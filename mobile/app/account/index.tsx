@@ -10,16 +10,18 @@ import * as WebBrowser from 'expo-web-browser';
 import { errorMessage, webUrl } from '../../src/api/client';
 import { BackButton } from '../../src/components/ui/BackButton';
 import { Screen } from '../../src/components/ui/Screen';
-import { Group, Row, Section } from '../../src/components/ui/SettingsList';
+import { Group, Row, Section, SwitchRow } from '../../src/components/ui/SettingsList';
 import { entrance, spring, useReducedMotion } from '../../src/design/motion';
 import { TYPE } from '../../src/design/typography';
 import { useChangeLocale, useExportData } from '../../src/features/account/queries';
+import { useAiConsent } from '../../src/features/recommendations/queries';
 import { LOCALE_NAMES, SUPPORTED_LOCALES, type Locale } from '../../src/i18n';
 import { useAuthStore } from '../../src/stores/auth';
 import { useLocaleStore } from '../../src/stores/locale';
 
 /**
- * Ecranul M7 din docs/09: limbă, export de date, documente legale, ștergere.
+ * Ecranul M7 din docs/09: limbă, export de date, acordul pentru AI, documente
+ * legale, ștergere.
  *
  * Ștergerea stă ultima și separat, cu text roșu, dar nu ascunsă: Apple cere
  * să poată fi găsită în aplicație, iar legea cere să fie reală (docs/06).
@@ -33,6 +35,8 @@ export default function AccountScreen() {
   const logout = useAuthStore((s) => s.logout);
   const changeLocale = useChangeLocale();
   const exportData = useExportData();
+  const aiConsent = useAuthStore((s) => s.profile?.ai_consent ?? false);
+  const consent = useAiConsent();
 
   const onLocale = (code: Locale) =>
     changeLocale.mutate(code, { onError: (error) => Alert.alert('', errorMessage(error)) });
@@ -49,6 +53,13 @@ export default function AccountScreen() {
         Alert.alert('', errorMessage(error));
       },
     });
+
+  // Retragerea acordului trebuie să fie la fel de ușoară ca acordul (docs/21).
+  // Comutatorul arată alegerea nouă cât pleacă cererea și revine dacă eșuează.
+  const aiValue = consent.isPending && consent.variables !== undefined ? consent.variables : aiConsent;
+
+  const onAiConsent = (granted: boolean) =>
+    consent.mutate(granted, { onError: (error) => Alert.alert('', errorMessage(error)) });
 
   // În limba aplicației, nu a telefonului: browserul din aplicație trimite
   // limba sistemului, iar cele două pot fi diferite.
@@ -74,20 +85,26 @@ export default function AccountScreen() {
           </Group>
         </Section>
 
-        <Section title={t('account.legalTitle')} index={3} reduced={reduced}>
+        <Section title={t('account.aiTitle')} footer={t('account.aiHint')} index={3} reduced={reduced}>
+          <Group>
+            <SwitchRow label={t('account.aiConsent')} value={aiValue} onValueChange={onAiConsent} />
+          </Group>
+        </Section>
+
+        <Section title={t('account.legalTitle')} index={4} reduced={reduced}>
           <Group>
             <Row label={t('account.privacy')} accessory="external" onPress={() => openLegal('privacy')} />
             <Row label={t('account.terms')} accessory="external" onPress={() => openLegal('terms')} />
           </Group>
         </Section>
 
-        <Section footer={email ? t('account.signedInAs', { email }) : undefined} index={4} reduced={reduced}>
+        <Section footer={email ? t('account.signedInAs', { email }) : undefined} index={5} reduced={reduced}>
           <Group>
             <Row label={t('auth.logout')} tone="accent" onPress={logout} />
           </Group>
         </Section>
 
-        <Section footer={t('account.deleteHint')} index={5} reduced={reduced}>
+        <Section footer={t('account.deleteHint')} index={6} reduced={reduced}>
           <Group>
             <Row
               label={t('account.delete')}

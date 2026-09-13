@@ -220,10 +220,10 @@ Cifrele îți spun unde să insiști.
 
 | ID | Pas |
 |---|---|
-| S11.1 🔴 | **Ștergere cont + export date**, în aplicație (obligatoriu Apple) |
-| S11.2 🔴 | **C11 — Privacy Policy + ToS în RO/RU/EN**, la URL stabil |
-| S11.3 🔴 | **C12 — DPIA + registrul prelucrărilor** (Legea 195/2024, în vigoare din 23 aug 2026) |
-| S11.4 | Privacy Nutrition Label (Apple) + Data Safety (Google) |
+| S11.1 🔴 | **Ștergere cont + export date**, în aplicație (obligatoriu Apple) — **implementat** în ecranul Cont (M7): export JSON prin foaia de partajare, ștergere cu emailul scris de mână și parola, testate pe API; rămâne verificarea pe telefon |
+| S11.2 🔴 | **C11 — Privacy Policy + ToS în RO/RU/EN**, la URL stabil — **texte gata** la `/legal/privacy` și `/legal/terms`, aliniate cu codul în S11.3 (ce pleacă spre AI, email, conținutul notificărilor, copii de siguranță); rămân operatorul (A7), juristul și domeniul de producție |
+| S11.3 🔴 | **C12 — DPIA + registrul prelucrărilor** (Legea 195/2024, în vigoare din 23 aug 2026) — **ciornă scrisă**: registrul în `docs/20`, DPIA cu plan de măsuri în `docs/21`. Reparat pe loc ce contrazicea textele publicate: text liber în contextul pentru AI, acordul AI care nu se putea retrage, exportul incomplet, tokenul de push rămas activ după deconectare, formulare publice fără link spre politică. Rămân operatorul (A7), juristul și măsurile deschise din `docs/21 § 6` |
+| S11.4 | Privacy Nutrition Label (Apple) + Data Safety (Google) — **răspunsuri pregătite** în `docs/22`, verificate pe cod; `WRITE_CONTACTS` blocată pe Android. Se introduc în App Store Connect și Play Console la S12 |
 | S11.5 ✅ | ~~Stări goale, erori, offline, skeletons, animații~~ — stare de eroare comună cu reîncercare; schelete pe ecranul principal, persoane și idei; bandă offline legată de pauza cererilor; modificările făcute offline eșuează imediat, cu mesaj |
 | S11.6 ✅ | ~~**Audit de traduceri**: zero stringuri hardcodate, zero fallback vizibil, testat cu RU (texte mai lungi)~~ — scanner pe cod în mobil și pe chei în backend, ambele în CI; titlurile de push sub 40 de caractere în toate limbile |
 | S11.7 | Sentry cu scrubbing PII; test real de restaurare backup |

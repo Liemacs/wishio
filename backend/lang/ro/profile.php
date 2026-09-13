@@ -25,6 +25,7 @@ return [
         'interestsHelp' => 'Alege câteva. Ajută la alegerea cadoului.',
         'message'       => 'Vrei să-i lași un mesaj?',
         'consent'       => 'Sunt de acord ca aceste date să ajungă la :name, în aplicația Wishio. Nu le dăm nimănui altcuiva și le poți șterge oricând.',
+        'privacy'       => 'Cum folosim datele',
         'submit'        => 'Trimite-i datele',
     ],
     'thanks' => [

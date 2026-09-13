@@ -19,14 +19,16 @@ return [
                     'Language, time zone and country, so the app works correctly.',
                     'Your birthday and interests, if you fill them in.',
                     'Notification preferences and a device identifier, so we can send reminders.',
+                    'Which shop offers you open from the app and when, so we know whether suggestions are useful.',
                 ],
             ],
             [
                 'title' => 'What we collect about the people you add',
                 'items' => [
                     'Their name and, when present, their birthday — from your phone contacts, only for the contacts you select, or entered manually by you.',
-                    'Relationship, interests, budget and your notes about them. Notes are encrypted and never leave the server.',
-                    'The history of gifts you gave, if you record it.',
+                    'Relationship, gender, interests, budget and your notes about them. Notes are encrypted and never leave the server.',
+                    'Gift ideas and the history of gifts you gave, if you record them.',
+                    'What other people send you through your public link: name, birthday, interests and a short message.',
                 ],
             ],
             [
@@ -41,8 +43,8 @@ return [
             [
                 'title' => 'Artificial intelligence',
                 'items' => [
-                    'If you agree, we send an external AI provider: approximate age, relationship, interests and budget.',
-                    'We NEVER send names, email addresses, phone numbers or your notes.',
+                    'If you agree, we send an external AI provider: approximate age, gender, relationship, occasion, budget, interests and things to avoid (picked from the list in the app), and gifts from our catalog you have already given.',
+                    'We NEVER send names, email addresses, phone numbers, your notes or any other text you wrote.',
                     'You can decline. The app works fully without this — you get the same suggestions, without explanations.',
                     'You can change your choice at any time in settings.',
                 ],
@@ -59,7 +61,8 @@ return [
                 'title' => 'Who we share data with',
                 'items' => [
                     'Our hosting provider, to run the service.',
-                    'Our notification provider, to deliver reminders to your phone.',
+                    'Our notification provider, through Apple or Google, to deliver reminders to your phone. A notification contains the name of the person and the occasion.',
+                    'Our email provider, to send the weekly summary, until you unsubscribe.',
                     'Our AI provider, only if you agreed and only the data listed above.',
                     'We do not sell data. We do not share it for advertising.',
                 ],
@@ -70,6 +73,7 @@ return [
                     'Account data, for as long as the account exists.',
                     'Outbound clicks to shops, 24 months, then only in aggregate.',
                     'When you delete your account, everything tied to it is permanently deleted, not deactivated.',
+                    'Backups keep data for at most 3 more months after deletion, then they are overwritten.',
                 ],
             ],
             [

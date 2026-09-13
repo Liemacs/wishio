@@ -41,7 +41,7 @@ class GenerateRecommendations
     ): RecommendationRun {
         $startedAt = microtime(true);
 
-        $person->loadMissing(['interests', 'avoids.interest', 'giftHistory', 'user']);
+        $person->loadMissing(['interests', 'avoids.interest', 'giftHistory.product', 'user']);
 
         $context = PersonContext::fromPerson($person, $budgetMin, $budgetMax, $occasion?->type ?? 'birthday');
 

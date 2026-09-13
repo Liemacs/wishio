@@ -391,3 +391,12 @@ it('sterge persoana abia cand omul si-a retras toate completarile', function () 
 
     expect(Person::count())->toBe(0);
 });
+
+it('arata politica de confidentialitate langa formular, inainte de trimitere', function () {
+    // Consimțământul valorează ceva doar dacă omul a putut citi, înainte, ce se întâmplă cu datele.
+    $this->withHeader('Accept-Language', 'ro')->get("/@{$this->profile->slug}")
+        ->assertOk()
+        ->assertSee(route('legal', ['key' => 'privacy', 'lang' => 'ro']), escape: false)
+        ->assertSee('Cum folosim datele', escape: false)
+        ->assertSee(route('legal', ['key' => 'terms', 'lang' => 'ro']), escape: false);
+});

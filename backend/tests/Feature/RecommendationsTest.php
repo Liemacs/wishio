@@ -7,6 +7,7 @@ use App\Domain\People\Models\Person;
 use App\Domain\People\Models\PersonAvoid;
 use App\Domain\Recommendations\Actions\GenerateRecommendations;
 use App\Domain\Recommendations\DTOs\GiftCriteria;
+use App\Domain\Recommendations\DTOs\PersonContext;
 use App\Domain\Recommendations\Models\RecommendationRun;
 use App\Models\User;
 use Database\Seeders\CatalogSeeder;
@@ -242,4 +243,47 @@ it('nu marcheaza drept intrebat un utilizator nou', function () {
     $this->actingAs($this->user)->getJson('/api/v1/auth/me')
         ->assertJsonPath('data.ai_consent', false)
         ->assertJsonPath('data.ai_consent_asked', false);
+});
+
+it('trimite spre AI doar date pseudonimizate, fara text scris de utilizator', function () {
+    // Regula 6 din CLAUDE.md. Contextul poate pleca la un furnizor extern:
+    // numele, notele și orice text liber rămân pe server.
+    $person = personWith($this->user, ['audio'], [
+        'display_name'     => 'Alexandru Popescu',
+        'notes'            => 'e diabetic',
+        'birth_date'       => now()->subYears(30)->subDay()->toDateString(),
+        'birth_year_known' => true,
+    ]);
+    $sony = Product::where('title', 'like', '%WH-1000XM5%')->sole();
+
+    PersonAvoid::create([
+        'person_id'   => $person->id,
+        'interest_id' => Interest::where('code', 'fragrance_men')->value('id'),
+    ]);
+    PersonAvoid::create(['person_id' => $person->id, 'free_text' => 'alergic la nuci']);
+
+    GiftHistory::create([
+        'user_id'    => $this->user->id, 'person_id' => $person->id,
+        'product_id' => $sony->id, 'title' => $sony->title, 'year' => 2025,
+    ]);
+    GiftHistory::create([
+        'user_id' => $this->user->id, 'person_id' => $person->id,
+        'title'   => 'Tabloul cu noi doi la mare', 'year' => 2024,
+    ]);
+
+    $context = PersonContext::fromPerson(
+        $person->fresh(['interests', 'avoids.interest', 'giftHistory.product']), 500, 6000,
+    );
+    $sent = json_encode($context->toArray(), JSON_UNESCAPED_UNICODE);
+
+    expect($sent)
+        ->not->toContain('Alexandru')
+        ->not->toContain('Popescu')
+        ->not->toContain('diabetic')
+        ->not->toContain('nuci')
+        ->not->toContain('Tabloul');
+
+    expect($context->avoid)->toBe(['fragrance_men'])
+        ->and($context->alreadyReceived)->toBe([$sony->title])
+        ->and($context->ageBracket)->toBe('25-34');
 });

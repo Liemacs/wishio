@@ -25,6 +25,7 @@ return [
         'interestsHelp' => 'Pick a few. It helps with choosing a gift.',
         'message'       => 'Want to leave a message?',
         'consent'       => 'I agree that these details reach :name in the Wishio app. We share them with no one else, and you can delete them at any time.',
+        'privacy'       => 'How we use your data',
         'submit'        => 'Send my details',
     ],
     'thanks' => [

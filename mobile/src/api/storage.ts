@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 /**
- * Stocarea tokenului, adaptată platformei.
+ * Stocarea tokenurilor, adaptată platformei.
  *
  * Pe iOS și Android folosim Keychain / Keystore prin expo-secure-store.
  * Pe web acel modul nu există, iar importul lui strică bundle-ul — de aceea
@@ -10,29 +10,32 @@ import { Platform } from 'react-native';
  */
 const KEY = 'wishio.token';
 
+/** Tokenul de push înregistrat pe cont: deconectarea trebuie să-l poată retrage. */
+const PUSH_KEY = 'wishio.push-token';
+
 async function secureStore() {
   return import('expo-secure-store');
 }
 
-export async function readToken(): Promise<string | null> {
+async function readItem(key: string): Promise<string | null> {
   try {
     if (Platform.OS === 'web') {
-      return globalThis.localStorage?.getItem(KEY) ?? null;
+      return globalThis.localStorage?.getItem(key) ?? null;
     }
 
-    return await (await secureStore()).getItemAsync(KEY);
+    return await (await secureStore()).getItemAsync(key);
   } catch {
     return null;
   }
 }
 
-export async function writeToken(token: string | null): Promise<void> {
+async function writeItem(key: string, value: string | null): Promise<void> {
   try {
     if (Platform.OS === 'web') {
-      if (token) {
-        globalThis.localStorage?.setItem(KEY, token);
+      if (value) {
+        globalThis.localStorage?.setItem(key, value);
       } else {
-        globalThis.localStorage?.removeItem(KEY);
+        globalThis.localStorage?.removeItem(key);
       }
 
       return;
@@ -40,13 +43,19 @@ export async function writeToken(token: string | null): Promise<void> {
 
     const store = await secureStore();
 
-    if (token) {
-      await store.setItemAsync(KEY, token);
+    if (value) {
+      await store.setItemAsync(key, value);
     } else {
-      await store.deleteItemAsync(KEY);
+      await store.deleteItemAsync(key);
     }
   } catch {
     // Keystore-ul poate fi indisponibil pe unele dispozitive. Nu blocăm
     // aplicația: utilizatorul se va reautentifica la următoarea pornire.
   }
 }
+
+export const readToken = () => readItem(KEY);
+export const writeToken = (token: string | null) => writeItem(KEY, token);
+
+export const readPushToken = () => readItem(PUSH_KEY);
+export const writePushToken = (token: string | null) => writeItem(PUSH_KEY, token);

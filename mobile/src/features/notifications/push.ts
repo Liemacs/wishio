@@ -4,6 +4,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 
 import { api } from '../../api/client';
+import { readPushToken, writePushToken } from '../../api/storage';
 
 /**
  * Înregistrarea pentru notificări.
@@ -92,6 +93,28 @@ async function registerDevice(): Promise<void> {
     token,
     platform: Platform.OS === 'ios' ? 'ios' : Platform.OS === 'android' ? 'android' : 'web',
   });
+
+  await writePushToken(token);
+}
+
+/**
+ * Retrage telefonul de pe cont, la deconectare. Fără asta, un telefon
+ * deconectat primea în continuare reminderele contului, cu numele persoanelor
+ * pe ecranul blocat (docs/21, M-06). Nu aruncă: ieșirea din cont nu așteaptă
+ * după rețea.
+ */
+export async function unregisterDevice(): Promise<void> {
+  const token = await readPushToken();
+
+  if (!token) return;
+
+  try {
+    await api.delete('/devices', { data: { token } });
+    await writePushToken(null);
+  } catch {
+    // Fără rețea, cererea se pierde. Dacă altcineva intră apoi în cont pe
+    // același telefon, serverul mută tokenul la el (updateOrCreate pe token).
+  }
 }
 
 type NotificationData = { type?: string; person_id?: number; submission_id?: number } | undefined;
