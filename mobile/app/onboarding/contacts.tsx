@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { AppState, Linking, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MotiView } from 'moti';
 
 import { Button } from '../../src/components/ui/Button';
 import { Screen } from '../../src/components/ui/Screen';
-import { requestPermission } from '../../src/features/contacts/deviceContacts';
+import { getContactsPermission, requestPermission } from '../../src/features/contacts/deviceContacts';
 import { TYPE } from '../../src/design/typography';
 
 /** Textul cu **accent** devine bold, fără a introduce un parser de markdown. */
@@ -35,13 +35,48 @@ export default function ContactsExplainer() {
   const { t } = useTranslation();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+
+  // Fără contacte, ramura manuală duce tot la „aha” și la întrebarea despre
+  // notificări (docs/09, F1): ecranul de adăugare știe că vine din onboarding.
+  const manual = () => router.replace({ pathname: '/people/new', params: { from: 'onboarding' } });
+
+  // Accesul poate fi deja pornit (din Setări) sau blocat definitiv. Se verifică
+  // și la revenirea în aplicație, după o vizită în Setări.
+  useEffect(() => {
+    const check = async () => {
+      const permission = await getContactsPermission().catch(() => 'undetermined' as const);
+
+      if (permission === 'granted') {
+        router.replace('/onboarding/select');
+
+        return;
+      }
+
+      setBlocked(permission === 'blocked');
+    };
+
+    check();
+
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') check();
+    });
+
+    return () => subscription.remove();
+  }, [router]);
 
   const ask = async () => {
     setBusy(true);
-    const granted = await requestPermission();
-    setBusy(false);
 
-    router.replace(granted ? '/onboarding/select' : '/people/new');
+    try {
+      if (await requestPermission()) {
+        router.replace('/onboarding/select');
+      } else {
+        manual();
+      }
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -72,13 +107,17 @@ export default function ContactsExplainer() {
           ))}
         </View>
 
+        {blocked ? (
+          <Text className="mt-6 text-sm leading-relaxed text-surface-500">{t('onboarding.contactsBlocked')}</Text>
+        ) : null}
+
         <View className="mt-10 gap-3">
-          <Button label={t('onboarding.allow')} onPress={ask} loading={busy} />
-          <Button
-            label={t('onboarding.manual')}
-            variant="ghost"
-            onPress={() => router.replace('/people/new')}
-          />
+          {blocked ? (
+            <Button label={t('notifications.openSettings')} onPress={() => Linking.openSettings()} />
+          ) : (
+            <Button label={t('onboarding.allow')} onPress={ask} loading={busy} />
+          )}
+          <Button label={t('onboarding.manual')} variant="ghost" onPress={manual} />
         </View>
       </View>
     </Screen>

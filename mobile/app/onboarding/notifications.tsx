@@ -19,13 +19,41 @@ export default function PushPermission() {
   const { t } = useTranslation();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
+  const [declined, setDeclined] = useState(false);
 
   const ask = async () => {
     setBusy(true);
-    await requestPushPermission();
+    const status = await requestPushPermission();
     setBusy(false);
+
+    // Refuzul nu e un zid: spunem ce rămâne fără notificări (docs/09, O9).
+    if (status === 'denied') {
+      setDeclined(true);
+
+      return;
+    }
+
     router.replace('/home');
   };
+
+  if (declined) {
+    return (
+      <Screen>
+        <View className="flex-1 justify-center px-6">
+          <Text className="text-center text-5xl">🗓️</Text>
+          <Text className="mt-6 text-center text-surface-900" style={TYPE.title}>
+            {t('push.deniedTitle')}
+          </Text>
+          <Text className="mt-3 text-center text-base leading-relaxed text-surface-500">
+            {t('push.deniedBody')}
+          </Text>
+          <View className="mt-10">
+            <Button label={t('common.continue')} onPress={() => router.replace('/home')} />
+          </View>
+        </View>
+      </Screen>
+    );
+  }
 
   return (
     <Screen>

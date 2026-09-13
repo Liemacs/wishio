@@ -26,6 +26,20 @@ export async function requestPermission(): Promise<boolean> {
   return status === 'granted';
 }
 
+export type ContactsPermission = 'granted' | 'undetermined' | 'blocked';
+
+/**
+ * Starea permisiunii, fără să întrebe. „blocked”: sistemul nu mai afișează
+ * dialogul, iar accesul se poate porni doar din Setările telefonului.
+ */
+export async function getContactsPermission(): Promise<ContactsPermission> {
+  const { status, canAskAgain } = await Contacts.getPermissionsAsync();
+
+  if (status === 'granted') return 'granted';
+
+  return status === 'denied' && !canAskAgain ? 'blocked' : 'undetermined';
+}
+
 export async function getPermission(): Promise<boolean> {
   const { status } = await Contacts.getPermissionsAsync();
 

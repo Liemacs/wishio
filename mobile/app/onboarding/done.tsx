@@ -68,7 +68,11 @@ export default function OnboardingDone() {
         <View className="mt-10 gap-3">
           <Button
             label={nothing ? t('people.add') : t('onboarding.start')}
-            onPress={() => router.replace(nothing ? '/people/new' : '/onboarding/notifications')}
+            onPress={() =>
+              nothing
+                ? router.replace({ pathname: '/people/new', params: { from: 'onboarding' } })
+                : router.replace('/onboarding/notifications')
+            }
           />
           {nothing ? (
             <Button label={t('onboarding.start')} variant="ghost" onPress={() => router.replace('/onboarding/notifications')} />

@@ -133,7 +133,8 @@
     "foundNameDays_one": "{{count}} name day",
     "foundNameDays_other": "{{count}} name days",
     "foundNothing": "No dates found in your contacts. You can add them manually — it takes a few seconds per person.",
-    "start": "Get started"
+    "start": "Get started",
+    "contactsBlocked": "Contacts access is turned off in your phone's settings. You can turn it on there, or add people by hand."
   },
   "push": {
     "title": "Should we remind you in advance?",
@@ -141,7 +142,7 @@
     "allow": "Yes, remind me",
     "skip": "Not now",
     "deniedTitle": "No notifications",
-    "deniedBody": "That's fine. Upcoming occasions still show on the home screen."
+    "deniedBody": "That's fine. Upcoming occasions show on the home screen, and every Monday morning you get a summary by email. You can turn notifications on anytime under Notifications."
   },
   "gift": {
     "title": "What's your budget?",

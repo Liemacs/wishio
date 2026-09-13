@@ -141,7 +141,8 @@
     "foundNameDays_few": "{{count}} onomastici",
     "foundNameDays_other": "{{count}} de onomastici",
     "foundNothing": "N-am găsit nicio dată în agendă. Le poți adăuga manual — durează câteva secunde de persoană.",
-    "start": "Începem"
+    "start": "Începem",
+    "contactsBlocked": "Accesul la contacte e oprit din setările telefonului. Îl poți porni de acolo, sau adaugi persoanele de mână."
   },
   "push": {
     "title": "Să te anunțăm din timp?",
@@ -149,7 +150,7 @@
     "allow": "Da, anunță-mă",
     "skip": "Nu acum",
     "deniedTitle": "Fără notificări",
-    "deniedBody": "E în regulă. Ocaziile apropiate apar oricum pe ecranul principal."
+    "deniedBody": "E în regulă. Ocaziile apropiate apar pe ecranul principal, iar lunea dimineață primești rezumatul lor pe email. Notificările se pot porni oricând, din Notificări."
   },
   "gift": {
     "title": "Ce buget ai?",

@@ -174,6 +174,29 @@ cd mobile && npx expo start
 
 ---
 
+## 5d. Test fără permisiuni și offline (S11.8)
+
+Regula 5 din CLAUDE.md: aplicația funcționează complet fără acces la contacte și fără notificări, iar ambele rute se testează la fiecare release. Pe telefon, cu un cont nou.
+
+**Fără contacte**
+1. La „Găsim ocaziile din agenda ta”, apasă „Adaug manual” sau refuză dialogul.
+2. Apare adăugarea de persoană, cu explicația „Fără acces la contacte”. Adaugă pe cineva cu zi de naștere.
+3. Urmează „Gata”, cu ziua găsită, apoi întrebarea despre notificări.
+4. Din Persoane, „Permite accesul”: dacă a fost refuzat definitiv, ecranul trimite la Setări. După ce îl pornești acolo și revii, ajungi direct la selecția contactelor.
+
+**Fără notificări**
+1. La „Să te anunțăm din timp?”, apasă „Da, anunță-mă” și refuză dialogul.
+2. Apare explicația: ocaziile pe ecranul principal, rezumatul de luni pe email.
+3. Notificări arată că sunt oprite din telefon și oferă „Deschide setările”.
+4. Recomandările, linkul public, „Cine este?” și ideile funcționează la fel.
+
+**Offline** (S11.5)
+1. Pornește modul avion cu aplicația deschisă: apare banda „Ești offline”, iar ce era încărcat rămâne vizibil.
+2. O modificare, de exemplu ora notificărilor, arată imediat un mesaj de eroare, nu un spinner fără sfârșit.
+3. Oprește modul avion: banda dispare, iar datele se reîncarcă singure.
+
+---
+
 ## 6. ⚠️ Versiunea web a aplicației mobile nu pornește
 
 `npx expo export --platform web` construiește bundle-ul, dar la rulare cade în modulul `Animated` al lui **react-native-web**, care nu-și rezolvă propriile importuri cu această combinație de versiuni (Expo SDK 57 / RN 0.86 / react-native-web 0.21).
