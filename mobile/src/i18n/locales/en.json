@@ -344,5 +344,11 @@
   "network": {
     "offlineTitle": "You're offline",
     "offlineBody": "You're seeing what was already loaded. Changes can be saved once you're back online."
+  },
+  "update": {
+    "title": "Time to update",
+    "body": "This version no longer works with the Wishio server. Install the latest one — your data stays in your account.",
+    "action": "Update",
+    "fromStore": "Update Wishio from your app store."
   }
 }

@@ -49,7 +49,9 @@ Legendă: 🔴 blocant · 🟠 important · 🟡 poate aluneca · ✅ făcut
 | ✅ | **Completările din link (S9.7)** — nu mai ating contactele existente; retragerea scoate doar datele trimise |
 | ✅ | **„Cine este?” (S9.8)** — o completare ambiguă nu atinge niciun contact până la alegerea proprietarului · push care îl anunță |
 | ✅ | **Idei și istoric de cadouri (S10)** — salvare, „Ai cumpărat?”, „am oferit” → istoric, anti-repetare în recomandări |
-| ✅ | 339 teste verzi · bundle iOS verificat **cu stilurile compilate** |
+| ✅ | **Conformitate (S11)** — DPIA, registrul prelucrărilor, etichetele de confidențialitate, stări de eroare și offline, audit de traduceri; acordul AI se retrage din Cont |
+| ✅ | **Lansare, partea din repo (S12)** — cont demo pentru App Review, textele și grafica din store în 3 limbi, paginile de ajutor și de ștergere a contului, versiunea minimă obligatorie |
+| ✅ | 356 teste verzi · bundle iOS verificat **cu stilurile compilate** |
 | ✅ | Pest instalat; testele rulează pe MySQL, nu SQLite (depind de colație) |
 | ⬜ | Tot restul |
 
@@ -238,7 +240,7 @@ Cifrele îți spun unde să insiști.
 | S12.3 | TestFlight / Internal Testing cu 20–30 de oameni reali — cere serverul de producție și aplicația creată în App Store Connect și Play Console (`docs/23 § 6`) |
 | S12.4 | Submit — **buffer de 2 săptămâni** pentru respingeri (5.1.2 e probabilă la prima încercare) |
 | S12.5 | Lansare: grupuri FB MD, Telegram, Reddit local, PR |
-| S12.6 🔴 | **Versiune minimă obligatorie** — `/api/v1/app-config` + ecran de actualizare (`docs/10 § 5`). Trebuie să fie în primul build publicat: altfel versiunea aceea nu mai poate fi forțată să se actualizeze |
+| S12.6 ✅ | ~~**Versiune minimă obligatorie** — `/api/v1/app-config` + ecran de actualizare (`docs/10 § 5`)~~ — `WISHIO_MIN_APP_VERSION` comparată cu versiunea din `app.json`; ecranul stă peste navigație și nu se închide; fără răspuns de la server, aplicația merge mai departe |
 
 ---
 

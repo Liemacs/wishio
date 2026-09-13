@@ -17,6 +17,7 @@
 | Pagina de ștergere a contului (obligatorie în Google Play) | `https://wishio.md/legal/delete-account` | gata; idem |
 | Contul demo pentru App Review | `php artisan wishio:demo` | gata |
 | Notele pentru App Review, în engleză | § 5 | gata |
+| Versiunea minimă obligatorie | `GET /api/v1/app-config`, `WISHIO_MIN_APP_VERSION` (`docs/10 § 5`) | gata; `WISHIO_APP_STORE_URL` se setează după crearea aplicației în App Store Connect |
 
 ---
 
@@ -166,4 +167,3 @@ My profile → Account → Delete account. Deletion is permanent and happens ent
 | Adresele de email ale domeniului | paginile de ajutor și de ștergere trimit la ele | tu, după domeniu |
 | Aplicația creată în App Store Connect și în Play Console | `eas metadata:push`, TestFlight, testarea internă | tu |
 | Capturile din telefon | § 4 | tu, după build |
-| Versiunea minimă obligatorie (`docs/10 § 5`) | fără ea, prima versiune publicată nu mai poate fi forțată să se actualizeze | cod — S12.6 |

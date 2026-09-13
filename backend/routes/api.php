@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Api\V1\Controllers\AccountController;
+use App\Http\Api\V1\Controllers\AppConfigController;
 use App\Http\Api\V1\Controllers\AuthController;
 use App\Http\Api\V1\Controllers\ContactImportController;
 use App\Http\Api\V1\Controllers\GiftController;
@@ -33,6 +34,9 @@ Route::prefix('v1')->group(function () {
             ],
         ]);
     });
+
+    // Înainte de orice ecran, fără cont: versiunea minimă suportată (docs/10 § 5).
+    Route::get('/app-config', AppConfigController::class);
 
     // Autentificare simpla pentru dezvoltare. Apple / Google / email OTP la S1.8;
     // contractul cu tokenul Bearer ramane acelasi, deci ecranele nu se schimba.

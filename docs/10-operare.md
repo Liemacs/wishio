@@ -95,7 +95,9 @@ Poți livra schimbări **doar de JavaScript** fără review de store. Foarte uti
 
 ### Versionare
 `major.minor.patch` + `buildNumber`/`versionCode` auto-incrementat de EAS.
-Backend-ul expune `/api/v1/app-config` cu `min_supported_version` → dacă aplicația e prea veche, ecran de update forțat. **Implementează asta din S1** — fără el, ești blocat pe vecie să susții orice versiune lansată vreodată.
+Backend-ul expune `/api/v1/app-config` cu `min_supported_version` → dacă aplicația e prea veche, ecran de update forțat. Fără el, ești blocat pe vecie să susții orice versiune lansată vreodată.
+
+**Implementat în S12.6.** Versiunea minimă vine din `WISHIO_MIN_APP_VERSION` și se compară cu `version` din `mobile/app.json`. O ridici doar când o schimbare de API strică versiunile vechi și abia după ce versiunea nouă e aprobată în ambele magazine — altfel oamenii sunt trimiși într-un store care încă n-o are. Linkurile spre magazine vin din `WISHIO_APP_STORE_URL` (după crearea aplicației în App Store Connect) și `WISHIO_PLAY_STORE_URL`. Fără răspuns de la server, aplicația merge mai departe.
 
 ---
 

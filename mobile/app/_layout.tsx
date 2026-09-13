@@ -10,6 +10,7 @@ import { I18nextProvider } from 'react-i18next';
 import * as Notifications from 'expo-notifications';
 
 import { OfflineBanner } from '../src/components/ui/OfflineBanner';
+import { VersionGate } from '../src/features/app-config/UpdateRequired';
 import i18n from '../src/i18n';
 import { connectQueryToDevice } from '../src/lib/network';
 import { queryClient } from '../src/lib/queryClient';
@@ -104,6 +105,7 @@ export default function RootLayout() {
             <AuthGate />
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#fafafa' } }} />
             <OfflineBanner />
+            <VersionGate />
           </SafeAreaProvider>
         </QueryClientProvider>
       </I18nextProvider>

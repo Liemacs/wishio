@@ -356,5 +356,11 @@
   "network": {
     "offlineTitle": "Ești offline",
     "offlineBody": "Vezi ce era deja încărcat. Modificările se pot salva după ce revine conexiunea."
+  },
+  "update": {
+    "title": "E timpul pentru o actualizare",
+    "body": "Versiunea aceasta nu mai funcționează cu serverul Wishio. Instalează ultima versiune — datele tale rămân în cont.",
+    "action": "Actualizează",
+    "fromStore": "Actualizează Wishio din magazinul de aplicații."
   }
 }

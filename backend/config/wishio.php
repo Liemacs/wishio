@@ -92,6 +92,23 @@ return [
         'password' => env('WISHIO_DEMO_PASSWORD'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Versiunea aplicației mobile
+    |--------------------------------------------------------------------------
+    | Sub versiunea minimă, aplicația arată doar ecranul de actualizare. Se
+    | ridică numai când o schimbare de API ar strica versiunile vechi — altfel
+    | oamenii sunt trimiși în store fără motiv. Linkul din App Store se
+    | cunoaște abia după ce aplicația e creată în App Store Connect.
+    */
+    'app' => [
+        'min_supported_version' => env('WISHIO_MIN_APP_VERSION', '0.1.0'),
+        'store_url'             => [
+            'ios'     => env('WISHIO_APP_STORE_URL'),
+            'android' => env('WISHIO_PLAY_STORE_URL', 'https://play.google.com/store/apps/details?id=md.wishio.app'),
+        ],
+    ],
+
     'deep_links' => [
         'ios_app_id'                 => env('WISHIO_IOS_APP_ID'),        // TEAMID.md.wishio.app
         'android_package'            => env('WISHIO_ANDROID_PACKAGE', 'md.wishio.app'),
